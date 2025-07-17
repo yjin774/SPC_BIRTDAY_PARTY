@@ -6,17 +6,15 @@
 #include <vector>
 #include <format>
 #include <sstream>
+#include <regex>
 
 using namespace std;
 
-void clearScreen() {
-#ifdef _WIN32
-    // Windows-specific clear screen
-    system("cls");
-#else
-    // macOS / Linux / Unix
-    cout << "\033[2J\033[H" << flush;
-#endif
+void pressAny()
+{
+    cout << "PRESS <ENTER> TO PROCEED......"<< endl;
+    cin.ignore();
+    cin.get();
 }
 
 template <typename T>
@@ -66,27 +64,32 @@ struct MenuTemplate
             {
                 cout << "║  " << "NICKNAME  ║  " << left << setw(23) << menuOptions[i] << "  ║" << endl;
             }
+            else if(i ==3)
+            {
+                cout << "║ " << "CONTACT NO ║  " << left << setw(23) << menuOptions[i] << "  ║" << endl;
+            }
+            else if(i ==4)
+            {
+                cout << "║   " << "EMAIL    ║  " << left << setw(23) << menuOptions[i] << "  ║" << endl;
+            }
         }
 
         cout << "╚════════════════════════════════════════╝" << endl;
     }
 };
 
+
 struct LoginDetails
 {
     string username;
     string password;
     string nickname;
-
-    struct SignUpDetails
-    {   
-        string confirmPass;
-        string confirmDetails;
-    };
+    string contactNum;
+    string email;
 
     string commaFormat()
     {
-        return username + "," + password + "," + nickname;
+        return username + "," + password + "," + nickname + "," + contactNum + "," + email;
     }
 
     LoginDetails(string line = "") 
@@ -96,28 +99,188 @@ struct LoginDetails
             stringstream ss(line);
             getline(ss, username, ',');
             getline(ss, password, ',');
-            getline(ss, nickname);
+            getline(ss, nickname, ',');
+            getline(ss, contactNum, ',');
+            getline(ss, email);
         }
     }
 
-    void setUsername(string newName)
+    template <typename T>
+    struct Registration
     {
-        username = newName;
+        T eventDate;
+        T birthdayName;
+        T packageChosen;
+        T totalCost;
+        string commaFormat()
+        {
+            return username + "," + eventDate + "," + birthdayName + "," + contactNum + "," + email + "," + packageChosen + "," + totalCost;
+        }
+
+        Registration(string line = "") 
+        {
+            if (!line.empty()) 
+            {
+                stringstream ss(line);
+                getline(ss, username, ',');
+                getline(ss, eventDate, ',');
+                getline(ss, birthdayName, ',');
+                getline(ss, contactNum, ',');
+                getline(ss, email, ',');
+                getline(ss, packageChosen, ',');
+                getline(ss, totalCost);
+            }
+        }
+    };
+};
+
+struct Package
+{
+    string packageType;
+    string venue;
+    string catering;
+    string decoration;
+    string entertaintment;
+    string activities;
+    string partyGift;
+    string cake;
+    string price;
+
+    string commaFormat()
+    {
+        return packageType + "," + venue + "," + catering + "," + decoration + "," + entertaintment + "," + activities + "," + partyGift + "," + cake + "," + price;
     }
 
-    void setPass(string newPass)
+    Package(string line = "") 
     {
-        password = newPass;
-    }
-
-    void setNickName(string newNickName)
-    {
-        nickname = newNickName;
+        if (!line.empty()) 
+        {
+            stringstream ss(line);
+            getline(ss, packageType, ',');
+            getline(ss, venue, ',');
+            getline(ss, catering, ',');
+            getline(ss, decoration, ',');
+            getline(ss, entertaintment, ',');
+            getline(ss, activities, ',');
+            getline(ss, partyGift, ',');
+            getline(ss, cake, ',');
+            getline(ss, price);
+        }
     }
 };
 
+void line(int amt)
+{
+    cout << "╠";
+    for(int i = 0 ; i < amt ; i++)
+    {
+        cout << "═";
+    }
+    cout << "╣" <<endl;
+}
+
 template <typename T>
-void saveVectorList(vector<T> list, string fileName) {
+void outputPackages(vector <T> packageList ,string type)
+{   
+    if(type == "basic")
+    {
+
+    }
+    else if(type == "standard")
+    {
+
+    }
+    else if(type == "premium")
+    {
+
+    }
+
+        cout << "\n╔══════════════════════════════════════════════════════════════════╗" << endl;
+        
+        for(int i = 0 ; i < packageList.size() ; i++)
+        {
+            if(i == 0 )
+            {
+                cout << "║  " << "PACKAGE TYPE  ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 1)
+            {
+                cout << "║  " << "VENUE         ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 2)
+            {
+                cout << "║  " << "CATERING      ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 3)
+            {
+                cout << "║  " << "DECORATION    ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 4)
+            {
+                cout << "║  " << "ENTERTAINMENT ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 5)
+            {
+                cout << "║  " << "ACTIVITY      ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 6)
+            {
+                cout << "║  " << "PARTY GIFT    ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 7)
+            {
+                cout << "║  " << "CAKE          ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
+                line(66);
+            }
+            else if(i == 8)
+            {
+                cout << "║  " << "PRICE         ║  RM" << left << setw(43) << packageList[i] << "  ║" << endl;
+            }
+        }
+        cout << "╚══════════════════════════════════════════════════════════════════╝" << endl;
+    }
+
+template <typename T>
+struct customPackage
+{
+    T extraGuest;
+    T extraGuestPrice;
+    T customCake;
+    T customCakeDesign;
+    T clown;
+    T clownPrice;
+    T magician;
+    T magicianPrice;
+    T customTheme;
+    T customThemePrice;
+
+    struct StandardTheme
+    {
+        T sTheme1;
+        T sTheme2;
+        T sTheme3;
+        T sTheme4;
+    };
+
+    struct PremiumTheme
+    {
+        T pTheme1;
+        T pTheme2;
+        T pTheme3;
+        T pTheme4;
+    };
+};
+
+template <typename T>
+void saveVectorList(vector<T> list, string fileName) 
+{
     ofstream saveFile(fileName);
     if (saveFile.is_open()) 
     {
@@ -129,7 +292,8 @@ void saveVectorList(vector<T> list, string fileName) {
 }
 
 template <typename T>
-vector<T> getVectorList(string fileName) {
+vector<T> getVectorList(string fileName) 
+{
     vector<T> list;
     ifstream outputFile(fileName);
     if (outputFile.is_open()) {
@@ -143,34 +307,77 @@ vector<T> getVectorList(string fileName) {
     return list;
 }
 
+//To match list's elements
+template <typename T>
+bool usernameExist(vector<T> list , string compareItem)
+{
+    for(auto r : list)
+    {
+        if(r.username == compareItem)
+        {
+            return true;
+        }   
+    }
+    return false;
+}
+
+//To get list elements's index number
+template <typename T>
+int getUserNameIndex(vector <T> list , string compareItem)
+{
+    int indexNum;
+    for(int i = 0 ; i < list.size() ; i++)
+    {
+        if(list[i].username == compareItem)
+        {
+            indexNum = i;
+        }
+    }
+    return indexNum;
+}
+
 void loginScreen();
 
 void staffPage();
-void staffLogin();
-void staffSignUp();
-void staffChangePass();
-
 void custPage();
-void custLogin();
-void custSignUp();
-void custChangePass();
-
-void staffMainPage(string nickname);
+void login(string aspect);
+void signUp(string aspect);
+void changePass(string aspect);
 
 void custMainPage(string nickname);
+void custRegis(string name);
+void custViewBooking();
+void custViewCampaign();
+void custCustomParty();
+void custViewProfile();
+void custPayment();
+void custFeedback();
+
+void staffMainPage(string nickname);
+void staffViewBooking();
+void staffManageBooking();
+void staffMonitorEvent();
+void staffGenerateReport();
+void staffViewFeedBack();
+void staffCampaignPromote();
+void staffManageUsers();
 
 
+//MAIN FUNCTION 
 int main()
 {
     loginScreen();
 
     return 0;
 }
+//MAIN FUNCTION
 
+//Main login page
 void loginScreen()
 {
-    clearScreen();
+    system("clear");
     string loginAns;
+    bool status = true;
 
     MenuTemplate <string> menu;
     menu.menuTitle = "LOGIN SCREEN";
@@ -180,38 +387,39 @@ void loginScreen()
 
     menu.menuTemplate();
 
-    while(true)
+    while(status)
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
-        cin >> loginAns;
+        getline(cin,loginAns);
 
         if(loginAns == "1")
         {
             custPage();
-            break;
+            status = false;
         }
         else if(loginAns == "2")
         {
             staffPage();
-            break;
+            status = false;
         }
         else if(loginAns == "3")
         {
             cout << "\nTHANKS FOR USING OUR SYSTEM :)" << endl;
-            break;
+            exit(0);
         }
         else
         {
             cout << "INVALID INPUT... PLEASE ENTER VALID OPTIONS <1 ~ 3>"<<endl;
             continue;
         }
-        break;
+        status = false;
     }
 }
 
+//Customer login page
 void custPage()
 {
-    clearScreen();
+    system("clear");
     string ans;
     bool status = true;
 
@@ -227,7 +435,7 @@ void custPage()
     while(status)
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
-        cin >> ans;
+        getline(cin,ans);
 
         if(ans == "4")
         {
@@ -237,17 +445,17 @@ void custPage()
 
         if(ans == "1")
         {
-            custLogin();
+            login("customer");
             status = false;
         }
         else if(ans == "2")
         {
-            custSignUp();
+            signUp("customer");
             status = false;
         }
         else if(ans == "3")
         {
-            custChangePass();
+            changePass("customer");
             status = false;
         }
         else
@@ -259,172 +467,10 @@ void custPage()
     }
 }
 
-void custLogin()
-{
-    bool status = true;
-    LoginDetails l;
-
-    cout << "\n";
-
-    vector<LoginDetails> custList = getVectorList<LoginDetails>("customer.txt");
-
-    MenuTemplate <string> menu;
-    menu.menuTitle = "CUSTOMER LOGIN";
-    menu.menuTitleTemplate();
-
-    while(status)
-    {
-        cout << "PLEASE ENTER YOUR USERNAME <0 to exit> : ";
-        cin >> l.username;
-        
-        if(l.username == "0")
-        {
-            loginScreen();
-            break;
-        }
-
-        cout << "PLEASE ENTER YOUR PASSWORD <0 to exit> : ";
-        cin >> l.password;
-
-        if(l.password == "0")
-        {
-            loginScreen();
-            break;
-        }
-
-        for(int i = 0; i < custList.size() ; i++)
-        {
-            if(l.username == custList[i].username && l.password == custList[i].password)
-            {
-                l.nickname = custList[i].nickname;
-                custMainPage(l.nickname);
-                status = false;
-            }
-            else
-            {
-                cout << "\nPLEASE MAKE SURE YOUR USERNAME AND PASSWORD ARE BOTH CORRECT :)"<<endl;
-                continue;
-            }
-        }
-    }
-}
-
-void custSignUp()
-{
-    bool status = true;
-    LoginDetails l;
-    LoginDetails newCust;
-    LoginDetails::SignUpDetails s;
-
-    vector<LoginDetails> custList = getVectorList<LoginDetails>("customer.txt");
-    string tempArr[1][3];
-    int row = 0, column = 0;
-
-    cout << "\n";
-
-    MenuTemplate <string> menu;
-    menu.menuTitle = "CUSTOMER SIGN UP";
-    menu.menuTitleTemplate();
-
-    while(status)
-    {
-        cout << "PLEASE ENTER YOUR USERNAME <0 to exit> : ";
-        cin >> l.username;
-
-        tempArr[row][column] = l.username;
-        column++;
-
-        cout << "PLEASE ENTER PASSWORD <0 to exit> : ";
-        cin >> l.password;
-
-        cout << "PLEASE CONFIRM YOUR PASSWORD : ";
-        cin >> s.confirmPass;
-
-        if(s.confirmPass == l.password)
-        {
-            tempArr[row][column] = l.password;
-            column++;
-        }
-        else
-        {
-            cout << "\nPLEASE MAKE SURE YOU HAVE ENTERED THE SAME PASSWORD :)"<< endl;
-            continue;
-        }
-
-        cout << "PLEASE ENTER YOUR NICKNAME : ";
-        cin >> l.nickname;
-
-        tempArr[row][column] = l.nickname;
-        column = 0;
-        status = false;
-    }
-
-    menu.menuTitle = "DETAILS CONFIRMATION";
-
-    for(int i = 0; i < 1 ; i++)
-    {
-        for(int j = 0;j < 3 ; j++)
-        {
-            menu.menuOptions.push_back(tempArr[i][j]);
-        }
-    }
-    menu.confirmDetails();
-
-    status = true;
-
-    while(status)
-    {
-        cout << "\n*PLEASE CHECK BEFORE PROCEED* <y/n> : ";
-        cin >> s.confirmDetails;
-
-        if(s.confirmDetails == "Y" || s.confirmDetails == "y")
-        {
-            cout << "ACCOUNTE CREATED SUCCESSFUL~~~" << endl;
-            cout << "PRESS ANY KEY TO PROCEED...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cin.get();
-            newCust.username = l.username;
-            newCust.password = l.password;
-            newCust.nickname = l.nickname;
-            custList.push_back(newCust);
-            saveVectorList(custList,"customer.txt");
-            staffPage();
-            status = false;
-        }
-        else if(s.confirmDetails == "N" || s.confirmDetails == "n")
-        {
-            cout << "ACCOUNTE CREATED UNSUCCESSFUL :(" << endl;
-            cout << "PRESS ANY KEY TO PROCEED...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cin.get();
-            clearScreen();
-            staffSignUp();
-            status = false;
-        }
-        else
-        {
-            cout << "PLEASE ENTER VALID OPTIONS :)"<< endl;
-            continue;
-        }
-        status = false;
-    }
-}
-
-void custChangePass()
-{
-    bool status = true;
-
-    cout << "\n";
-
-    MenuTemplate <string> menu;
-    menu.menuTitle = "CUSTOMER CHANGE PASSWORD";
-    menu.menuTitleTemplate();
-    
-}
-
+//Staff login page
 void staffPage()
 {
-    clearScreen();
+    system("clear");
     bool status = true;
     string ans;
 
@@ -440,21 +486,21 @@ void staffPage()
     while(status)
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
-        cin >> ans;
+        getline(cin,ans);
 
         if(ans == "1")
         {
-            staffLogin();
+            login("staff");
             status = false;
         }
         else if(ans == "2")
         {
-            staffSignUp();
+            signUp("staff");
             status = false;
         }
         else if(ans == "3")
         {
-            staffChangePass();
+            changePass("staff");
             status = false;
         }
         else if(ans == "4")
@@ -471,99 +517,258 @@ void staffPage()
     }
 }
 
-void staffLogin()
+//Login function
+void login(string aspect)
 {
-    bool status = true,loginSuccess = false;
-    LoginDetails l;
+    bool status = true;
+    string function;
 
-    vector<LoginDetails> staffList = getVectorList<LoginDetails>("staff.txt");
+    LoginDetails l;
+    MenuTemplate <string> m;
 
     cout << "\n";
 
-    MenuTemplate <string> menu;
-    menu.menuTitle = "STAFF LOGIN";
-    menu.menuTitleTemplate();
+    vector<LoginDetails> currenList;
+    
+    if(aspect == "customer")
+    {
+        currenList = getVectorList<LoginDetails>("customer.txt");
+        if(currenList.size() == 0)
+        {
+            cout << "THERE'S NO ACCOUNT EXITS IN THE SYSTEM :)" << endl;
+            cout << "PLEASE SIGN UP AN ACCOUNT TO PROCEED :)" << endl;
+            pressAny();
+            custPage();
+        }
+        m.menuTitle = "CUSTOMER LOGIN";
+        m.menuTitleTemplate();
+    }
+    else if(aspect == "staff")
+    {
+        currenList = getVectorList<LoginDetails>("staff.txt");
+        if(currenList.size() == 0)
+        {
+            cout << "THERE'S NO ACCOUNT EXITS IN THE SYSTEM :)" << endl;
+            cout << "PLEASE SIGN UP AN ACCOUNT TO PROCEED :)" << endl;
+            pressAny();
+            staffPage();
+        }
+        m.menuTitle = "STAFF LOGIN";
+        m.menuTitleTemplate();
+    }
 
     while(status)
     {
         cout << "PLEASE ENTER YOUR USERNAME <0 to exit> : ";
-        cin >> l.username;
+        getline(cin,l.username);
         
         if(l.username == "0")
         {
-            loginScreen();
-            break;
-        }
-
-        cout << "PLEASE ENTER YOUR PASSWORD <0 to exit> : ";
-        cin >> l.password;
-
-        if(l.password == "0")
-        {
-            loginScreen();
-            break;
-        }
-
-        for(int i = 0; i < staffList.size() ; i++)
-        {
-            if(l.username == staffList[i].username && l.password == staffList[i].password)
+            if(aspect == "customer")
             {
-                l.nickname = staffList[i].nickname;
-                staffMainPage(l.nickname);
-                loginSuccess = true;
+                custPage();
+                status = false;
+            }
+            else
+            {
+                staffPage();
                 status = false;
             }
         }
 
-        if(!loginSuccess)
+        cout << "PLEASE ENTER YOUR PASSWORD <0 to exit> : ";
+        getline(cin,l.password);
+
+        if(l.password == "0")
         {
-            cout << "\nPLEASE MAKE SURE BOTH INPUT ARE CORRECT :)" << endl;
+            if(aspect == "customer")
+            {
+                custPage();
+                status = false;
+            }
+            else
+            {
+                staffPage();
+                status = false;
+            }
         }
+
+        for(int i = 0; i < currenList.size() ; i++)
+        {
+            if(l.username == currenList[i].username && l.password == currenList[i].password)
+            {
+                l.nickname = currenList[i].nickname;
+                if(aspect == "customer")
+                {
+                    custMainPage(l.nickname);
+                }
+                else
+                {
+                    staffMainPage(l.nickname);
+                }
+                status = false;
+            }
+            else
+            {
+                cout << "\nPLEASE MAKE SURE YOUR USERNAME AND PASSWORD ARE BOTH CORRECT :)"<<endl;
+                continue;
+            }
+        }
+        status = false;
     }
 }
 
-void staffSignUp()
+//Sign up function
+void signUp(string aspect)
 {
     bool status = true;
-    LoginDetails l, newStaff;
-    LoginDetails::SignUpDetails s;
-    string tempArr[1][3];
-    vector <LoginDetails> staffList = getVectorList<LoginDetails>("staff.txt");
+    LoginDetails l;
+    LoginDetails newCust;
+    MenuTemplate <string> m;
+
+    string tempArr[1][5];
+    string confirmPass,confirmDetails;
     int row = 0, column = 0;
+
+    vector<LoginDetails> currentList;
 
     cout << "\n";
 
-    MenuTemplate <string> menu;
-    menu.menuTitle = "STAFF SIGN UP";
-    menu.menuTitleTemplate();
+    if(aspect == "customer")
+    {
+        currentList = getVectorList<LoginDetails>("customer.txt");
+        
+        m.menuTitle = "CUSTOMER SIGN UP";
+        m.menuTitleTemplate();
+    }
+    else if(aspect == "staff")
+    {
+        currentList = getVectorList<LoginDetails>("staff.txt");
+        m.menuTitle = "STAFF SIGN UP";
+        m.menuTitleTemplate();
+    }
 
     while(status)
     {
         cout << "PLEASE ENTER YOUR USERNAME <0 to exit> : ";
-        cin >> l.username;
+        getline(cin,l.username);
 
         if(l.username == "0")
         {
-            staffPage();
+            if(aspect == "customer")
+                {
+                    custPage();
+                    status = false;
+                }
+                else
+                {
+                    staffPage();
+                    status = false;
+                }
             status = false;
         }
 
         tempArr[row][column] = l.username;
         column++;
+        status = false;
+    }
 
-        cout << "PLEASE ENTER PASSWORD <0 to exit> : ";
-        cin >> l.password;
+    status = true;
 
-        if(l.username == "0")
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR CONTACT NUMBER <0 to exit> : ";
+        getline(cin,l.contactNum);
+
+        if(l.contactNum == "0")
         {
-            staffPage();
+            if(aspect == "customer")
+                {
+                    custPage();
+                    status = false;
+                }
+                else
+                {
+                    staffPage();
+                    status = false;
+                }
+            status = false;
+        }
+
+        regex contactPattern("01[0-9]+-\\d+");
+
+        if(regex_match(l.contactNum,contactPattern) && l.contactNum.length() == 11)
+        {
+            tempArr[row][column] = l.contactNum;
+            column++;
+            status = false;
+        }
+        else
+        {
+            cout << "PLEASE ENTER THE CONTAC NUMBER WITH FORMAT <xxx-xxxxxxx> :)"<<endl;
+            continue;
+        }
+        status = false;
+    }
+
+    status = true;
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR EMAIL <0 to exit> : ";
+        getline(cin,l.email);
+
+        if(l.email == "0")
+        {
+            if(aspect == "customer")
+                {
+                    custPage();
+                    status = false;
+                }
+                else
+                {
+                    staffPage();
+                    status = false;
+                }
+            status = false;
+        }
+
+        regex emailPattern("[a-zA-Z0-9]+@[a-zA-Z]+.com");
+
+        if(regex_match(l.email,emailPattern)&&l.email.length() == 25)
+        {
+            tempArr[row][column] = l.email;
+            column++;
+        }
+    status = false;
+    }
+
+    status = true;
+
+    while(status)
+    {
+        cout << "PLEASE ENTER PASSWORD <0 to exit> : ";
+        getline(cin,l.password);
+
+        if(l.password == "0")
+        {
+            if(aspect == "customer")
+                {
+                    custPage();
+                    status = false;
+                }
+                else
+                {
+                    staffPage();
+                    status = false;
+                }
             status = false;
         }
 
         cout << "PLEASE CONFIRM YOUR PASSWORD : ";
-        cin >> s.confirmPass;
+        getline(cin,confirmPass);
 
-        if(s.confirmPass == l.password)
+        if(confirmPass == l.password)
         {
             tempArr[row][column] = l.password;
             column++;
@@ -573,57 +778,98 @@ void staffSignUp()
             cout << "\nPLEASE MAKE SURE YOU HAVE ENTERED THE SAME PASSWORD :)"<< endl;
             continue;
         }
+        status = false;
+    }
 
-        cout << "PLEASE ENTER YOUR NICKNAME : ";
-        cin >> l.nickname;
+    status = true;
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR NICKNAME <0 to exit> : ";
+        getline(cin,l.nickname);
+
+        if(l.nickname == "0")
+        {
+            if(aspect == "customer")
+            {
+                custPage();
+                status = false;
+            }
+            else
+            {
+                staffPage();
+                status = false;
+            }
+            status = false;
+        }
 
         tempArr[row][column] = l.nickname;
         column = 0;
         status = false;
     }
 
-    menu.menuTitle = "DETAILS CONFIRMATION";
+    m.menuTitle = "DETAILS CONFIRMATION";
 
     for(int i = 0; i < 1 ; i++)
     {
-        for(int j = 0;j < 3 ; j++)
+        for(int j = 0;j < 5 ; j++)
         {
-            menu.menuOptions.push_back(tempArr[i][j]);
+            m.menuOptions.push_back(tempArr[i][j]);
         }
     }
-    clearScreen();
-    menu.confirmDetails();
+    m.confirmDetails();
 
     status = true;
 
     while(status)
     {
         cout << "\n*PLEASE CHECK BEFORE PROCEED* <y/n> : ";
-        cin >> s.confirmDetails;
+        cin >> confirmDetails;
 
-        if(s.confirmDetails == "Y" || s.confirmDetails == "y")
+        if(confirmDetails == "Y" || confirmDetails == "y")
         {
             cout << "ACCOUNTE CREATED SUCCESSFUL~~~" << endl;
-            cout << "PRESS ANY KEY TO PROCEED...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cin.get();
-            newStaff.username = l.username;
-            newStaff.password = l.password;
-            newStaff.nickname = l.nickname;
-            staffList.push_back(newStaff);
-            saveVectorList(staffList,"staff.txt");
-            staffPage();
-            status = false;
+
+            pressAny();
+
+            newCust.username = l.username;
+            newCust.password = l.password;
+            newCust.nickname = l.nickname;
+            newCust.contactNum = l.contactNum;
+            newCust.email = l.email;
+
+            currentList.push_back(newCust);
+            
+            if(aspect == "customer")
+            {
+                saveVectorList(currentList,"customer.txt");
+                custPage();
+                status = false;
+            }
+            else
+            {
+                saveVectorList(currentList,"staff.txt");
+                staffPage();
+                status = false;
+            }
         }
-        else if(s.confirmDetails == "N" || s.confirmDetails == "n")
+        else if(confirmDetails == "N" || confirmDetails == "n")
         {
             cout << "ACCOUNTE CREATED UNSUCCESSFUL :(" << endl;
-            cout << "PRESS ANY KEY TO PROCEED...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cin.get();
-            clearScreen();
-            staffSignUp();
-            status = false;
+
+            pressAny();
+   
+            system("clear");
+            if(aspect == "customer")
+            {
+                custPage();
+                status = false;
+            }
+            else
+            {
+                staffPage();
+                status = false;
+            }
         }
         else
         {
@@ -634,41 +880,135 @@ void staffSignUp()
     }
 }
 
-void staffChangePass()
+//Change password function
+void changePass(string aspect)
 {
     bool status = true;
-    int choices;
-    vector <LoginDetails> staffList = getVectorList<LoginDetails>("staff.txt");
+    string username;
+    int index;
+    string pass,newPass;
+    vector <LoginDetails> currentList;
+
     LoginDetails l;
+    MenuTemplate <string> m;
 
     cout << "\n";
 
-    MenuTemplate <string> menu;
-    menu.menuTitle = "STAFF CHANGE PASSWORD";
-
-    menu.menuTitleTemplate();
-
-    for(int i = 0 ; i < staffList.size() ; i++)
+    if(aspect == "customer")
     {
-        cout << i+1 <<". "<< staffList[i].nickname << endl;
+        currentList = getVectorList<LoginDetails>("customer.txt");
+        m.menuTitle = "CUSTOMER CHANGE PASSWORD";
     }
+    else
+    {
+        currentList = getVectorList<LoginDetails>("staff.txt");
+        m.menuTitle = "STAFF CHANGE PASSWORD";
+    }
+
+    m.menuTitleTemplate();
 
     while(status)
     {
-        cout << "PLEASE CHOOSE ANY USER TO CHANGE PASSWORD <enter the number> : ";
-        cin >> choices;
+        cout << "PLEASE ENTER YOUR USERNAME TO CHANGE PASSWORD <0 to exit> : ";
+        getline(cin,username);
+
+        if(username == "0")
+        {
+            if(aspect == "customer")
+            {
+                custPage();
+                status = false;
+            }
+            else
+            {
+                staffPage();
+                status = false;
+            }
+        }
+
+        index = getUserNameIndex(currentList , username);
+
+        if(usernameExist(currentList , username))
+        {
+            cout << "YOU HAVE CHOSE <" << currentList[index].nickname << "> TO CHANGE PASSWORD :)"<<endl;
+            status = false;
+        }
+        else
+        {
+            cout << "USERNAME DOES\'NT EXIST... PLEASE ENTER A VALID USERNAME :)" << endl;
+            continue;
+        }
+        status = false;
     }
 
+    status = true;
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR OLD PASSWORD : ";
+        getline(cin,pass);
+
+        if(currentList[index].password != pass)
+        {
+            cout << "PLEASE ENTER THE CORRECT OLD PASSWORD :)" << endl;
+            continue;
+        }
+        else
+        {
+            status = false;
+        }
+        status = false;
+    }
+
+    status = true;
+
+    while(status)
+    {
+        cout << "\nPLEASE ENTER YOUR NEW PASSWORD <maximum 15 characters> : ";
+        getline(cin,newPass);
+
+        if(newPass.length() > 15)
+        {
+            cout << "PLEASE LIMIT THE CHARACTER IN 15 WORDS ONLY :)";
+            continue;
+        }
+
+        currentList[index].password = newPass;
+        if(aspect == "customer")
+        {
+            saveVectorList(currentList,"customer.txt");
+        }
+        else
+        {
+            saveVectorList(currentList,"staff.txt");
+        }
+
+        cout << "\n" << currentList[index].nickname << "\'s PASSWORD HAS CHANGED SUCCESSFULLY" << endl;
+
+        if(aspect == "customer")
+        {
+            pressAny();
+            custPage();
+            status = false;
+        }
+        else
+        {
+            pressAny();
+            staffPage();
+            status = false;
+        }
+    }
 }
 
+//Customer main menu page
 void custMainPage(string name)
 {
-    clearScreen();
+    system("clear");
     bool status = true;
 
     MenuTemplate <string> m;
     string ans;
-    LoginDetails::SignUpDetails l;
+    string confirmPass,confirmDetails;
     m.menuTitle = "MAIN MENU";
 
     cout << "WELCOME BACK " << name << " !!!\n" << endl;
@@ -687,43 +1027,54 @@ void custMainPage(string name)
     while(status)
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
-        cin >> ans;
+        getline(cin,ans);
 
         if(ans == "1")
-        {
+        { 
+            custRegis(name);
             status = false;
         }
         else if(ans == "2")
         {
+            custViewBooking();
             status = false;
         }
         else if(ans == "3")
         {
+            custViewCampaign();
             status = false;
         }
         else if(ans == "4")
         {
+            custCustomParty();
             status = false;
         }
         else if(ans == "5")
         {
+            custViewProfile();
             status = false;
         }
         else if(ans == "6")
         {
+            custPayment();
             status = false;
         }
         else if(ans == "7")
         {
+            custFeedback();
+            status = false;
+        }
+        else if(ans == "8")
+        {
             cout << "ARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
-            cin >> l.confirmDetails;
+            getline(cin,confirmDetails);
 
-            if(l.confirmDetails == "Y" || l.confirmDetails == "y")
+            if(confirmDetails == "Y" || confirmDetails == "y")
             {
                 loginScreen();
                 status = false;
             }
-            else if(l.confirmDetails == "N" || l.confirmDetails == "n")
+            else if(confirmDetails == "N" || confirmDetails == "n")
             {
                 custMainPage(name);
                 status = false;
@@ -742,14 +1093,14 @@ void custMainPage(string name)
         }
         status = false;
     }
-
 }
 
+//Staff main menu page
 void staffMainPage(string name)
 {
-    clearScreen();
+    system("clear");
     MenuTemplate <string> m;
-    LoginDetails::SignUpDetails l;
+    string confirmPass,confirmDetails;
     bool status = true;
     string ans;
     m.menuTitle = "MAIN MENU";
@@ -767,50 +1118,57 @@ void staffMainPage(string name)
 
     m.menuTemplate();
 
-       while(status)
+    while(status)
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
-        cin >> ans;
+        getline(cin,ans);
 
         if(ans == "1")
         {
+            staffViewBooking();
             status = false;
         }
         else if(ans == "2")
         {
+            staffManageBooking();
             status = false;
         }
         else if(ans == "3")
         {
+            staffMonitorEvent();
             status = false;
         }
         else if(ans == "4")
         {
+            staffGenerateReport();
             status = false;
         }
         else if(ans == "5")
         {
+            staffViewFeedBack();
             status = false;
         }
         else if(ans == "6")
         {
+            staffCampaignPromote();
             status = false;
         }
         else if(ans == "7")
         {
+            staffManageUsers();
             status = false;
         }
         else if(ans == "8")
         {
             cout << "ARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
-            cin >> l.confirmDetails;
+            getline(cin,confirmDetails);
 
-            if(l.confirmDetails == "Y" || l.confirmDetails == "y")
+            if(confirmDetails == "Y" || confirmDetails == "y")
             {
                 loginScreen();
                 status = false;
             }
-            else if(l.confirmDetails == "N" || l.confirmDetails == "n")
+            else if(confirmDetails == "N" || confirmDetails == "n")
             {
                 staffMainPage(name);
                 status = false;
@@ -829,4 +1187,164 @@ void staffMainPage(string name)
         }
         status = false;
     }
+}
+
+//Customer main menu's registration event function
+void custRegis(string name)
+{
+    system("clear");
+
+    bool status = true;
+
+    LoginDetails::Registration <string> lr;
+    LoginDetails l;
+    MenuTemplate <string> m;
+    Package p;
+    Package newPackage;
+    vector <string> tmpList;
+    vector <Package> packageList = getVectorList<Package>("packageList.txt");
+    vector <LoginDetails> packageList = getVectorList<LoginDetails>("registration.txt");
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR NAME <0 to exit> : ";
+        getline(cin , l.username);
+
+        if(l.username == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+
+        cout << "PLEASE ENTER THE EVENT DATE <> <0 to exit> : ";
+        getline(cin , lr.eventDate);
+
+        regex datePattern("2(0[0-9]1[0-9]2[0-9])-(0[0-9]1[0-9])-(0[0-9]1[0-9])");
+        
+        status = false;
+    }
+
+    status = true;
+
+    m.menuTitle = "PACKAGES";
+    m.menuOptions.push_back("BASIC");
+    m.menuOptions.push_back("STANDARD");
+    m.menuOptions.push_back("PREMIUM");
+
+    m.menuTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
+        getline(cin,lr.packageChosen);
+
+        if(lr.packageChosen == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+
+        if(lr.packageChosen == "1")
+        {
+            outputPackages(packageList,"basic");
+
+            
+            status = false;
+        }
+        else if(lr.packageChosen == "2")
+        {
+            outputPackages(packageList,"standard");
+            status = false;
+        }
+        else if(lr.packageChosen == "3")
+        {   
+            outputPackages(packageList,"premium");
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)" << endl;
+            continue;
+        }
+        status = false;
+    }
+}
+
+//Customer view booking function
+void custViewBooking()
+{
+
+}
+
+//Customer view campaign promotion function
+void custViewCampaign()
+{
+
+}
+
+//Customer customize party function
+void custCustomParty()
+{
+
+}
+
+//Customer view profile function
+void custViewProfile()
+{
+
+}
+
+//Customer make payment function
+void custPayment()
+{
+
+}
+
+//Customer provide feedback function
+void custFeedback()
+{
+
+}
+
+
+//Staff view booking function
+void staffViewBooking()
+{
+    
+}
+
+//Staff manage booking function
+void staffManageBooking()
+{
+
+}
+
+//Staff monitor event function
+void staffMonitorEvent()
+{
+
+}
+
+//Staff view report function
+void staffGenerateReport()
+{
+
+}
+
+//Staff view customer's feedback function
+void staffViewFeedBack()
+{
+
+}
+
+//Staff create campaign and promote to customer page function
+void staffCampaignPromote()
+{
+
+}
+
+//Staff manage user's function
+void staffManageUsers()
+{
+
 }
