@@ -10,13 +10,6 @@
 
 using namespace std;
 
-void pressAny()
-{
-    cout << "PRESS <ENTER> TO PROCEED......"<< endl;
-    cin.ignore();
-    cin.get();
-}
-
 template <typename T>
 struct MenuTemplate
 {
@@ -25,23 +18,23 @@ struct MenuTemplate
 
     void menuTitleTemplate()
     {
-        cout << "╔════════════════════════════════════════╗" << endl;
-        cout << "║  " << left << setw(36)  << menuTitle << "  ║" << endl;
-        cout << "╚════════════════════════════════════════╝" << endl;
+        cout << "╔══════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left << setw(46)  << menuTitle << "  ║" << endl;
+        cout << "╚══════════════════════════════════════════════════╝" << endl;
     }
 
     void menuTemplate()
     {
-        cout << "╔════════════════════════════════════════╗" << endl;
-        cout << "║  " << left << setw(36)  << menuTitle << "  ║" << endl;
-        cout << "╠════════════════════════════════════════╣" << endl;
+        cout << "╔═════════════════════════════════════════╗" << endl;
+        cout << "║  " << left << setw(37)  << menuTitle << "  ║" << endl;
+        cout << "╠═════════════════════════════════════════╣" << endl;
 
         for(int i = 0 ; i < menuOptions.size() ; i++)
         {
-            cout << "║  " << i+1 << ". " << left << setw(33) << menuOptions[i] << "  ║" << endl;
+            cout << "║  "<< left << setw(37)<< "{"+to_string(i+1)+"} "+menuOptions[i] << "  ║" << endl;
         }
 
-        cout << "╚════════════════════════════════════════╝" << endl;
+        cout << "╚═════════════════════════════════════════╝" << endl;
     }
 
     void confirmDetails()
@@ -78,7 +71,6 @@ struct MenuTemplate
     }
 };
 
-
 struct LoginDetails
 {
     string username;
@@ -104,47 +96,21 @@ struct LoginDetails
             getline(ss, email);
         }
     }
-
-    template <typename T>
-    struct Registration
-    {
-        T eventDate;
-        T birthdayName;
-        T packageChosen;
-        T totalCost;
-        string commaFormat()
-        {
-            return username + "," + eventDate + "," + birthdayName + "," + contactNum + "," + email + "," + packageChosen + "," + totalCost;
-        }
-
-        Registration(string line = "") 
-        {
-            if (!line.empty()) 
-            {
-                stringstream ss(line);
-                getline(ss, username, ',');
-                getline(ss, eventDate, ',');
-                getline(ss, birthdayName, ',');
-                getline(ss, contactNum, ',');
-                getline(ss, email, ',');
-                getline(ss, packageChosen, ',');
-                getline(ss, totalCost);
-            }
-        }
-    };
 };
 
+template <typename T>
 struct Package
 {
-    string packageType;
-    string venue;
-    string catering;
-    string decoration;
-    string entertaintment;
-    string activities;
-    string partyGift;
-    string cake;
-    string price;
+    T packageType;
+    T venue;
+    T catering;
+    T decoration;
+    T entertaintment;
+    T activities;
+    T partyGift;
+    T cake;
+    T price;
+    vector <T> packageList;
 
     string commaFormat()
     {
@@ -167,85 +133,71 @@ struct Package
             getline(ss, price);
         }
     }
-};
 
-void line(int amt)
-{
-    cout << "╠";
-    for(int i = 0 ; i < amt ; i++)
+    void line(int amt)
     {
-        cout << "═";
-    }
-    cout << "╣" <<endl;
-}
-
-template <typename T>
-void outputPackages(vector <T> packageList ,string type)
-{   
-    if(type == "basic")
-    {
-
-    }
-    else if(type == "standard")
-    {
-
-    }
-    else if(type == "premium")
-    {
-
+        cout << "╠";
+        for(int i = 0 ; i < amt ; i++)
+        {
+            cout << "═";
+        }
+        cout << "╣" <<endl;
     }
 
-        cout << "\n╔══════════════════════════════════════════════════════════════════╗" << endl;
-        
+    void outputPackages()
+    {   
+        cout << "\n╔═════════════════════════════════════════════════════════════════════════╗" << endl;
+            
         for(int i = 0 ; i < packageList.size() ; i++)
         {
-            if(i == 0 )
+            if(i == 0)
             {
-                cout << "║  " << "PACKAGE TYPE  ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "PACKAGE TYPE  ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 1)
             {
-                cout << "║  " << "VENUE         ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "VENUE         ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 2)
             {
-                cout << "║  " << "CATERING      ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "CATERING      ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 3)
             {
-                cout << "║  " << "DECORATION    ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "DECORATION    ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 4)
             {
-                cout << "║  " << "ENTERTAINMENT ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "ENTERTAINMENT ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 5)
             {
-                cout << "║  " << "ACTIVITY      ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "ACTIVITY      ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 6)
             {
-                cout << "║  " << "PARTY GIFT    ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "PARTY GIFT    ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 7)
             {
-                cout << "║  " << "CAKE          ║  " << left << setw(45) << packageList[i] << "  ║" << endl;
-                line(66);
+                cout << "║  " << "CAKE          ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
+                line(73);
             }
             else if(i == 8)
             {
-                cout << "║  " << "PRICE         ║  RM" << left << setw(43) << packageList[i] << "  ║" << endl;
+                cout << "║  " << "PRICE         ║  RM" << left << setw(50) << packageList[i] << "  ║" << endl;
             }
         }
-        cout << "╚══════════════════════════════════════════════════════════════════╝" << endl;
+        cout << "╚═════════════════════════════════════════════════════════════════════════╝" << endl;
     }
+};
 
 template <typename T>
 struct customPackage
@@ -278,8 +230,47 @@ struct customPackage
     };
 };
 
+
 template <typename T>
-void saveVectorList(vector<T> list, string fileName) 
+struct Registration
+{
+    T eventDate;
+    T birthdayName;
+    T packageChosen;
+    T totalCost;
+    T bookingStatus;
+    T guestAmount;
+    LoginDetails login;
+    Package<string> package;
+
+    string commaFormat()
+    {
+        return login.username + "," + eventDate + "," + 
+        birthdayName + "," + login.contactNum + "," + 
+        login.email + "," + packageChosen + "," + totalCost
+        + "," + bookingStatus + "," + guestAmount;
+    }
+
+    Registration(string line = "") 
+    {
+        if (!line.empty()) 
+        {
+            stringstream ss(line);
+            getline(ss, login.username, ',');
+            getline(ss, eventDate, ',');
+            getline(ss, birthdayName, ',');
+            getline(ss, login.contactNum, ',');
+            getline(ss, login.email, ',');
+            getline(ss, packageChosen, ',');
+            getline(ss, totalCost, ',');
+            getline(ss, bookingStatus, ',');
+            getline(ss, guestAmount);
+        }
+    }
+};
+
+template <typename T1,typename T2>
+void saveVectorList(vector<T1> list, T2 fileName) 
 {
     ofstream saveFile(fileName);
     if (saveFile.is_open()) 
@@ -323,17 +314,24 @@ bool usernameExist(vector<T> list , string compareItem)
 
 //To get list elements's index number
 template <typename T>
-int getUserNameIndex(vector <T> list , string compareItem)
+int getIndex(vector <T> list , string compareInput , function<string(T)>getItem)
 {
     int indexNum;
     for(int i = 0 ; i < list.size() ; i++)
     {
-        if(list[i].username == compareItem)
+        if(getItem(list[i]) == compareInput)
         {
             indexNum = i;
         }
     }
     return indexNum;
+}
+
+void pressAny()
+{
+    cout << "PRESS <ENTER> TO PROCEED......";
+    cin.ignore();
+    cin.get();
 }
 
 void loginScreen();
@@ -345,7 +343,7 @@ void signUp(string aspect);
 void changePass(string aspect);
 
 void custMainPage(string nickname);
-void custRegis(string name);
+void custRegis(string name ,int userIndex);
 void custViewBooking();
 void custViewCampaign();
 void custCustomParty();
@@ -601,18 +599,21 @@ void login(string aspect)
                 if(aspect == "customer")
                 {
                     custMainPage(l.nickname);
+                    break;
                 }
                 else
                 {
                     staffMainPage(l.nickname);
+                    break;
                 }
-                status = false;
+                break;
             }
             else
             {
-                cout << "\nPLEASE MAKE SURE YOUR USERNAME AND PASSWORD ARE BOTH CORRECT :)"<<endl;
+                cout << "\nPLEASE MAKE SURE USERNAME AND PASSWORD ARE BOTH CORRECT :)\n" << endl;
                 continue;
             }
+            break;
         }
         status = false;
     }
@@ -926,7 +927,7 @@ void changePass(string aspect)
             }
         }
 
-        index = getUserNameIndex(currentList , username);
+        index = getIndex<LoginDetails>(currentList , username , [](LoginDetails ld){return ld.username;});
 
         if(usernameExist(currentList , username))
         {
@@ -1007,11 +1008,13 @@ void custMainPage(string name)
     bool status = true;
 
     MenuTemplate <string> m;
+    vector<LoginDetails> custList = getVectorList<LoginDetails>("customer.txt");
+    int userIndex = getIndex<LoginDetails>(custList , name , [](LoginDetails ld){return ld.username;});
     string ans;
     string confirmPass,confirmDetails;
     m.menuTitle = "MAIN MENU";
 
-    cout << "WELCOME BACK " << name << " !!!\n" << endl;
+    cout << "USERNAME : " << name << "\n" << endl;
 
     m.menuOptions.push_back("REGISTRATION");
     m.menuOptions.push_back("VIEW BOOKING STATUS");
@@ -1031,7 +1034,7 @@ void custMainPage(string name)
 
         if(ans == "1")
         { 
-            custRegis(name);
+            custRegis(name , userIndex);
             status = false;
         }
         else if(ans == "2")
@@ -1105,7 +1108,7 @@ void staffMainPage(string name)
     string ans;
     m.menuTitle = "MAIN MENU";
 
-    cout << "WELCOME BACK " << name << " !!!\n" << endl;
+    cout << "USERNAME : " << name << "\n" << endl;
 
     m.menuOptions.push_back("VIEW ALL BOOKINGS");
     m.menuOptions.push_back("MANAGE BOOKINGS");
@@ -1190,37 +1193,146 @@ void staffMainPage(string name)
 }
 
 //Customer main menu's registration event function
-void custRegis(string name)
+void custRegis(string name , int userIndex)
 {
     system("clear");
 
     bool status = true;
+    string tempArr[9][2];
+    int row = 0,column =0;
+    string ans;
 
-    LoginDetails::Registration <string> lr;
-    LoginDetails l;
+    Registration<string> r;
+    Registration<string> newResgister;
+
     MenuTemplate <string> m;
-    Package p;
-    Package newPackage;
-    vector <string> tmpList;
-    vector <Package> packageList = getVectorList<Package>("packageList.txt");
-    vector <LoginDetails> packageList = getVectorList<LoginDetails>("registration.txt");
+    
+    Package <string> p;
+    
+    vector <LoginDetails> custList = getVectorList<LoginDetails>("customer.txt");
+    vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList");
 
+    m.menuTitle = "USERNAME <d to use default name>";
+    m.menuTitleTemplate();
     while(status)
     {
         cout << "PLEASE ENTER YOUR NAME <0 to exit> : ";
-        getline(cin , l.username);
+        getline(cin , r.login.username);
 
-        if(l.username == "0")
+        if(r.login.username == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+        else if(r.login.username == "D" || r.login.username == "d")
+        {
+            r.login.username = name;
+            status = false;
+        }
+        status = false;
+    }
+
+    status = true;
+
+    m.menuTitle = "EVENT DATE";
+    m.menuTitleTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE ENTER THE EVENT DATE <0 to exit> : ";
+        getline(cin , r.eventDate);
+
+        if(r.eventDate == "0")
         {
             custMainPage(name);
             status = false;
         }
 
-        cout << "PLEASE ENTER THE EVENT DATE <> <0 to exit> : ";
-        getline(cin , lr.eventDate);
+        status = false;
+    }
 
-        regex datePattern("2(0[0-9]1[0-9]2[0-9])-(0[0-9]1[0-9])-(0[0-9]1[0-9])");
-        
+    status = true;
+
+    m.menuTitle = "BIRTHDAY THEME NAME";
+    m.menuTitleTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR BIRTHDAY THEME NAME <0 to exit> : ";
+        getline(cin,r.birthdayName);
+
+        if(r.birthdayName == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+        status = false;
+    }
+
+    status = true;
+
+    m.menuTitle = "CONTACT NUMBER <d to use default contact no>";
+    m.menuTitleTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR CONTACT NUMBER <0 to exit> : ";
+        getline(cin,r.login.contactNum);
+
+        if(r.login.contactNum == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+        else if(r.login.contactNum == "D" || r.login.contactNum == "d")
+        {
+            r.login.contactNum = custList[userIndex].contactNum;
+            status = false;
+        }
+        status = false;
+    }
+
+    status = true;
+
+    m.menuTitle = "EMAIL <d to use default email>";
+    m.menuTitleTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE ENTER YOUR EMAIL <0 to exit> : ";
+        getline(cin,r.login.email);
+
+        if(r.login.email == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+        else if(r.login.email == "D" || r.login.email == "d")
+        {
+            r.login.email = custList[userIndex].email;
+            status = false;
+        }
+
+        status = false;
+    }
+
+    status = true;
+
+    m.menuTitle = "GUEST AMOUNT";
+    m.menuTitleTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE ENTER GUEST AMOUNT <0 to exit> : ";
+        getline(cin,r.guestAmount);
+
+        if(r.guestAmount== "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+
         status = false;
     }
 
@@ -1231,40 +1343,159 @@ void custRegis(string name)
     m.menuOptions.push_back("STANDARD");
     m.menuOptions.push_back("PREMIUM");
 
-    m.menuTemplate();
-
     while(status)
     {
-        cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
-        getline(cin,lr.packageChosen);
+        system("clear");
 
-        if(lr.packageChosen == "0")
+        m.menuTemplate();
+
+        cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
         {
             custMainPage(name);
             status = false;
         }
-
-        if(lr.packageChosen == "1")
+        else if(ans == "1")
         {
-            outputPackages(packageList,"basic");
+            p.packageList.clear();
+            p.packageList.push_back("BASIC");
+            p.packageList.push_back("SMALL PARTY ROOM");
+            p.packageList.push_back("LIGHT SNACK AND DRINKS");
+            p.packageList.push_back("BASIC BALLON SETUP AND BIRTYDAY SIGNAGE");
+            p.packageList.push_back("NOT AVAILABLE");
+            p.packageList.push_back("NOT AVAILABLE");
+            p.packageList.push_back("SIMPLE GOODIE BAGS");
+            p.packageList.push_back("1KG STANDARD BDAY CAKE");
+            p.packageList.push_back("599");
 
-            
-            status = false;
+            r.package.price = "599";
         }
-        else if(lr.packageChosen == "2")
+        else if(ans == "2")
         {
-            outputPackages(packageList,"standard");
-            status = false;
+            p.packageList.clear();
+            p.packageList.push_back("STANDARD");
+            p.packageList.push_back("EVENT HALL");
+            p.packageList.push_back("3-4 MAIN COURSES + DRINKS");
+            p.packageList.push_back("THEME BASED SETUP WITH BACKDROPS AND WELCOME SIGNAGE");
+            p.packageList.push_back("MUSIC PLAYLIST WITH SPEAKERS");
+            p.packageList.push_back("NOT AVAILABLE");
+            p.packageList.push_back("PERSONALIZED GOODIE BAGS");
+            p.packageList.push_back("2KG CUSTOME THEMED CAKE");
+            p.packageList.push_back("899");
+
+            r.package.price = "899";
         }
-        else if(lr.packageChosen == "3")
+        else if(ans == "3")
         {   
-            outputPackages(packageList,"premium");
-            status = false;
+            p.packageList.clear();
+            p.packageList.push_back("PREMIUM");
+            p.packageList.push_back("HOTEL FUNCTION ROOM");
+            p.packageList.push_back("MULTI-COURSE BUFFET");
+            p.packageList.push_back("PREMIUM THEME");
+            p.packageList.push_back("DJ OR MAGICIAN PERFORMANCE");
+            p.packageList.push_back("PHOTO BOOTH or GAME or PRIZE DRAWS");
+            p.packageList.push_back("SIMPLE GOODIE BAGS"); 
+            p.packageList.push_back("3KG DESIGNER CAKE");
+            p.packageList.push_back("1399");
+
+            r.package.price = "1399";
         }
         else
         {
             cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)" << endl;
             continue;
+        }
+
+        p.outputPackages();
+
+        cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
+        getline(cin ,r.packageChosen);
+
+        if(r.packageChosen == "Y" || r.packageChosen == "y")
+        {
+            if(ans == "1")
+            {
+                r.packageChosen = "BASIC";
+            }
+            else if(ans == "2")
+            {
+                r.packageChosen = "STANDARD";
+            }
+            else if(ans == "3")
+            {
+                r.packageChosen = "PREMIUM";
+            }
+            else if(r.packageChosen == "N" || r.packageChosen == "n")
+            {
+                continue;
+            }
+            else
+            {
+                cout << "\nINVALID INPUT... PLEASE ENTER <y/n> ONLY :)\n"<<endl;
+                continue;
+            }
+            status = false;
+        }
+        else if(r.packageChosen == "N" || r.packageChosen == "n")
+        {
+            continue;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)";
+            continue;
+        }
+        status = false;
+    }   
+
+    system("clear");
+
+    m.menuTitle = "BOOKING CONFIRMATION";
+    m.menuOptions.push_back(r.login.username);
+    m.menuOptions.push_back(r.eventDate);
+    m.menuOptions.push_back(r.birthdayName);
+    m.menuOptions.push_back(r.login.contactNum);
+    m.menuOptions.push_back(r.login.email);
+    m.menuOptions.push_back(r.packageChosen);
+    m.menuOptions.push_back(r.login.username);
+    m.menuOptions.push_back(r.package.price);
+    m.menuOptions.push_back(r.guestAmount);
+
+    m.menuTemplate();
+
+    status = true;
+    string confirmation;
+
+    while(status)
+    {
+        cout << "ARE YOU SURE ALL THE DETAILS SHOWN ABOVE ARE CORRECT ? <y/n> : ";
+        getline(cin , confirmation);
+        if(confirmation == "Y" || confirmation == "y")
+        {
+            newResgister.login.username = r.login.username;
+            newResgister.eventDate = r.eventDate;
+            newResgister.birthdayName = r.birthdayName;
+            newResgister.login.contactNum = r.login.contactNum;
+            newResgister.login.email = r.login.email;
+            newResgister.packageChosen = r.packageChosen;
+            newResgister.totalCost = r.package.price;
+            newResgister.bookingStatus = "BOOKING";
+            newResgister.guestAmount = r.guestAmount;
+            registerList.push_back(newResgister);
+            saveVectorList(registerList,"registration.txt");
+            cout << "BOOKING MADE SUCCESSFULLY~~~ :)"<<endl;
+            pressAny();
+            custMainPage(name);
+            status = false;
+        }
+        else if(confirmation == "N" || confirmation == "n")
+        {
+            cout << "BOOKING MADE UNSUCCESSFULL~~~ :(\n"<<endl;;
+            pressAny();
+            custMainPage(name);
+            status = false;
         }
         status = false;
     }
