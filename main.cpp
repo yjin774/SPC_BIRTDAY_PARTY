@@ -12,6 +12,32 @@
 
 using namespace std;
 
+void buddha()
+{
+    cout << "                  _oo0oo_                      " << endl;
+    cout << "                 o8888888o                     " << endl;
+    cout << "                 88\" . \"88                     " << endl;
+    cout << "                 (| -_- |)                     " << endl;
+    cout << "                 0\\  =  /0                     " << endl;
+    cout << "               ___/`---'\\___                   " << endl;
+    cout << "             .' \\\\|     |// '.                 " << endl;
+    cout << "            / \\\\|||  :  |||// \\                " << endl;
+    cout << "           / _||||| -:- |||||- \\               " << endl;
+    cout << "          |   | \\\\\\  -  /// |   |              " << endl;
+    cout << "          | \\_|  ''\\---/''  |_/ |              " << endl;
+    cout << "          \\  .-\\__  '-'  ___/-. /              " << endl;
+    cout << "        ___'. .'  /--.--\\  `. .'___            " << endl;
+    cout << "     .\"\" '<  `.___\\_<|>_/___.' >' \"\".          " << endl;
+    cout << "    | | :  `- \\`.;`\\ _ /`;.`/ - ` : | |        " << endl;
+    cout << "    \\  \\ `_.   \\_ __\\ /__ _/   .-` /  /        " << endl;
+    cout << "=====`-.____`.___ \\_____/___.-`___.-'=====     " << endl;
+    cout << "                  `=---='                      " << endl;
+    cout << "                                               " << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     " << endl;
+    cout << "          佛祖保佑         永無BUG               " << endl;
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     " << endl;
+}
+
 template <typename T>
 struct MenuTemplate
 {
@@ -244,15 +270,18 @@ struct Registration
     T totalCost;
     T bookingStatus;
     T guestAmount;
+    T customStatus;
     LoginDetails login;
     Package<string> package;
+    customPackage<string> custom;
 
     string commaFormat()
     {
         return serialNum + "," + login.username + "," + eventDate + "," + 
         time + "," +birthdayName + "," + login.contactNum + "," + 
         login.email + "," + packageChosen + "," + totalCost
-        + "," + bookingStatus + "," + guestAmount;
+        + "," + bookingStatus + "," + guestAmount + "," +
+        customStatus;
     }
 
     Registration(string line = "") 
@@ -270,8 +299,9 @@ struct Registration
             getline(ss, packageChosen, ',');
             getline(ss, totalCost, ',');
             getline(ss, bookingStatus, ',');
-            getline(ss, guestAmount);
-        }
+            getline(ss, guestAmount, ',');
+            getline(ss, customStatus);
+        }   
     }
 };
 
@@ -318,6 +348,35 @@ struct Receipt
     }
 };
 
+template <typename T1,typename T2>
+void saveVectorList(vector<T1> list, T2 fileName) 
+{
+    ofstream saveFile(fileName);
+    if (saveFile.is_open()) 
+    {
+        for (auto r : list) {
+            saveFile << r.commaFormat() << endl;
+        }
+        saveFile.close();
+    } 
+}
+
+template <typename T>
+vector<T> getVectorList(string fileName) 
+{
+    vector<T> list;
+    ifstream outputFile(fileName);
+    if (outputFile.is_open()) {
+        string values;
+        while (getline(outputFile, values)) 
+        {
+            list.emplace_back(values);
+        }
+        outputFile.close();
+    } 
+    return list;
+}
+
 double calculateAmt(string amount)
 {
     double result;
@@ -325,10 +384,25 @@ double calculateAmt(string amount)
     return result;
 }
 
-template <typename T>
-void printBookingDetails(vector<T>list)
+void printBookingDetails(int indexNum)
 {
+    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+
+    system("clear");
+
     cout << "╔══════════════════════════════════════════════════╗" << endl;
+    cout << "║  BOOKING ID : " << left<< setw(30) <<registeredList[indexNum].serialNum<< "  ║" <<endl;
+    cout << "║  " << right<< setw(50)<< "  ║" <<endl;
+    cout << "║  " << right<< setw(50)<< "  ║" <<endl;
+    cout << "╠═════════════════════════════════════════╣" << endl;
+    cout << "║  `X" << right<< setw(50)<< "  ║" <<endl;
+    cout << "╠═════════════════════════════════════════╣" << endl;
+    cout << "║  CUSTOMER NAME : " << left<< setw(30) <<registeredList[indexNum].login.nickname<< "  ║" <<endl;
+    cout << "║  " << right<< setw(50)<< "  ║" <<endl;
+    cout << "║  BOOKING ID : " << left<< setw(30) <<registeredList[indexNum].serialNum<< "  ║" <<endl;
+    cout << "║  BOOKING ID : " << left<< setw(30) <<registeredList[indexNum].serialNum<< "  ║" <<endl;
+    cout << "║  BOOKING ID : " << left<< setw(30) <<registeredList[indexNum].serialNum<< "  ║" <<endl;
+    cout << "║  BOOKING ID : " << left<< setw(30) <<registeredList[indexNum].serialNum<< "  ║" <<endl;
     cout << "╚══════════════════════════════════════════════════╝" << endl;
 }
 
@@ -336,6 +410,7 @@ template <typename T>
 void printReceiptDetails(vector<T>list)
 {
     cout << "╔══════════════════════════════════════════════════╗" << endl;
+    cout << "║  " << "  ║" << endl;
     cout << "╚══════════════════════════════════════════════════╝" << endl;
 }
 
@@ -374,35 +449,6 @@ void printRecords(vector<vector<pair<string, T>>> records, int width = 25, int p
         }
         cout << endl << endl;
     }
-}
-
-template <typename T1,typename T2>
-void saveVectorList(vector<T1> list, T2 fileName) 
-{
-    ofstream saveFile(fileName);
-    if (saveFile.is_open()) 
-    {
-        for (auto r : list) {
-            saveFile << r.commaFormat() << endl;
-        }
-        saveFile.close();
-    } 
-}
-
-template <typename T>
-vector<T> getVectorList(string fileName) 
-{
-    vector<T> list;
-    ifstream outputFile(fileName);
-    if (outputFile.is_open()) {
-        string values;
-        while (getline(outputFile, values)) 
-        {
-            list.emplace_back(values);
-        }
-        outputFile.close();
-    } 
-    return list;
 }
 
 //To match list's elements
@@ -531,6 +577,10 @@ void loginScreen()
     system("clear");
     string loginAns;
     bool status = true;
+
+    buddha();
+
+    cout << "\n";
 
     MenuTemplate <string> menu;
     menu.menuTitle = "LOGIN SCREEN";
@@ -1710,6 +1760,7 @@ void custRegis(string name , int userIndex)
             newResgister.totalCost = r.package.price;
             newResgister.bookingStatus = "PAYMENT PENDING";
             newResgister.guestAmount = r.guestAmount;
+            newResgister.customStatus = "INACTIVE";
             registerList.push_back(newResgister);
             saveVectorList(registerList,"registration.txt");
             cout << "BOOKING MADE SUCCESSFULLY~~~ :)"<<endl;
@@ -1739,9 +1790,9 @@ void custViewBooking(string name)
     MenuTemplate <string> m;
 
     vector<vector<pair<string,string>>> bookingRecords;
-    const vector<string> HEADERS = {"RECEIPT ID","USERNAME","STATUS"};
+    const vector<string> HEADERS = {"RECEIPT ID","USERNAME","STATUS","CUSTOMIZE"};
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
-    // vector<>
+    vector<Receipt<string>> receiptList = getVectorList <Receipt<string>>("receipt.txt");
 
     m.menuTitle = "VIEW BOOKING";
     m.menuTitleTemplate();
@@ -1753,13 +1804,15 @@ void custViewBooking(string name)
         string reId = registeredList[i].serialNum;
         string userName = registeredList[i].login.username;
         string status = registeredList[i].bookingStatus;
+        string customStatus = registeredList[i].customStatus;
 
         bookingRecords.push_back
         (
             {   
                 {HEADERS[0],reId},
                 {HEADERS[1],userName},
-                {HEADERS[2],status}
+                {HEADERS[2],status},
+                {HEADERS[3],customStatus}
             }
         );
     }
@@ -1784,7 +1837,7 @@ void custViewBooking(string name)
         {
             if(registeredList[index].bookingStatus == "PAYMENT PENDING")
             {
-                printBookingDetails(registeredList);
+                printBookingDetails(index);
                 status = false;
             }
             else
