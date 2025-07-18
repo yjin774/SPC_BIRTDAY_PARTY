@@ -7,6 +7,7 @@
 #include <format>
 #include <sstream>
 #include <regex>
+#include <algorithm>
 
 using namespace std;
 
@@ -234,7 +235,9 @@ struct customPackage
 template <typename T>
 struct Registration
 {
+    T serialNum;
     T eventDate;
+    T time;
     T birthdayName;
     T packageChosen;
     T totalCost;
@@ -245,8 +248,8 @@ struct Registration
 
     string commaFormat()
     {
-        return login.username + "," + eventDate + "," + 
-        birthdayName + "," + login.contactNum + "," + 
+        return serialNum + "," + login.username + "," + eventDate + "," + 
+        time + "," +birthdayName + "," + login.contactNum + "," + 
         login.email + "," + packageChosen + "," + totalCost
         + "," + bookingStatus + "," + guestAmount;
     }
@@ -256,8 +259,10 @@ struct Registration
         if (!line.empty()) 
         {
             stringstream ss(line);
+            getline(ss, serialNum, ',');
             getline(ss, login.username, ',');
             getline(ss, eventDate, ',');
+            getline(ss, time, ',');
             getline(ss, birthdayName, ',');
             getline(ss, login.contactNum, ',');
             getline(ss, login.email, ',');
@@ -268,6 +273,43 @@ struct Registration
         }
     }
 };
+
+// Print records in groups of 3 mini-tables per row
+template <typename T>
+void printRecords(vector<vector<pair<string, T>>> records, int width = 25, int perRow = 3) {
+    for (size_t i = 0; i < records.size(); i += perRow) {
+        int actualCount = min(perRow, static_cast<int>(records.size() - i));
+
+        // Top borders
+        for (int j = 0; j < actualCount; ++j) {
+            cout << "╔" << string(width, '=') << "╗   ";
+        }
+        cout << endl;
+
+        // Print each field row by row
+        size_t maxFields = 0;
+        for (int j = 0; j < actualCount; ++j)
+            maxFields = max(maxFields, records[i + j].size());
+
+        for (size_t line = 0; line < maxFields; ++line) {
+            for (int j = 0; j < actualCount; ++j) {
+                if (line < records[i + j].size()) {
+                    auto& field = records[i + j][line];
+                    cout << "║" << left << setw(width) << field.first + ": " + field.second << "║   ";
+                } else {
+                    cout << "║" << setw(width) << " " << "║   ";
+                }
+            }
+            cout << endl;
+        }
+
+        // Bottom borders
+        for (int j = 0; j < actualCount; ++j) {
+            cout << "╚" << string(width, '=') << "╝   ";
+        }
+        cout << endl << endl;
+    }
+}
 
 template <typename T1,typename T2>
 void saveVectorList(vector<T1> list, T2 fileName) 
@@ -325,6 +367,47 @@ int getIndex(vector <T> list , string compareInput , function<string(T)>getItem)
         }
     }
     return indexNum;
+}
+
+template <typename T>
+string generateSerialNo(string type,vector<T>list)
+{
+    string prefix;
+    if(type == "RE")
+    {
+        prefix = "RE";
+    }
+    else if(type == "PE")
+    {
+        prefix = "PE";
+    }
+
+    int serialNum = list.size()+1;
+    stringstream ss;
+
+    ss << prefix << setfill('0') << setw(4) << serialNum;
+    return ss.str();
+}
+
+string timePrefix(string time)
+{
+    string prefix;
+    stringstream ss(time);
+    string hour,min;
+
+    getline(ss,hour,':');
+
+    int hourInt = stoi(hour);
+    if(hourInt <=11)
+    {
+        prefix = "AM";
+    }
+    else
+    {
+        prefix = "PM";
+    }
+
+    return time+" "+prefix;
 }
 
 void pressAny()
@@ -526,12 +609,12 @@ void login(string aspect)
 
     cout << "\n";
 
-    vector<LoginDetails> currenList;
+    vector<LoginDetails> currentList;
     
     if(aspect == "customer")
     {
-        currenList = getVectorList<LoginDetails>("customer.txt");
-        if(currenList.size() == 0)
+        currentList = getVectorList<LoginDetails>("customer.txt");
+        if(currentList.size() == 0)
         {
             cout << "THERE'S NO ACCOUNT EXITS IN THE SYSTEM :)" << endl;
             cout << "PLEASE SIGN UP AN ACCOUNT TO PROCEED :)" << endl;
@@ -543,8 +626,8 @@ void login(string aspect)
     }
     else if(aspect == "staff")
     {
-        currenList = getVectorList<LoginDetails>("staff.txt");
-        if(currenList.size() == 0)
+        currentList = getVectorList<LoginDetails>("staff.txt");
+        if(currentList.size() == 0)
         {
             cout << "THERE'S NO ACCOUNT EXITS IN THE SYSTEM :)" << endl;
             cout << "PLEASE SIGN UP AN ACCOUNT TO PROCEED :)" << endl;
@@ -591,29 +674,27 @@ void login(string aspect)
             }
         }
 
-        for(int i = 0; i < currenList.size() ; i++)
+        int usernameIndex = getIndex<LoginDetails>(currentList , l.username , [](LoginDetails ld){return ld.username;});
+        int passIndex = getIndex<LoginDetails>(currentList , l.password , [](LoginDetails ld){return ld.password;});
+
+        if(l.username == currentList[usernameIndex].username && l.password == currentList[passIndex].password)
         {
-            if(l.username == currenList[i].username && l.password == currenList[i].password)
+            l.nickname = currentList[usernameIndex].nickname;
+            if(aspect == "customer")
             {
-                l.nickname = currenList[i].nickname;
-                if(aspect == "customer")
-                {
-                    custMainPage(l.nickname);
-                    break;
-                }
-                else
-                {
-                    staffMainPage(l.nickname);
-                    break;
-                }
-                break;
+                custMainPage(l.nickname);
+                status = false;
             }
             else
             {
-                cout << "\nPLEASE MAKE SURE USERNAME AND PASSWORD ARE BOTH CORRECT :)\n" << endl;
-                continue;
+                staffMainPage(l.nickname);
+                status = false;
             }
-            break;
+        }
+        else
+        {
+            cout << "\nPLEASE MAKE SURE USERNAME AND PASSWORD ARE BOTH CORRECT :)\n" << endl;
+            continue;
         }
         status = false;
     }
@@ -1017,7 +1098,7 @@ void custMainPage(string name)
     cout << "USERNAME : " << name << "\n" << endl;
 
     m.menuOptions.push_back("REGISTRATION");
-    m.menuOptions.push_back("VIEW BOOKING STATUS");
+    m.menuOptions.push_back("VIEW BOOKINGS");
     m.menuOptions.push_back("VIEW CAMPAIGN");
     m.menuOptions.push_back("CUSTOMIZE PARTY");
     m.menuOptions.push_back("VIEW/UPDATE PROFILE");
@@ -1249,6 +1330,50 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
+        regex dateFormat("20[0-9]{2}-(0[1-9]|1[0-2])-(0[0-9]|[12][0-9]|3[01])");
+
+        if(regex_match(r.eventDate,dateFormat))
+        {
+            status = false;
+        }   
+        else
+        {
+            cout << "PLEASE ENTER IN <YYY-MM-DD> FORMAT :)\n"<<endl;
+            continue;
+        }
+
+        status = false;
+    }
+
+    m.menuTitle = "TIME";
+    m.menuTitleTemplate();
+
+    status = true;
+
+    while(status)
+    {
+        cout << "PLEASE ENTER THE EVENT DATE <0 to exit> : ";
+        getline(cin , r.time);
+
+        if(r.time == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+
+        regex timeFormat("[0-2][0-3]:[0-5][0-9]");
+
+        if(regex_match(r.time,timeFormat))
+        {
+            r.time = timePrefix(r.time);
+            status = false;
+        }   
+        else
+        {
+            cout << "PLEASE ENTER IN <HH:MM> FORMAT :)\n"<<endl;
+            continue;
+        }
+
         status = false;
     }
 
@@ -1290,6 +1415,11 @@ void custRegis(string name , int userIndex)
             r.login.contactNum = custList[userIndex].contactNum;
             status = false;
         }
+        else
+        {
+            cout << "PLEASE ENTER CONTACT NUMBER :)"<<endl;
+            continue;
+        }
         status = false;
     }
 
@@ -1303,17 +1433,17 @@ void custRegis(string name , int userIndex)
         cout << "PLEASE ENTER YOUR EMAIL <0 to exit> : ";
         getline(cin,r.login.email);
 
-        if(r.login.email == "0")
-        {
-            custMainPage(name);
-            status = false;
-        }
-        else if(r.login.email == "D" || r.login.email == "d")
+        if(r.login.email == "D" || r.login.email == "d")
         {
             r.login.email = custList[userIndex].email;
             status = false;
         }
 
+        if(r.login.email == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
         status = false;
     }
 
@@ -1332,6 +1462,25 @@ void custRegis(string name , int userIndex)
             custMainPage(name);
             status = false;
         }
+
+        regex guestFormat("\\d+");
+        int amt = stoi(r.guestAmount);
+
+        if(!regex_match(r.guestAmount , guestFormat))
+        {
+            cout << "PLEASE ENTER WITH NUMBERS :)" << endl;
+            continue;
+        }
+        else if(amt <= 0 || r.guestAmount.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY OR ZERO" << endl;
+            continue;
+        }
+        else
+        {
+            status = false;
+        }
+
 
         status = false;
     }
@@ -1455,6 +1604,7 @@ void custRegis(string name , int userIndex)
     m.menuTitle = "BOOKING CONFIRMATION";
     m.menuOptions.push_back(r.login.username);
     m.menuOptions.push_back(r.eventDate);
+    m.menuOptions.push_back(r.time);
     m.menuOptions.push_back(r.birthdayName);
     m.menuOptions.push_back(r.login.contactNum);
     m.menuOptions.push_back(r.login.email);
@@ -1474,8 +1624,10 @@ void custRegis(string name , int userIndex)
         getline(cin , confirmation);
         if(confirmation == "Y" || confirmation == "y")
         {
+            newResgister.serialNum = generateSerialNo("RE",registerList);
             newResgister.login.username = r.login.username;
             newResgister.eventDate = r.eventDate;
+            newResgister.time = r.time;
             newResgister.birthdayName = r.birthdayName;
             newResgister.login.contactNum = r.login.contactNum;
             newResgister.login.email = r.login.email;
@@ -1504,8 +1656,41 @@ void custRegis(string name , int userIndex)
 //Customer view booking function
 void custViewBooking()
 {
+    bool status = true;
 
-}
+    system("clear");
+
+    MenuTemplate <string> m;
+
+    vector<vector<pair<string,string>>> bookingRecords;
+    const vector<string> HEADERS = {"RECEIPT ID","USERNAME","STATUS"};
+    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+
+    m.menuTitle = "VIEW BOOKING";
+    m.menuTitleTemplate();
+
+    cout << "\n";
+
+    for(int i = 0 ; i < registeredList.size() ; i++)
+    {
+        string reId = registeredList[i].serialNum;
+        string userName = registeredList[i].login.username;
+        string status = registeredList[i].bookingStatus;
+
+        bookingRecords.push_back
+        (
+            {   
+                {HEADERS[0],reId},
+                {HEADERS[1],userName},
+                {HEADERS[2],status}
+            }
+        );
+    }
+
+    printRecords(bookingRecords);
+
+
+}   
 
 //Customer view campaign promotion function
 void custViewCampaign()
