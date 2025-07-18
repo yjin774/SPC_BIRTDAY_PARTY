@@ -8,6 +8,7 @@
 #include <sstream>
 #include <regex>
 #include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -274,6 +275,70 @@ struct Registration
     }
 };
 
+template <typename T>
+struct Receipt
+{
+    T invoiceNum;
+    T paymentType;
+    T paymentTime;
+    T paymentTax;
+    T amtWithoutTax;
+    T amtWithTax;
+    Registration <string> registers;
+    LoginDetails login;
+
+    string commaFormat()
+    {
+        return login.username + "," + login.email + "," + login.contactNum +
+         "," + registers.totalCost + "," + registers.eventDate + 
+         "," + registers.packageChosen + "," + registers.guestAmount + 
+         "," + invoiceNum + "," + paymentType + "," + paymentTime + 
+         "," + paymentTax + "," + amtWithoutTax + "," + amtWithTax; 
+    }
+
+    Receipt(string line = "") 
+    {
+        if (!line.empty()) 
+        {
+            stringstream ss(line);
+            getline(ss, login.username, ',');
+            getline(ss, login.email, ',');
+            getline(ss, login.contactNum, ',');
+            getline(ss, registers.totalCost, ',');
+            getline(ss, registers.eventDate, ',');
+            getline(ss, registers.packageChosen, ',');
+            getline(ss, registers.guestAmount, ',');
+            getline(ss, invoiceNum, ',');
+            getline(ss, paymentType, ',');
+            getline(ss, paymentTime, ',');
+            getline(ss, paymentTax, ',');
+            getline(ss, amtWithoutTax, ',');
+            getline(ss, amtWithTax, ',');
+        }
+    }
+};
+
+double calculateAmt(string amount)
+{
+    double result;
+
+    return result;
+}
+
+template <typename T>
+void printBookingDetails(vector<T>list)
+{
+    cout << "╔══════════════════════════════════════════════════╗" << endl;
+    cout << "╚══════════════════════════════════════════════════╝" << endl;
+}
+
+template <typename T>
+void printReceiptDetails(vector<T>list)
+{
+    cout << "╔══════════════════════════════════════════════════╗" << endl;
+    cout << "╚══════════════════════════════════════════════════╝" << endl;
+}
+
 // Print records in groups of 3 mini-tables per row
 template <typename T>
 void printRecords(vector<vector<pair<string, T>>> records, int width = 25, int perRow = 3) {
@@ -356,14 +421,21 @@ bool usernameExist(vector<T> list , string compareItem)
 
 //To get list elements's index number
 template <typename T>
-int getIndex(vector <T> list , string compareInput , function<string(T)>getItem)
+int getIndex(vector<T> list , string compareInput , function<string(T)>getItem)
 {
     int indexNum;
+    string compareInputLower = compareInput;
+    transform(compareInputLower.begin(),compareInputLower.end(),compareInputLower.begin(),::tolower);
+
     for(int i = 0 ; i < list.size() ; i++)
     {
-        if(getItem(list[i]) == compareInput)
+        string itemValue = getItem(list[i]);
+        string itemValueLower = itemValue;
+        transform(itemValueLower.begin(),itemValueLower.end(),itemValueLower.begin(),::tolower);
+        if(itemValueLower == compareInputLower)
         {
             indexNum = i;
+            break;
         }
     }
     return indexNum;
@@ -377,9 +449,9 @@ string generateSerialNo(string type,vector<T>list)
     {
         prefix = "RE";
     }
-    else if(type == "PE")
+    else if(type == "IN")
     {
-        prefix = "PE";
+        prefix = "IN";
     }
 
     int serialNum = list.size()+1;
@@ -427,7 +499,7 @@ void changePass(string aspect);
 
 void custMainPage(string nickname);
 void custRegis(string name ,int userIndex);
-void custViewBooking();
+void custViewBooking(string name);
 void custViewCampaign();
 void custCustomParty();
 void custViewProfile();
@@ -1120,7 +1192,7 @@ void custMainPage(string name)
         }
         else if(ans == "2")
         {
-            custViewBooking();
+            custViewBooking(name);
             status = false;
         }
         else if(ans == "3")
@@ -1279,7 +1351,6 @@ void custRegis(string name , int userIndex)
     system("clear");
 
     bool status = true;
-    string tempArr[9][2];
     int row = 0,column =0;
     string ans;
 
@@ -1361,7 +1432,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        regex timeFormat("[0-2][0-3]:[0-5][0-9]");
+        regex timeFormat("([0-1][0-9]|2[0-3]):[0-5][0-9]");
 
         if(regex_match(r.time,timeFormat))
         {
@@ -1410,16 +1481,13 @@ void custRegis(string name , int userIndex)
             custMainPage(name);
             status = false;
         }
-        else if(r.login.contactNum == "D" || r.login.contactNum == "d")
+        
+        if(r.login.contactNum == "D" || r.login.contactNum == "d")
         {
             r.login.contactNum = custList[userIndex].contactNum;
             status = false;
         }
-        else
-        {
-            cout << "PLEASE ENTER CONTACT NUMBER :)"<<endl;
-            continue;
-        }
+
         status = false;
     }
 
@@ -1601,6 +1669,7 @@ void custRegis(string name , int userIndex)
 
     system("clear");
 
+    m.menuOptions.clear();
     m.menuTitle = "BOOKING CONFIRMATION";
     m.menuOptions.push_back(r.login.username);
     m.menuOptions.push_back(r.eventDate);
@@ -1612,6 +1681,12 @@ void custRegis(string name , int userIndex)
     m.menuOptions.push_back(r.login.username);
     m.menuOptions.push_back(r.package.price);
     m.menuOptions.push_back(r.guestAmount);
+
+    cout << "Debug: menuOptions size = " << m.menuOptions.size() << "\n";
+    for (size_t i = 0; i < m.menuOptions.size(); ++i) {
+        std::cout << "Debug: [" << i << "] = " << m.menuOptions[i] << "\n";
+    }
+
 
     m.menuTemplate();
 
@@ -1633,7 +1708,7 @@ void custRegis(string name , int userIndex)
             newResgister.login.email = r.login.email;
             newResgister.packageChosen = r.packageChosen;
             newResgister.totalCost = r.package.price;
-            newResgister.bookingStatus = "BOOKING";
+            newResgister.bookingStatus = "PAYMENT PENDING";
             newResgister.guestAmount = r.guestAmount;
             registerList.push_back(newResgister);
             saveVectorList(registerList,"registration.txt");
@@ -1654,9 +1729,10 @@ void custRegis(string name , int userIndex)
 }
 
 //Customer view booking function
-void custViewBooking()
+void custViewBooking(string name)
 {
     bool status = true;
+    string ans;
 
     system("clear");
 
@@ -1665,6 +1741,7 @@ void custViewBooking()
     vector<vector<pair<string,string>>> bookingRecords;
     const vector<string> HEADERS = {"RECEIPT ID","USERNAME","STATUS"};
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+    // vector<>
 
     m.menuTitle = "VIEW BOOKING";
     m.menuTitleTemplate();
@@ -1689,7 +1766,36 @@ void custViewBooking()
 
     printRecords(bookingRecords);
 
+    while(status)
+    {
+        cout << "THESE ARE THE CURRENT BOOKINGS YOU HAVE MADE :)"<<endl;
+        cout << "PLEASE CHOOSE ANY BOOKING TO VIEW THE DETAILS <enter RECEIPT ID> <0 to exit> : ";
+        getline(cin , ans);
 
+        int index = getIndex<Registration<string>>(registeredList, ans , [](Registration<string>r){return r.serialNum;});
+
+        if(ans == "0")
+        {
+            custMainPage(name);
+            status = false;
+        }
+
+        if(ans == registeredList[index].serialNum)
+        {
+            if(registeredList[index].bookingStatus == "PAYMENT PENDING")
+            {
+                printBookingDetails(registeredList);
+                status = false;
+            }
+            else
+            {
+                // printReceiptDetails();
+                status = false;
+            }
+        }
+        
+        status = false;
+    }
 }   
 
 //Customer view campaign promotion function
