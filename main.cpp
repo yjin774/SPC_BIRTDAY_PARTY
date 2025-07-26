@@ -411,6 +411,62 @@ struct CustomList
     }
 };
 
+struct Receipt
+{
+    string receiptID;
+    string paymentStatus;
+    Registration <string> registers;
+    CustomList <string> custom;
+
+        string commaFormat()
+    {
+        return receiptID + "," + paymentStatus + "," + registers.eventDate + "," + 
+        registers.time + "," + registers.birthdayName + "," + registers.login.contactNum + "," + 
+        registers.login.email + "," + registers.packageChosen + "," + registers.totalCost
+        + "," + registers.guestAmount + "," + registers.specialRequest + "," + custom.item1 + "," + custom.item1Price + "," + custom.item1Status + "," + 
+        custom.item2 + "," + custom.item2Price + "," + custom.item2Status + "," + custom.item3 + "," + custom.item3Price + "," + custom.item3Status + "," + 
+        custom.item4 + "," + custom.item4Price + "," + custom.item4Status + "," + custom.customPackage.extraGuestAmt + "," + custom.customPackage.extraGuestAmtPrice + "," + custom.customPackage.extraGuestAmtStatus +
+        "," + custom.themes.themeDescription + "," + custom.themes.themePrice + "," + custom.themes.themeStatus;;
+    }
+
+    Receipt(string line = "") 
+    {
+        if (!line.empty()) 
+        {
+            stringstream ss(line);
+            getline(ss, receiptID, ',');
+            getline(ss, paymentStatus, ',');
+            getline(ss, registers.eventDate, ',');
+            getline(ss, registers.time, ',');
+            getline(ss, registers.birthdayName, ',');
+            getline(ss, registers.login.contactNum, ',');
+            getline(ss, registers.login.email, ',');
+            getline(ss, registers.packageChosen, ',');
+            getline(ss, registers.totalCost, ',');
+            getline(ss, registers.guestAmount, ',');
+            getline(ss, registers.specialRequest, ','); 
+            getline(ss, custom.item1, ',');
+            getline(ss, custom.item1Price, ',');
+            getline(ss, custom.item1Status, ',');
+            getline(ss, custom.item2, ',');
+            getline(ss, custom.item2Price, ',');
+            getline(ss, custom.item2Status, ',');
+            getline(ss, custom.item3, ',');
+            getline(ss, custom.item3Price, ',');
+            getline(ss, custom.item3Status, ',');
+            getline(ss, custom.item4, ',');
+            getline(ss, custom.item4Price, ',');
+            getline(ss, custom.item4Status, ',');
+            getline(ss, custom.customPackage.extraGuestAmt, ',');
+            getline(ss, custom.customPackage.extraGuestAmtPrice, ',');
+            getline(ss, custom.customPackage.extraGuestAmtStatus, ',');
+            getline(ss, custom.themes.themeDescription, ',');
+            getline(ss, custom.themes.themePrice, ',');
+            getline(ss, custom.themes.themeStatus);
+        }   
+    }
+};
+
 struct Feedback
 {   
     string content;
@@ -681,6 +737,10 @@ string generateSerialNo(string type,vector<T>list)
     if(type == "RE")
     {
         prefix = "RE";
+    }
+    else if(type == "DE")
+    {
+        prefix = "DE";
     }
     else if(type == "IN")
     {
@@ -2139,6 +2199,7 @@ void custViewBooking(string name)
             if(registeredList[index].bookingStatus == "PAYMENT PENDING")
             {
                 addReceiptDetails("RECEIPT",index);
+               
                 status = false;
             }
             else if(registeredList[index].bookingStatus == "PAYMENT DONE")
@@ -2869,7 +2930,22 @@ void custViewProfile()
 //Customer make payment function
 void custPayment()
 {
+    system("clear");
 
+    bool status = true;
+
+    MenuTemplate <string> m;
+    m.menuTitle = "PAYMENT SECTION";
+    m.menuTitleTemplate();
+
+    // addReceiptDetails("RECEIPT",index);
+
+    // printBookingDetails();
+
+    while(status)
+    {
+        status = false;
+    }
 }
 
 //Customer provide feedback function
