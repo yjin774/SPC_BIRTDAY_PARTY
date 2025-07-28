@@ -11,6 +11,7 @@
 #include <regex>
 #include <algorithm>
 #include <cctype>
+#include <set>
 
 #ifdef _WIN32
     #include <conio.h>  // Windows-specific
@@ -158,6 +159,7 @@ struct Package
 {
     T packageType;
     T venue;
+    T timeDuration;
     T catering;
     T decoration;
     T entertaintment;
@@ -165,11 +167,11 @@ struct Package
     T partyGift;
     T cake;
     T price;
-    vector <T> packageList;
+    vector <T> confirmListpackageList;
 
     string commaFormat()
     {
-        return packageType + "," + venue + "," + catering + "," + decoration + "," + entertaintment + "," + activities + "," + partyGift + "," + cake + "," + price;
+        return packageType + "," + venue + "," + timeDuration + "," + catering + "," + decoration + "," + entertaintment + "," + activities + "," + partyGift + "," + cake + "," + price;
     }
 
     Package(string line = "") 
@@ -179,6 +181,7 @@ struct Package
             stringstream ss(line);
             getline(ss, packageType, ',');
             getline(ss, venue, ',');
+            getline(ss, timeDuration, ',');
             getline(ss, catering, ',');
             getline(ss, decoration, ',');
             getline(ss, entertaintment, ',');
@@ -197,60 +200,6 @@ struct Package
             cout << "═";
         }
         cout << "╣" <<endl;
-    }
-
-    void outputPackages()
-    {   
-        cout << "\n╔═════════════════════════════════════════════════════════════════════════╗" << endl;
-            
-        for(int i = 0 ; i < packageList.size() ; i++)
-        {
-            if(i == 0)
-            {
-                cout << "║  " << "PACKAGE TYPE  ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 1)
-            {
-                cout << "║  " << "VENUE         ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 2)
-            {
-                cout << "║  " << "CATERING      ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 3)
-            {
-                cout << "║  " << "DECORATION    ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 4)
-            {
-                cout << "║  " << "ENTERTAINMENT ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 5)
-            {
-                cout << "║  " << "ACTIVITY      ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 6)
-            {
-                cout << "║  " << "PARTY GIFT    ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 7)
-            {
-                cout << "║  " << "CAKE          ║  " << left << setw(52) << packageList[i] << "  ║" << endl;
-                line(73);
-            }
-            else if(i == 8)
-            {
-                cout << "║  " << "PRICE         ║  RM" << left << setw(50) << packageList[i] << "  ║" << endl;
-            }
-        }
-        cout << "╚═════════════════════════════════════════════════════════════════════════╝" << endl;
     }
 };
 
@@ -310,7 +259,8 @@ struct Registration
 {
     T serialNum;
     T eventDate;
-    T time;
+    T startTime;
+    T endTime;
     T birthdayName;
     T packageChosen;
     T totalCost;
@@ -318,17 +268,14 @@ struct Registration
     T guestAmount;
     T specialRequest;
     T customStatus;
-    const double TAX = 0.6;
+    double TAX = 0.06;
     LoginDetails login;
     Package<string> package;
-    T invoiceNum;
-    T paymentType;
-    T paymentTime;
 
     string commaFormat()
     {
         return serialNum + "," + login.username + "," + eventDate + "," + 
-        time + "," +birthdayName + "," + login.contactNum + "," + 
+        startTime + "," + endTime + "," + birthdayName + "," + login.contactNum + "," + 
         login.email + "," + packageChosen + "," + totalCost
         + "," + bookingStatus + "," + guestAmount + "," + specialRequest + "," +
         customStatus;
@@ -342,7 +289,8 @@ struct Registration
             getline(ss, serialNum, ',');
             getline(ss, login.username, ',');
             getline(ss, eventDate, ',');
-            getline(ss, time, ',');
+            getline(ss, startTime, ',');
+            getline(ss, endTime, ',');
             getline(ss, birthdayName, ',');
             getline(ss, login.contactNum, ',');
             getline(ss, login.email, ',');
@@ -415,18 +363,27 @@ struct Receipt
 {
     string receiptID;
     string paymentStatus;
+    string issueDate;
+    string amtBeforeTax;
+    string taxAmt;
+    string amtAfterTax;
+    string totalGuestAmt;
+    string totalGeneralAddOn;
+    string depositAmt;
+    string paymentType;
     Registration <string> registers;
     CustomList <string> custom;
+    Package <string> package;
 
         string commaFormat()
     {
-        return receiptID + "," + paymentStatus + "," + registers.eventDate + "," + 
-        registers.time + "," + registers.birthdayName + "," + registers.login.contactNum + "," + 
-        registers.login.email + "," + registers.packageChosen + "," + registers.totalCost
-        + "," + registers.guestAmount + "," + registers.specialRequest + "," + custom.item1 + "," + custom.item1Price + "," + custom.item1Status + "," + 
+        return receiptID + "," + registers.login.nickname + "," + paymentStatus + "," + issueDate + "," + amtBeforeTax + "," + taxAmt + "," + amtAfterTax + "," + registers.eventDate + "," + 
+        registers.startTime + "," + registers.endTime + "," + registers.birthdayName + "," + registers.login.contactNum + "," + 
+        registers.login.email + "," + registers.packageChosen + "," + package.venue + "," + package.catering + "," + package.decoration + "," + package.entertaintment + "," + package.partyGift + "," + registers.totalCost
+        + "," + registers.guestAmount + "," + registers.specialRequest + "," + registers.customStatus + "," + custom.item1 + "," + custom.item1Price + "," + custom.item1Status + "," + 
         custom.item2 + "," + custom.item2Price + "," + custom.item2Status + "," + custom.item3 + "," + custom.item3Price + "," + custom.item3Status + "," + 
-        custom.item4 + "," + custom.item4Price + "," + custom.item4Status + "," + custom.customPackage.extraGuestAmt + "," + custom.customPackage.extraGuestAmtPrice + "," + custom.customPackage.extraGuestAmtStatus +
-        "," + custom.themes.themeDescription + "," + custom.themes.themePrice + "," + custom.themes.themeStatus;;
+        custom.item4 + "," + custom.item4Price + "," + custom.item4Status + "," + totalGeneralAddOn + "," + custom.customPackage.extraGuestAmt + "," + totalGuestAmt + "," + custom.customPackage.extraGuestAmtPrice + "," + custom.customPackage.extraGuestAmtStatus +
+        "," + custom.themes.themeDescription + "," + custom.themes.themePrice + "," + custom.themes.themeStatus + "," + depositAmt + "," + paymentType;
     }
 
     Receipt(string line = "") 
@@ -435,16 +392,28 @@ struct Receipt
         {
             stringstream ss(line);
             getline(ss, receiptID, ',');
+            getline(ss, registers.login.nickname, ',');
             getline(ss, paymentStatus, ',');
+            getline(ss, issueDate, ',');
+            getline(ss, amtBeforeTax, ',');
+            getline(ss, taxAmt, ',');
+            getline(ss, amtAfterTax, ',');
             getline(ss, registers.eventDate, ',');
-            getline(ss, registers.time, ',');
+            getline(ss, registers.startTime, ',');
+            getline(ss, registers.endTime, ',');
             getline(ss, registers.birthdayName, ',');
             getline(ss, registers.login.contactNum, ',');
             getline(ss, registers.login.email, ',');
             getline(ss, registers.packageChosen, ',');
+            getline(ss, package.venue, ',');
+            getline(ss, package.catering, ',');
+            getline(ss, package.decoration, ',');
+            getline(ss, package.entertaintment, ',');
+            getline(ss, package.partyGift, ',');
             getline(ss, registers.totalCost, ',');
             getline(ss, registers.guestAmount, ',');
             getline(ss, registers.specialRequest, ','); 
+            getline(ss, registers.customStatus, ',');
             getline(ss, custom.item1, ',');
             getline(ss, custom.item1Price, ',');
             getline(ss, custom.item1Status, ',');
@@ -457,12 +426,16 @@ struct Receipt
             getline(ss, custom.item4, ',');
             getline(ss, custom.item4Price, ',');
             getline(ss, custom.item4Status, ',');
+            getline(ss, totalGeneralAddOn, ',');
             getline(ss, custom.customPackage.extraGuestAmt, ',');
+            getline(ss, totalGuestAmt, ',');
             getline(ss, custom.customPackage.extraGuestAmtPrice, ',');
             getline(ss, custom.customPackage.extraGuestAmtStatus, ',');
             getline(ss, custom.themes.themeDescription, ',');
             getline(ss, custom.themes.themePrice, ',');
-            getline(ss, custom.themes.themeStatus);
+            getline(ss, custom.themes.themeStatus, ',');
+            getline(ss, depositAmt, ',');
+            getline(ss, paymentType);
         }   
     }
 };
@@ -492,6 +465,17 @@ struct Feedback
         }
     }
 };
+
+string getIssueDate() {
+    auto now = chrono::system_clock::now();
+    time_t now_time = chrono::system_clock::to_time_t(now);
+    tm* local_tm = localtime(&now_time);
+
+    stringstream ss;
+    ss << put_time(local_tm, "%Y-%m-%d %H:%M:%S");
+
+    return ss.str(); 
+}
 
 template <typename T1,typename T2>
 void saveVectorList(vector<T1>& list, const T2& fileName) 
@@ -544,53 +528,220 @@ int getIndex(vector<T> list , string compareInput , function<string(T)>getItem)
     return indexNum;
 }
 
-double calculateTax(double& amount,const double& tax)
-{
-    double result;
+void calculateAmount(double& amtBeforeTax,double& taxAmt, double& amtAfterTax,int index, int customIndex,double& totalGeneralAddOn, double& depositAmt)
+{   
+    vector <Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector <CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
 
-    return result = amount * tax;
+    double totalCost = stod(registerList[index].totalCost);
+    double guestPrice = stod(customList[customIndex].customPackage.extraGuestAmtPrice);
+    double item1 = stod(customList[customIndex].item1Price);
+    double item2 = stod(customList[customIndex].item2Price);
+    double item3 = stod(customList[customIndex].item3Price);
+    double item4 = stod(customList[customIndex].item4Price);
+    double themePrice = stod(customList[customIndex].themes.themePrice);
+
+    amtBeforeTax = totalCost + guestPrice + item1 + item2 + item3 + item4 + themePrice;
+
+    taxAmt = amtBeforeTax * registerList[index].TAX;
+
+    amtAfterTax = amtBeforeTax + taxAmt;
+
+    depositAmt = amtAfterTax * 0.2;
+
+    totalGeneralAddOn = item1 + item2 + item3 + item4;
 }
 
-void printBookingDetails(const vector<vector<string>>& list,string customStatus,int cutomIndex,string receiptType)
+void printReceipt(const vector<vector<string>>& registerRecord,int index,string receiptType) 
 {
+    //e recipet title
+    cout << "╔" << setfill('=') << setw(80) << right << "╗" << endl;
+    cout << "║  " << setfill(' ')<< left << setw(75)  << "BIRTYDAY EVENT E-RECEIPT" << "║" << endl;
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
 
-    system("clear");
-
-    bool afterPackage = false;
-    vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
-
-
-
-    cout << "╔═══════════════════════════════════════════════════════╗" << endl;
-    cout << "║"<< right <<setw(58)<<"║"<<endl;
-    for(vector<string> r : list)
+    //receipt id,issue date,payment status
+    for(int i = 0 ; i < 3 ; i++)
     {
-        if(r[0] == "PACKAGE CHOSEN")
-        {
-            cout << "║  "<<left <<setw(20)<<r[0]<<" : "<<left<<setw(30)<<r[1]<<"║" << endl;
-            break;
-        }
-            cout << "║  "<<left <<setw(20)<<r[0]<<" : "<<left<<setw(30)<<r[1]<<"║" << endl;
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[i][0] << " : " << left << setw(52) << registerRecord[i][1] << "║" << endl;
     }
 
-    if(customStatus == "ACTIVE")
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    //customer name
+    cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[3][0] << " : " << left << setw(52) << registerRecord[3][1] << "║" << endl;
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    //event date,start time,end time
+    for(int i = 4 ; i < 7 ; i++)
     {
-        cout << "║  "<<left <<setw(20)<< "CUSTOM STATUS" << " : " <<left<<setw(30) << customStatus <<"║" << endl;
-        cout << "║  "<<left <<setw(20)<< "CUSTOM STATUS" << " : " <<left<<setw(30) << customStatus <<"║" << endl;
-        cout << "║  "<<left <<setw(20)<< "CUSTOM STATUS" << " : " <<left<<setw(30) << customStatus <<"║" << endl;
-        cout << "║  "<<left <<setw(20)<< "CUSTOM STATUS" << " : " <<left<<setw(30) << customStatus <<"║" << endl;
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[i][0] << " : " << left << setw(52) << registerRecord[i][1] << "║" << endl;
+    }
+
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    //package items
+    for(int i = 7 ; i < 13 ; i++)
+    {
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[i][0] << " : " << left << setw(52) << registerRecord[i][1] << "║" << endl;
+    }
+
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    //package guest amount
+    cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[13][0] << " : " << left << setw(52) << registerRecord[13][1] << "║" << endl;
+    cout << "╠" << setfill('-') << setw(80) << right << "╣" << endl;
+
+    //package cost
+    cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[14][0] << " : " << left << setw(10) << registerRecord[14][1] << "║" << endl;
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    //special request
+    cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[15][0] << " : " << left << setw(52) << registerRecord[15][1] << "║" << endl;
+    cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+    if(registerRecord[16][1] == "ACTIVE")
+    {
+        //custom status
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[16][0] << " : " << left << setw(52) << registerRecord[16][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //general add on title
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[17][0] << left << setw(55) << registerRecord[17][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //general add on items's title
+        cout << "║  " << setfill(' ')<< left << setw(18)  << registerRecord[18][0] << " | " << left << setw(18)  << registerRecord[18][1] << " | " << left << setw(18)  << registerRecord[18][2] << " | " << left << setw(12) << registerRecord[18][3] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //general add on items
+        for(int i = 19 ; i < 23 ; i++)
+        {
+            cout << "║  " << setfill(' ')<< left << setw(18)  << registerRecord[i][0] << " | " << left << setw(18)  << registerRecord[i][1] << " | " << left << setw(18)  << registerRecord[i][2] << " | " << left << setw(12) << registerRecord[i][3] << "║" << endl;
+            cout << "╠" << setfill('-') << setw(80) << right << "╣" << endl;
+        }
+
+        //general add on cost
+        cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[23][0] << " : " << left << setw(10) << registerRecord[23][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //extra guest title
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[24][0] << left << setw(55) << registerRecord[24][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //extra guest's item name,item status and item price's title
+        cout << "║  " << setfill(' ')<< left << setw(24)  << registerRecord[25][0] << " | " << left << setw(24)  << registerRecord[25][1] << " | " << left << setw(21)  << registerRecord[25][2] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //extra guest's item name,item status and item price 
+        cout << "║  " << setfill(' ')<< left << setw(24)  << registerRecord[26][0] << " | " << left << setw(24)  << registerRecord[26][1] << " | " << left << setw(21)  << registerRecord[26][2] << "║" << endl;
+        cout << "╠" << setfill('-') << setw(80) << right << "╣" << endl;
+
+        //total guest's cost
+        cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[28][0] << " : " << left << setw(10) << registerRecord[28][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //total guest amount
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[27][0] << " : " << left << setw(52) << registerRecord[27][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //cutomize theme title
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[29][0] << left << setw(55) << registerRecord[29][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //customize theme's item name,item status and item price title
+        cout << "║  " << setfill(' ')<< left << setw(40)  << registerRecord[30][0] << " | " << left << setw(14)  << registerRecord[30][1] << " | " << left << setw(15)  << registerRecord[30][2] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+        //customize theme's item name,item status and item price
+        cout << "║  " << setfill(' ')<< left << setw(40)  << registerRecord[31][0] << " | " << left << setw(14)  << registerRecord[31][1] << " | " << left << setw(15)  << registerRecord[31][2] << "║" << endl;
+        cout << "╠" << setfill('-') << setw(80) << right << "╣" << endl;
+
+        //customize theme cost
+        cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[32][0] << " : " << left << setw(10) << registerRecord[32][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
     }
     else
     {
-        cout << "║  "<<left <<setw(20)<< "CUSTOM STATUS" << " : " <<left<<setw(30) << customStatus <<"║" << endl;
+        //total guest amount
+        cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[27][0] << " : " << left << setw(52) << registerRecord[27][1] << "║" << endl;
+        cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
     }
-    // for()
-    // {
-    //     cout << "║  "<<left <<setw(20)<<r[0]<<" : "<<left<<setw(30)<<r[1]<<"║" << endl;
-    // }
 
-    cout << "║"<< right << setw(58) <<"║"<<endl;
-    cout << "╚═══════════════════════════════════════════════════════╝" << endl;
+        if(receiptType != "RECEIPT")
+        {
+
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[38][0]+" <DEPOSIT>" << " : " << left << setw(10) << registerRecord[38][1] << "║" << endl;
+
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[42][0] << " : " << left << setw(10) << registerRecord[42][1] << "║" << endl;
+
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[41][0] << " : " << left << setw(10) << registerRecord[41][1] << "║" << endl;
+             //total bill with tax
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[36][0] << " : " << left << setw(10) << registerRecord[36][1] << "║" << endl;
+
+            cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[40][0] << " : " << left << setw(10) << registerRecord[40][1] << "║" << endl;
+        }
+       
+       //deposit
+       if(receiptType == "RECEIPT")
+       {
+            //subtotal
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[33][0] << " : " << left << setw(10) << registerRecord[33][1] << "║" << endl;
+            cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+            //bill before tax
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[34][0] << " : " << left << setw(10) << registerRecord[34][1] << "║" << endl;
+
+            //tax amount
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[35][0] << " : " << left << setw(10) << registerRecord[35][1] << "║" << endl;
+
+            //total bill with tax
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[36][0] << " : " << left << setw(10) << registerRecord[36][1] << "║" << endl;
+            
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[37][0] << " : " << left << setw(10) << registerRecord[37][1] << "║" << endl;
+
+            cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
+
+            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[39][0] << " : " << left << setw(10) << registerRecord[39][1] << "║" << endl;
+       }
+    //bottom line
+    cout << "╚" << setfill('=') << setw(80) << right << "╝" << endl;
+    cout << setfill(' ');
+}
+
+void outputPackage(const vector<vector<string>>& packageList,int index)
+{
+    cout << "╔════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║                                PACKAGE LIST                                ║" << endl;
+    cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
+    for (int i =0; i < packageList.size()-1; i++)
+    {
+        if(packageList[i][0] == "TIME DURATION")
+        {
+            cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(56) << packageList[i][1]+" HOURS" << "║" << endl;
+            cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
+            continue;
+        }
+        cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(56) << packageList[i][1] << "║" << endl;
+        cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
+    }
+        cout << "║  "<< left << setw(15) << packageList[packageList.size()-1][0]<<"║  RM" << left << setw(54) << packageList[packageList.size()-1][1] << "║" << endl;
+        cout << "╚════════════════════════════════════════════════════════════════════════════╝" << endl;
+}
+
+void outputConfirm(const vector<vector<string>>& confirmList)
+{
+    cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║                              BOOKING CONFIRMATION                              ║" << endl;
+    cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    for (int i =0; i < confirmList.size(); i++)
+    {
+        cout << "║  "<< left << setw(19) << confirmList[i][0]<<"║  " << left << setw(56) << confirmList[i][1] << "║" << endl;
+        cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    }
+        cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
 void outputCustomMenu()
@@ -634,9 +785,9 @@ void outputCustomCart(string receiptID)
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
     int customIndex = getIndex<CustomList<string>>(customList , receiptID , [](CustomList<string> cl){return cl.registers.serialNum;});
 
+    cout << "\n\n";
 
     cout << "╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  GENERAL ADD ON                                  ║  STATUS         ║               PRICE               ║" << endl;
     cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  1  ║  " << left << setw(42) << customList[customIndex].item1 << "║  " << left << setw(15) << customList[customIndex].item1Status << "║  " << left << setw(33) << customList[customIndex].item1Price << "║" <<endl;
@@ -648,18 +799,18 @@ void outputCustomCart(string receiptID)
     cout << "║  4  ║  " << left << setw(42) << customList[customIndex].item4 << "║  " << left << setw(15) << customList[customIndex].item4Status << "║  " << left << setw(33) << customList[customIndex].item4Price << "║" <<endl;
     cout << "╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
 
+    cout << "\n";
 
     cout << "╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  EXTRA GUEST                                     ║  STATUS         ║  AMOUNT         ║  PRICE          ║" << endl;
     cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  1  ║  EXTRA GUEST                               ║  " << left << setw(15) << customList[customIndex].customPackage.extraGuestAmtStatus  
     << "║  " << left << setw(15) << customList[customIndex].customPackage.extraGuestAmt << "║  RM" << left << setw(13) << customList[customIndex].customPackage.extraGuestAmtPrice << "║" <<endl;
     cout << "╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
 
+    cout << "\n";
 
     cout << "╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  CUSTOMIZE THEME                                 ║  STATUS         ║               PRICE               ║" << endl;
     cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  1  ║  " << left << setw(42) << customList[customIndex].themes.themeDescription << "║  " << left << setw(15) << customList[customIndex].themes.themeStatus << "║  " << left << setw(33) << customList[customIndex].themes.themePrice << "║" <<endl;
@@ -730,27 +881,42 @@ bool usernameExist(const vector<T>& list , const string& compareItem)
     return false;
 }
 
-template <typename T>
-string generateSerialNo(string type,vector<T>list)
+bool receiptUsernameExist(const vector<Receipt>& list, const string& compareItem)
 {
-    string prefix;
-    if(type == "RE")
+    for(const auto& r : list)
     {
-        prefix = "RE";
+        if(r.registers.login.username == compareItem)
+        {
+            return true;
+        }
     }
-    else if(type == "DE")
-    {
-        prefix = "DE";
-    }
-    else if(type == "IN")
-    {
-        prefix = "IN";
+    return false;
+}
+
+template <typename T, typename F>
+string generateSerialNo(const string& type, const vector<T>& list, F getId)
+
+{
+    string prefix = type;
+    regex pattern("^" + prefix + "(\\d{4})$");
+    set<int> usedNumbers;
+
+    for (const auto& item : list) {
+        smatch match;
+        string id = getId(item);  // 👈 use the lambda to get the ID
+        if (regex_match(id, match, pattern)) {
+            int num = stoi(match[1]);
+            usedNumbers.insert(num);
+        }
     }
 
-    int serialNum = list.size()+1;
+    int nextNum = 1;
+    while (usedNumbers.count(nextNum)) {
+        nextNum++;
+    }
+
     stringstream ss;
-
-    ss << prefix << setfill('0') << setw(4) << serialNum;
+    ss << prefix << setfill('0') << setw(4) << nextNum;
     return ss.str();
 }
 
@@ -810,7 +976,7 @@ void custViewBooking(string name);
 void custViewCampaign();
 void custCustomParty(string name , int userIndex);
 void custViewProfile();
-void custPayment();
+void custPayment(string receiptType,int registerIndex, int customIndex,string name);
 void custFeedback();
 void custCustomPartyOption(string name, int userIndex,string receiptId);
 void customPartyCart(string name , int userIndex,string receiptID);
@@ -1287,7 +1453,7 @@ void signUp(string aspect)
     while(status)
     {
         cout << "\n*PLEASE CHECK BEFORE PROCEED* <y/n> : ";
-        cin >> confirmDetails;
+        getline(cin,confirmDetails);
 
         if(confirmDetails == "Y" || confirmDetails == "y")
         {
@@ -1520,15 +1686,10 @@ void custMainPage(string name)
         }
         else if(ans == "6")
         {
-            custPayment();
-            status = false;
-        }
-        else if(ans == "7")
-        {
             custFeedback();
             status = false;
         }
-        else if(ans == "8")
+        else if(ans == "7")
         {
             cout << "ARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
             getline(cin,confirmDetails);
@@ -1653,6 +1814,48 @@ void staffMainPage(string name)
     }
 }
 
+void addPackageList(int packageIndex)
+{
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<vector<string>> packageRecord;
+
+   packageRecord =
+    {
+        {"PACKAGE TYPE",packageList[packageIndex].packageType},
+        {"VENUE",packageList[packageIndex].venue},
+        {"TIME DURATION",packageList[packageIndex].timeDuration},
+        {"CATERING",packageList[packageIndex].catering},
+        {"DECORATION",packageList[packageIndex].decoration},
+        {"ENTERTAINMENT",packageList[packageIndex].entertaintment},
+        {"ACTIVITIES",packageList[packageIndex].activities},
+        {"PARTY GIFT",packageList[packageIndex].partyGift},
+        {"CAKE",packageList[packageIndex].cake},
+        {"PRICE",packageList[packageIndex].price}
+    };
+
+    outputPackage(packageRecord,packageIndex);
+}
+
+string addHoursToTime(const string& timeStr, int addHours) {
+    int hour, minute;
+
+    // Parse HH:MM
+    sscanf(timeStr.c_str(), "%d:%d", &hour, &minute);
+
+    // Add hours and handle wrap-around
+    hour = (hour + addHours) % 24;
+
+    // Determine AM or PM for the current 24-hour time
+    string period = (hour >= 12) ? "PM" : "AM";
+
+    // Format result as 24-hour with AM/PM
+    ostringstream oss;
+    oss << setw(2) << setfill('0') << hour << ":"
+        << setw(2) << setfill('0') << minute << " " << period;
+
+    return oss.str();
+}
+
 //Customer main menu's registration event function
 void custRegis(string name , int userIndex)
 {
@@ -1660,6 +1863,8 @@ void custRegis(string name , int userIndex)
 
     bool status = true;
     int row = 0,column =0;
+    int packageIndex;
+    string confirmPackage;
     string ans;
     string receiptId;
 
@@ -1679,7 +1884,8 @@ void custRegis(string name , int userIndex)
     
     vector <LoginDetails> custList = getVectorList<LoginDetails>("customer.txt");
     vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
-    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
+    vector<vector<string>> packageRecord;
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
 
     m.menuTitle = "EVENT DATE";
@@ -1719,9 +1925,9 @@ void custRegis(string name , int userIndex)
     while(status)
     {
         cout << "PLEASE ENTER THE EVENT TIME <0 to exit> : ";
-        getline(cin , r.time);
+        getline(cin , r.startTime);
 
-        if(r.time == "0")
+        if(r.startTime == "0")
         {
             custMainPage(name);
             status = false;
@@ -1729,9 +1935,9 @@ void custRegis(string name , int userIndex)
 
         regex timeFormat("([0-1][0-9]|2[0-3]):[0-5][0-9]");
 
-        if(regex_match(r.time,timeFormat))
+        if(regex_match(r.startTime,timeFormat))
         {
-            r.time = timePrefix(r.time);
+            r.startTime = timePrefix(r.startTime);
             status = false;
         }   
         else
@@ -1758,6 +1964,7 @@ void custRegis(string name , int userIndex)
             custMainPage(name);
             status = false;
         }
+        transform(r.birthdayName.begin(),r.birthdayName.end(),r.birthdayName.begin(),::toupper);
         status = false;
     }
 
@@ -1881,9 +2088,11 @@ void custRegis(string name , int userIndex)
     status = true;
 
     m.menuTitle = "PACKAGES";
-    m.menuOptions.push_back("BASIC");
-    m.menuOptions.push_back("STANDARD");
-    m.menuOptions.push_back("PREMIUM");
+
+    for(int i = 0; i < packageList.size();i++)
+    {
+        m.menuOptions.push_back(packageList[i].packageType);
+    }
 
     while(status)
     {
@@ -1899,50 +2108,12 @@ void custRegis(string name , int userIndex)
             custMainPage(name);
             status = false;
         }
-        else if(ans == "1")
+
+        int ansInt = stoi(ans);
+        packageIndex = ansInt-1;
+        if(ansInt <= packageList.size() && ansInt > 0)
         {
-            p.packageList.clear();
-            p.packageList.push_back("BASIC");
-            p.packageList.push_back("SMALL PARTY ROOM");
-            p.packageList.push_back("LIGHT SNACK AND DRINKS");
-            p.packageList.push_back("BASIC BALLON SETUP AND BIRTYDAY SIGNAGE");
-            p.packageList.push_back("NOT AVAILABLE");
-            p.packageList.push_back("NOT AVAILABLE");
-            p.packageList.push_back("SIMPLE GOODIE BAGS");
-            p.packageList.push_back("1KG STANDARD BDAY CAKE");
-            p.packageList.push_back("599");
-
-            r.package.price = "599";
-        }
-        else if(ans == "2")
-        {
-            p.packageList.clear();
-            p.packageList.push_back("STANDARD");
-            p.packageList.push_back("EVENT HALL");
-            p.packageList.push_back("3-4 MAIN COURSES + DRINKS");
-            p.packageList.push_back("THEME BASED SETUP WITH BACKDROPS AND WELCOME SIGNAGE");
-            p.packageList.push_back("MUSIC PLAYLIST WITH SPEAKERS");
-            p.packageList.push_back("NOT AVAILABLE");
-            p.packageList.push_back("PERSONALIZED GOODIE BAGS");
-            p.packageList.push_back("2KG CUSTOME THEMED CAKE");
-            p.packageList.push_back("899");
-
-            r.package.price = "899";
-        }
-        else if(ans == "3")
-        {   
-            p.packageList.clear();
-            p.packageList.push_back("PREMIUM");
-            p.packageList.push_back("HOTEL FUNCTION ROOM");
-            p.packageList.push_back("MULTI-COURSE BUFFET");
-            p.packageList.push_back("PREMIUM THEME");
-            p.packageList.push_back("DJ OR MAGICIAN PERFORMANCE");
-            p.packageList.push_back("PHOTO BOOTH or GAME or PRIZE DRAWS");
-            p.packageList.push_back("SIMPLE GOODIE BAGS"); 
-            p.packageList.push_back("3KG DESIGNER CAKE");
-            p.packageList.push_back("1399");
-
-            r.package.price = "1399";
+            addPackageList(packageIndex);
         }
         else
         {
@@ -1950,43 +2121,21 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
-        p.outputPackages();
-
         cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
-        getline(cin ,r.packageChosen);
+        
+        getline(cin, confirmPackage);
 
-        if(r.packageChosen == "Y" || r.packageChosen == "y")
+        if(confirmPackage == "Y" || confirmPackage == "y")
         {
-            if(ans == "1")
-            {
-                r.packageChosen = "BASIC";
-            }
-            else if(ans == "2")
-            {
-                r.packageChosen = "STANDARD";
-            }
-            else if(ans == "3")
-            {
-                r.packageChosen = "PREMIUM";
-            }
-            else if(r.packageChosen == "N" || r.packageChosen == "n")
-            {
-                continue;
-            }
-            else
-            {
-                cout << "\nINVALID INPUT... PLEASE ENTER <y/n> ONLY :)\n"<<endl;
-                continue;
-            }
-            status = false;
+            r.packageChosen = packageList[packageIndex].packageType;
         }
-        else if(r.packageChosen == "N" || r.packageChosen == "n")
+        else if(confirmPackage == "N" || confirmPackage == "n")
         {
             continue;
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)";
+            cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)\n" << endl;
             continue;
         }
         status = false;
@@ -1994,24 +2143,33 @@ void custRegis(string name , int userIndex)
 
     system("clear");
 
-    m.menuOptions.clear();
-    m.menuTitle = "BOOKING CONFIRMATION";
-    m.menuOptions.push_back(registerList[userIndex].login.username);
-    m.menuOptions.push_back(r.eventDate);
-    m.menuOptions.push_back(r.time);
-    m.menuOptions.push_back(r.birthdayName);
-    m.menuOptions.push_back(r.login.contactNum);
-    m.menuOptions.push_back(r.login.email);
-    m.menuOptions.push_back(r.packageChosen);
-    m.menuOptions.push_back(r.package.price);
-    m.menuOptions.push_back(r.guestAmount);
-    m.menuOptions.push_back(r.specialRequest);
+    vector<vector<string>> confirmRecord;
 
-    m.menuTemplate();
+    int hoursAdd = stoi(packageList[packageIndex].timeDuration);
+    string endTime = addHoursToTime(r.startTime,hoursAdd);
+    confirmRecord =
+    {
+        {"CUSTOMER NAME",custList[userIndex].nickname},
+        {"EVENT DATE",r.eventDate},
+        {"EVENY START TIME",r.startTime},
+        {"EVENY END TIME",endTime},
+        {"BIRTHDAY THEME",r.birthdayName},
+        {"CONTACT NUMBER",r.login.contactNum},
+        {"EMAIL",r.login.email},
+        {"PACKAGE CHOSEN",packageList[packageIndex].packageType},
+        {"PACKAGE PRICE",packageList[packageIndex].price},
+        {"GUEST AMOUNT",r.guestAmount},
+        {"SPECIAL REQUEST",r.specialRequest}
+    };
+ 
+    outputConfirm(confirmRecord);
 
     status = true;
     string confirmation;
-    receiptId = generateSerialNo("RE",registerList);
+    receiptId = generateSerialNo("RE", registerList, [](const Registration<string>& r) {
+    return r.serialNum; 
+});
+
 
     while(status)
     {
@@ -2020,14 +2178,15 @@ void custRegis(string name , int userIndex)
         if(confirmation == "Y" || confirmation == "y")
         {
             newResgister.serialNum = receiptId;
-            newResgister.login.username = registerList[userIndex].login.username;
+            newResgister.login.username = custList[userIndex].nickname;
             newResgister.eventDate = r.eventDate;
-            newResgister.time = r.time;
+            newResgister.startTime = r.startTime;
+            newResgister.endTime = endTime;
             newResgister.birthdayName = r.birthdayName;
             newResgister.login.contactNum = r.login.contactNum;
             newResgister.login.email = r.login.email;
-            newResgister.packageChosen = r.packageChosen;
-            newResgister.totalCost = r.package.price;
+            newResgister.packageChosen = packageList[packageIndex].packageType;
+            newResgister.totalCost = packageList[packageIndex].price;
             newResgister.bookingStatus = "PAYMENT PENDING";
             newResgister.guestAmount = r.guestAmount;
             newResgister.specialRequest = r.specialRequest;
@@ -2098,43 +2257,251 @@ void custRegis(string name , int userIndex)
     }
 }
 
-void addReceiptDetails(string receiptType, int index)
+void addReceiptDetails(string receiptType, int index , int customIndex)
 {
-    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
-    vector<vector<string>> registerRecord;
-    vector<string> headers = {"RECEIPT ID","USERNAME","STATUS","CUSTOMIZE"};
+    Receipt newReceipt;
 
-    double totalAmtDouble = stod(registeredList[index].totalCost);
-    double taxAmount = calculateTax(totalAmtDouble,registeredList[index].TAX);
-    double totalAmt = totalAmtDouble + taxAmount;
-    stringstream ssTotal,ssTax;
-    ssTotal << fixed << setprecision(2) << totalAmt;
-    ssTax << fixed << setprecision(2) << taxAmount;
-    string taxAmountString = ssTax.str();
-    string totalAmtString = ssTotal.str();
+    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+    vector<CustomList<string>> customList = getVectorList <CustomList<string>>("customList.txt");
+    vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<vector<string>> registerRecord;
+
+    double amtBeforeTax, taxAmt, amtAfterTax, totalGeneralAddOn, depositAmt;
+
+    int packageIndex;
+
+    calculateAmount(amtBeforeTax, taxAmt, amtAfterTax,index,customIndex,totalGeneralAddOn, depositAmt);
+
+    for(int i = 0; i < packageList.size() ; i++)
+    {
+        if(registeredList[index].packageChosen == packageList[i].packageType)
+        {
+            packageIndex = i;
+        }
+    }
+
+    string issueDates = getIssueDate();
+    stringstream ssTotal,ssTax,ssFinal,ssGeneral,ssDeposit;
+    ssTotal << fixed << setprecision(2) << amtBeforeTax;
+    ssTax << fixed << setprecision(2) << taxAmt;
+    ssFinal << fixed << setprecision(2) << amtAfterTax;
+    ssGeneral << fixed << setprecision(2) << totalGeneralAddOn;
+    ssDeposit << fixed << setprecision(2) << depositAmt;
+    string amtBeforeTaxString = ssTotal.str();
+    string taxAmtString = ssTax.str();
+    string amtAfterTaxString = ssFinal.str();
+    string totalGeneralAddOnString = ssGeneral.str();
+    string depositAmtString = ssDeposit.str();
+    string receiptId = generateSerialNo("IN", receiptList, [](const Receipt& r) {return r.receiptID;});
+
+    int oriGuest = stoi(registeredList[index].guestAmount);
+    int extraGuest = stoi(customList[customIndex].customPackage.extraGuestAmt);
+    int totalGuest = oriGuest + extraGuest;
+    string totalGuestString = to_string(totalGuest);
+
+    if(!receiptUsernameExist(receiptList , receiptList[index].registers.login.username))
+    {
+        newReceipt.receiptID = receiptId;
+        newReceipt.registers.login.nickname = registeredList[index].login.username;
+        newReceipt.paymentStatus = registeredList[index].bookingStatus;
+        newReceipt.issueDate = issueDates;
+        newReceipt.amtBeforeTax = amtBeforeTaxString;
+        newReceipt.taxAmt = taxAmtString;
+        newReceipt.amtAfterTax = amtAfterTaxString;
+        newReceipt.registers.eventDate = registeredList[index].eventDate;
+        newReceipt.registers.startTime = registeredList[index].startTime;
+        newReceipt.registers.endTime = registeredList[index].endTime;
+        newReceipt.registers.birthdayName = registeredList[index].birthdayName;
+        newReceipt.registers.login.contactNum = registeredList[index].login.contactNum;
+        newReceipt.registers.login.email = registeredList[index].login.email;
+        newReceipt.registers.packageChosen = registeredList[index].packageChosen; 
+        newReceipt.package.venue = packageList[packageIndex].venue;
+        newReceipt.package.catering = packageList[packageIndex].catering;
+        newReceipt.package.decoration = packageList[packageIndex].decoration;
+        newReceipt.package.entertaintment = packageList[packageIndex].entertaintment;
+        newReceipt.package.partyGift = packageList[packageIndex].partyGift;
+        newReceipt.registers.totalCost = registeredList[index].totalCost; 
+        newReceipt.registers.guestAmount = registeredList[index].guestAmount;    
+        newReceipt.registers.specialRequest = registeredList[index].specialRequest;  
+        newReceipt.registers.customStatus = registeredList[index].customStatus;
+        newReceipt.custom.item1 = customList[customIndex].item1;  
+        newReceipt.custom.item1Price = customList[customIndex].item1Price;  
+        newReceipt.custom.item1Status = customList[customIndex].item1Status;  
+        newReceipt.custom.item2 = customList[customIndex].item2;  
+        newReceipt.custom.item2Price = customList[customIndex].item2Price;  
+        newReceipt.custom.item2Status = customList[customIndex].item2Status;  
+        newReceipt.custom.item3 = customList[customIndex].item3;  
+        newReceipt.custom.item3Price = customList[customIndex].item3Price;  
+        newReceipt.custom.item3Status = customList[customIndex].item3Status;  
+        newReceipt.custom.item4 = customList[customIndex].item4;  
+        newReceipt.custom.item4Price = customList[customIndex].item4Price;  
+        newReceipt.custom.item4Status = customList[customIndex].item4Status;  
+        newReceipt.totalGeneralAddOn = totalGeneralAddOnString;
+        newReceipt.custom.customPackage.extraGuestAmt = customList[customIndex].customPackage.extraGuestAmt;  
+        newReceipt.totalGuestAmt = totalGuestString;
+        newReceipt.custom.customPackage.extraGuestAmtPrice = customList[customIndex].customPackage.extraGuestAmtPrice;  
+        newReceipt.custom.customPackage.extraGuestAmtStatus = customList[customIndex].customPackage.extraGuestAmtStatus;  
+        newReceipt.custom.themes.themeDescription = customList[customIndex].themes.themeDescription;
+        newReceipt.custom.themes.themePrice = customList[customIndex].themes.themePrice;
+        newReceipt.custom.themes.themeStatus = customList[customIndex].themes.themeStatus;
+        newReceipt.depositAmt = depositAmtString;
+        newReceipt.paymentType = "";
+        receiptList.push_back(newReceipt);
+        saveVectorList(receiptList,"receipt.txt");
+    }
+    else 
+    {
+        receiptList[index].registers.login.nickname = registeredList[index].login.username;
+        receiptList[index].paymentStatus = registeredList[index].bookingStatus;
+        receiptList[index].amtAfterTax = receiptList[index].amtAfterTax;
+        receiptList[index].registers.eventDate = registeredList[index].eventDate;
+        receiptList[index].registers.startTime = registeredList[index].startTime;
+        receiptList[index].registers.endTime = registeredList[index].endTime;
+        receiptList[index].registers.birthdayName = registeredList[index].birthdayName;
+        receiptList[index].registers.login.contactNum = registeredList[index].login.contactNum;
+        receiptList[index].registers.login.email = registeredList[index].login.email;
+        receiptList[index].registers.packageChosen = registeredList[index].packageChosen; 
+        receiptList[index].package.venue = packageList[packageIndex].venue;
+        receiptList[index].package.catering = packageList[packageIndex].catering;
+        receiptList[index].package.decoration = packageList[packageIndex].decoration;
+        receiptList[index].package.entertaintment = packageList[packageIndex].entertaintment;
+        receiptList[index].package.partyGift = packageList[packageIndex].partyGift;
+        receiptList[index].registers.totalCost = registeredList[index].totalCost; 
+        receiptList[index].registers.guestAmount = registeredList[index].guestAmount;    
+        receiptList[index].registers.specialRequest = registeredList[index].specialRequest;  
+        receiptList[index].registers.customStatus = registeredList[index].customStatus;
+        receiptList[index].custom.item1 = customList[customIndex].item1;  
+        receiptList[index].custom.item1Price = customList[customIndex].item1Price;  
+        receiptList[index].custom.item1Status = customList[customIndex].item1Status;  
+        receiptList[index].custom.item2 = customList[customIndex].item2;  
+        receiptList[index].custom.item2Price = customList[customIndex].item2Price;  
+        receiptList[index].custom.item2Status = customList[customIndex].item2Status;  
+        receiptList[index].custom.item3 = customList[customIndex].item3;  
+        receiptList[index].custom.item3Price = customList[customIndex].item3Price;  
+        receiptList[index].custom.item3Status = customList[customIndex].item3Status;  
+        receiptList[index].custom.item4 = customList[customIndex].item4;  
+        receiptList[index].custom.item4Price = customList[customIndex].item4Price;  
+        receiptList[index].custom.item4Status = customList[customIndex].item4Status;  
+        receiptList[index].totalGeneralAddOn = totalGeneralAddOnString;
+        receiptList[index].custom.customPackage.extraGuestAmt = customList[customIndex].customPackage.extraGuestAmt;  
+        receiptList[index].totalGuestAmt = totalGuestString;
+        receiptList[index].custom.customPackage.extraGuestAmtPrice = customList[customIndex].customPackage.extraGuestAmtPrice;  
+        receiptList[index].custom.customPackage.extraGuestAmtStatus = customList[customIndex].customPackage.extraGuestAmtStatus;  
+        receiptList[index].custom.themes.themeDescription = customList[customIndex].themes.themeDescription;
+        receiptList[index].custom.themes.themePrice = customList[customIndex].themes.themePrice;
+        receiptList[index].custom.themes.themeStatus = customList[customIndex].themes.themeStatus;
+        receiptList[index].depositAmt = depositAmtString;
+        receiptList[index].paymentType = receiptList[index].paymentType;
+        saveVectorList(receiptList,"receipt.txt");
+    }
 
     registerRecord = {
-                        {"BOOKING ID",registeredList[index].serialNum},
-                        {"USERNAME",registeredList[index].login.username},
-                        {"EVENT DATE",registeredList[index].eventDate},
-                        {"EVENT TIME",registeredList[index].time},
-                        {"BIRTHDAY THEME NAME",registeredList[index].birthdayName},
-                        {"CONTACT NUMBER",registeredList[index].login.contactNum},
-                        {"EMAIL",registeredList[index].login.email},
-                        {"PACKAGE CHOSEN",registeredList[index].packageChosen},
-                        {"AMOUNT BEFORE TAX",registeredList[index].totalCost},
-                        {"TAX 6 PERCENT",taxAmountString},
-                        {"TOTAL BILL",totalAmtString}
+                        {"RECEIPT ID",receiptList[index].receiptID,"",""},
+                        {"ISSUE DATE",receiptList[index].issueDate,"",""},
+                        {"PAYMENT STATUS",receiptList[index].paymentStatus,"",""},
+                        {"CUSTOMER NAME",receiptList[index].registers.login.nickname,"",""},
+                        {"EVENT DATE",receiptList[index].registers.eventDate,"",""},
+                        {"EVENT START TIME",receiptList[index].registers.startTime,"",""},
+                        {"EVENT END TIME",receiptList[index].registers.endTime,"",""},
+                        {"PACKAGE CHOSEN",receiptList[index].registers.packageChosen,"",""},
+                        {"VENUE",receiptList[index].package.venue,"",""},
+                        {"CATERING",receiptList[index].package.catering,"",""},
+                        {"DECORATION",receiptList[index].package.decoration,"",""},
+                        {"ENTERTAINMENT",receiptList[index].package.entertaintment,"",""},
+                        {"PARTY GIFT",receiptList[index].package.partyGift,"",""},
+                        {"GUEST AMOUNT",receiptList[index].registers.guestAmount,"",""},
+                        {"PRICE (RM)",receiptList[index].registers.totalCost,"",""},
+                        {"SPECIAL REQUEST",receiptList[index].registers.specialRequest,"",""},
+                        {"CUSTOM STATUS",receiptList[index].registers.customStatus,"",""},
+                        {"GENERAL ADD ON","","",""},
+                        {"ITEM","AMOUNT","ITEM'S STATUS","PRICE"},
+                        {receiptList[index].custom.item1,"-",receiptList[index].custom.item1Status,receiptList[index].custom.item1Price},
+                        {receiptList[index].custom.item2,"-",receiptList[index].custom.item2Status,receiptList[index].custom.item2Price},
+                        {receiptList[index].custom.item3,"-",receiptList[index].custom.item3Status,receiptList[index].custom.item3Price},
+                        {receiptList[index].custom.item4,"-",receiptList[index].custom.item4Status,receiptList[index].custom.item4Price},
+                        {"PRICE (RM)",receiptList[index].totalGeneralAddOn,"",""},
+                        {"EXTRA GUEST","","",""},
+                        {"AMOUNT","STATUS","PRICE",""},
+                        {receiptList[index].custom.customPackage.extraGuestAmt,receiptList[index].custom.customPackage.extraGuestAmtStatus,receiptList[index].custom.customPackage.extraGuestAmtPrice,""},
+                        {"TOTAL GUEST",receiptList[index].totalGuestAmt,"",""},
+                        {"PRICE (RM)",receiptList[index].custom.customPackage.extraGuestAmtPrice,"",""},
+                        {"CUSTOMIZE THEME","","",""},
+                        {"ITEM","STATUS","PRICE",""},
+                        {receiptList[index].custom.themes.themeDescription,receiptList[index].custom.themes.themeStatus,receiptList[index].custom.themes.themePrice,""},
+                        {"PRICE (RM)",receiptList[index].custom.themes.themePrice,"",""},
+                        {"SUBTOTAL (RM)",receiptList[index].amtBeforeTax,"",""},
+                        {"AMOUNT BEFORE TAX (RM)",receiptList[index].amtBeforeTax,"",""},
+                        {"TAX (6 PERCENT) (RM)",receiptList[index].taxAmt,"",""},
+                        {"TOTAL BILL (AFTER TAX) (RM)",receiptList[index].amtAfterTax,"",""},
+                        {"DEPOSIT AMOUNT (20 PERCENT OF TOTAL BILL) (RM)",receiptList[index].depositAmt,"",""},
+                        {"PAYMENT TYPE",receiptList[index].paymentType,"",""},
+                        //deposit
+                        {"AMOUNT NEED TO PAY (RM)",receiptList[index].depositAmt,"",""},
+                        //full payment
+                        {"AMOUNT NEED TO PAY (RM)",receiptList[index].amtAfterTax,"",""},
+                        //deduct dposit
+                        {"(-) DEPOSIT AMOUNT (RM)",receiptList[index].depositAmt,"",""},
+                        {"ORIGINAL AMOUNT (RM)",amtAfterTaxString,"",""}
                     };
 
-    printBookingDetails(registerRecord,registeredList[index].customStatus,index,"");
+
+    printReceipt(registerRecord,index,receiptType);
+}
+
+void cancelAlert(string name, int registerIndex)
+{
+    bool status = true;
+    string ans;
+
+    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+    vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
+    vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+
+    cout << "* * * * * * * * * * * * WARNING * * * * * * * * * * * *" << endl;
+    cout << "*                                                     *" << endl;
+    cout << "*  ARE YOU SURE YOU WANT TO CANCEL YOUR BOOKING ????  *" << endl;
+    cout << "*        YOU WILL LOST YOU DEPOSIT MONEY !!!          *" << endl;
+    cout << "*                                                     *" << endl;
+    cout << "* * * * * * * * * * * * WARNING * * * * * * * * * * * *\n" << endl;
+
+    while(status)
+    {
+        cout << "ARE UYOU SURE YOU WANT TO CANCEL YOU BOOKING ? <y/n>" ;
+        getline(cin,ans);
+
+        if(ans == "N" || ans == "n")
+        {
+            custMainPage(name);
+            cout << "CANCEL BOOKING UNSUCCESSFUL......"<< endl;
+            pressAny();
+            status = false;
+        }
+        else if(ans == "Y" || ans == "y")
+        {
+            cout << "registeredList size: " << registeredList.size() << endl;
+cout << "receiptList size: " << receiptList.size() << endl;
+
+            cout << "YOU HAVE CANCELED SUCCESSFULLY....."<<endl;
+            cout << "YOU HAVE CANCELED YOUR <" << registeredList[registerIndex].serialNum << "> BOOKING AND LOST YOUR RM" << receiptList[registerIndex].depositAmt << " :)"<<endl;
+            pressAny();
+            registeredList.erase(registeredList.begin()+registerIndex);
+            receiptList.erase(receiptList.begin()+registerIndex);
+            saveVectorList(registeredList,"registration.txt");
+            saveVectorList(receiptList,"receipt.txt");
+            custMainPage(name);
+            status = false;
+        }
+        status = false;
+    }
 }
 
 //Customer view booking function
 void custViewBooking(string name)
 {
-    bool status = true;
-    string ans;
+    bool status = true,innerStatus = true;
+    int registerIndex, customIndex;
+    string ans,payOrCancel;
 
     system("clear");
 
@@ -2144,6 +2511,7 @@ void custViewBooking(string name)
     vector<vector<string>> registerRecord;
     vector<string> headers = {"RECEIPT ID","USERNAME","STATUS","CUSTOMIZE"};
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+    vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
 
     m.menuTitle = "VIEW BOOKING SECTION";
     m.menuTitleTemplate();
@@ -2175,6 +2543,13 @@ void custViewBooking(string name)
         );
     }
 
+    if(registeredList.size() == 0)
+    {
+        cout << "\nYOU HAVEN\'T MAKE ANY BOOKING YET :)\n";
+        pressAny();
+        custMainPage(name);
+    }
+
     printRecords(bookingRecords);
     cout << "THESE ARE THE CURRENT BOOKINGS YOU HAVE MADE :)\n"<<endl;
 
@@ -2183,7 +2558,10 @@ void custViewBooking(string name)
         cout << "PLEASE CHOOSE ANY BOOKING TO VIEW THE DETAILS <enter RECEIPT ID> <0 to exit> : ";
         getline(cin , ans);
 
-        int index = getIndex<Registration<string>>(registeredList, ans , [](Registration<string>r){return r.serialNum;});
+        registerIndex = getIndex<Registration<string>>(registeredList, ans , [](Registration<string>r){return r.serialNum;});
+        customIndex = getIndex<CustomList<string>>(customList, ans , [](CustomList<string> c ){return c.registers.serialNum;});
+
+        cout << "INDEX : " << registerIndex << endl;
 
         string compareAns = ans;
         transform(compareAns.begin(),compareAns.end(),compareAns.begin(),::toupper);
@@ -2194,17 +2572,46 @@ void custViewBooking(string name)
             status = false;
         }
 
-        if(compareAns == registeredList[index].serialNum)
+        if(compareAns == registeredList[registerIndex].serialNum)
         {
-            if(registeredList[index].bookingStatus == "PAYMENT PENDING")
+            addReceiptDetails("RECEIPT",registerIndex,customIndex);
+            if(registeredList[registerIndex].bookingStatus == "PAYMENT PENDING")
             {
-                addReceiptDetails("RECEIPT",index);
-               
+                custPayment("RECEIPT",registerIndex,customIndex,name);
                 status = false;
             }
-            else if(registeredList[index].bookingStatus == "PAYMENT DONE")
+            else if(registeredList[registerIndex].bookingStatus == "DEPOSIT DONE")
             {
-                addReceiptDetails("INVOICE",index);
+                while(innerStatus)
+                {
+                    cout << "DO YOU WANT TO PAY THE FULL PAYMENT OR CANCEL THE BOOKING ? <p = PAY> <c = CANCEL> : ";
+                    getline(cin,payOrCancel);
+
+                    if(payOrCancel == "p" || payOrCancel == "P")
+                    {
+                        innerStatus = false;
+                    }
+                    else if(payOrCancel == "C" || payOrCancel == "c")
+                    {
+                        cancelAlert(name,registerIndex);
+                        innerStatus = false;
+                    }
+                    else
+                    {
+                        cout << "PLEASE ENTER A VALID OPTION :)\n"<<endl;
+                        continue;
+                    }
+                    innerStatus = false;
+                }
+                
+                custPayment("INVOICE",registerIndex,customIndex,name);
+                status = false;
+            }
+            else if(registeredList[registerIndex].bookingStatus == "PAYMENT DONE")
+            {
+                cout << "\nTHANKS FOR TRUSTING US :)\n";
+                pressAny();
+                custMainPage(name);
                 status = false;
             }
         }
@@ -2851,6 +3258,7 @@ void custCustomParty(string name , int userIndex)
 
     bool status = true;
     string ans;
+    int registerIndex;
 
     MenuTemplate <string> m;
 
@@ -2886,6 +3294,13 @@ void custCustomParty(string name , int userIndex)
         );
     }
 
+    if(registeredList.size() == 0)
+    {
+        cout << "\nYOU HAVEN\'T MAKE ANY BOOKING YET :)\n";
+        pressAny();
+        custMainPage(name);
+    }
+
     printRecords(bookingRecords);
 
     string receiptId;
@@ -2896,27 +3311,38 @@ void custCustomParty(string name , int userIndex)
         cout << "PLEASE CHOOSE ANY RECORD TO CUSTOMIZE <enter receipt id> <0 to exit> :";
         getline(cin,receiptId);
 
+        receiptIdUpper = receiptId;
+        transform(receiptIdUpper.begin(),receiptIdUpper.end(),receiptIdUpper.begin(),::toupper);
+
+        registerIndex = getIndex<Registration<string>>(registeredList, receiptIdUpper , [](Registration<string>r){return r.serialNum;});
+
         if(receiptId == "0")
         {
             custMainPage(name);
             status = false;
         }
-        bool found = false;
-        receiptIdUpper = receiptId;
-        transform(receiptIdUpper.begin(),receiptIdUpper.end(),receiptIdUpper.begin(),::toupper);
-        for(int i = 0 ; i < registeredList.size();i++)
+
+        if(registeredList[registerIndex].bookingStatus == "DEPOSIT DONE")
         {
-            if(registeredList[i].login.username == name&&registeredList[i].serialNum == receiptIdUpper)
-            {
-                found = true;
-            }
+            cout << "YOU HAVE PAYED THE DEPOSIT,WHICH MEANS YOU CAN\'T CUSTOMIZE YOUR BDAY PARTY ALREADY :)\n"<<endl;
+            continue;
         }
-        if(!found)
+        else if(registeredList[registerIndex].bookingStatus == "PAYMENT DONE")
+        {
+            cout << "YOU HAVE MAKE THE FULL PAYMENT,WHICH MEANS YOU CAN\'T CUSTOMIZE YOUR BDAY PARTY ALREADY :)\n"<<endl;
+            continue;
+        }
+
+        if(receiptIdUpper == registeredList[registerIndex].serialNum)
+        {
+            custCustomPartyOption(name,userIndex,receiptId);
+            status = false;
+        }
+        else
         {
             cout << "PLEASE ENTER A VALID RECIPT ID TO PROCEED :)\n"<<endl;
             continue;
         }
-        custCustomPartyOption(name,userIndex,receiptId);
         status = false;
     }
 }
@@ -2928,22 +3354,142 @@ void custViewProfile()
 }
 
 //Customer make payment function
-void custPayment()
+void custPayment(string receiptType,int registerIndex, int customIndex,string name)
 {
     system("clear");
 
     bool status = true;
+    string payType;
+    double newAmount,totalBill,deposit;
+
+    vector<Registration<string>> registerList = getVectorList <Registration<string>>("registration.txt");
+    vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
+    vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+
+    totalBill = stod(receiptList[registerIndex].amtAfterTax);
+    deposit = stod(receiptList[registerIndex].depositAmt);
+    newAmount = totalBill - deposit;
+
+    stringstream ssTotal;
+    ssTotal << fixed << setprecision(2) << newAmount;
+
+    string newTotalString = ssTotal.str();
 
     MenuTemplate <string> m;
     m.menuTitle = "PAYMENT SECTION";
     m.menuTitleTemplate();
 
-    // addReceiptDetails("RECEIPT",index);
+    addReceiptDetails(receiptType,registerIndex,customIndex);
 
-    // printBookingDetails();
+    cout << "\n";
+    m.menuOptions.clear();
+    cout << setfill(' ');
+    m.menuTitle = "SELECT PAYMENT TYPE";
+    m.menuOptions.push_back("TOUCH N GO");
+    m.menuOptions.push_back("CREDIT CARD");
+    m.menuOptions.push_back("E-BANKING");
+
+    m.menuTemplate();
+
+    cout << "\n";
 
     while(status)
-    {
+    {   
+        if(receiptType == "RECEIPT")
+        {   
+            cout << "PLEASE PAY THE DEPOSIT AMOUNT TO BOOK THE BIRTHDAY EVENT :)\n"<< endl;
+        }
+        else if(receiptType == "INVOICE")
+        {
+            cout << "PLEASE MAKE FULL PAYMENT FOR THE BIRTHDAY EVENT :)\n"<< endl;
+        }
+
+        cout << "PLEASE SELECT ANY PAYMENT TYPE TO PROCEED THE PAYMENT <0 to exit> : ";
+        getline(cin,payType);
+
+        if(payType == "0")
+        {
+            custViewBooking(name);
+            status = false;
+        }
+
+        if(payType == "1")
+        {
+            receiptList[registerIndex].paymentType = "TOUCH N GO";
+            if(receiptType == "RECEIPT")
+            {   
+                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
+                registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
+                cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+                saveVectorList(receiptList,"receipt.txt");
+                saveVectorList(registerList,"registration.txt");
+            }
+            else if(receiptType == "INVOICE")
+            {
+                receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
+                registerList[registerIndex].bookingStatus = "PAYMENT DONE";
+                cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
+                saveVectorList(receiptList,"receipt.txt");
+                saveVectorList(registerList,"registration.txt");
+            }
+            pressAny();
+            custMainPage(name);
+            status = false;
+        }
+        else if(payType == "2")
+        {
+            receiptList[registerIndex].paymentType = "CREDIT CARD";
+            if(receiptType == "RECEIPT")
+            {   
+                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
+                registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
+                cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+            saveVectorList(receiptList,"receipt.txt");
+            saveVectorList(registerList,"registration.txt");
+            }
+            else if(receiptType == "INVOICE")
+            {
+                receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
+                registerList[registerIndex].bookingStatus = "PAYMENT DONE";
+                cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
+                saveVectorList(receiptList,"receipt.txt");
+                saveVectorList(registerList,"registration.txt");
+            }
+            pressAny();
+            custMainPage(name);
+            status = false;
+        }
+        else if(payType == "3")
+        {
+            receiptList[registerIndex].paymentType = "E-BANKING";
+            if(receiptType == "RECEIPT")
+            {   
+                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
+                registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
+                cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+            saveVectorList(receiptList,"receipt.txt");
+            saveVectorList(registerList,"registration.txt");
+            }
+            else if(receiptType == "INVOICE")
+            {
+                receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
+                registerList[registerIndex].bookingStatus = "PAYMENT DONE";
+                cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
+                saveVectorList(receiptList,"receipt.txt");
+                saveVectorList(registerList,"registration.txt");
+            }
+            pressAny();
+            custMainPage(name);
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n"<< endl;
+            continue;
+        }
         status = false;
     }
 }
