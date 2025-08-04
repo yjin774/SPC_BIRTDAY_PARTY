@@ -65,6 +65,17 @@ void tq()
     cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⠿⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀" << endl;
 }
 
+void profilePic()
+{
+    cout << "╔═══════════╗════════════════════════════════════════╗" << endl;
+    cout << "║    ###    ║                                        ║" << endl;
+    cout << "║   #####   ║                                        ║" << endl;
+    cout << "║    ###    ║              USER PROFILE              ║" << endl;
+    cout << "║  #######  ║                                        ║" << endl;
+    cout << "║ ######### ║                                        ║" << endl;
+    cout << "║ ######### ║                                        ║" << endl;
+    cout << "╠════════════════════════════════════════════════════╣" << endl;
+}
 
 template <typename T>
 struct MenuTemplate
@@ -81,16 +92,21 @@ struct MenuTemplate
 
     void menuTemplate()
     {
-        cout << "╔═════════════════════════════════════════╗" << endl;
-        cout << "║  " << left << setw(37)  << menuTitle << "  ║" << endl;
-        cout << "╠═════════════════════════════════════════╣" << endl;
+        cout << "╔════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left << setw(60)  << menuTitle << "  ║" << endl;
+        cout << "╠════════════════════════════════════════════════════════════════╣" << endl;
 
         for(int i = 0 ; i < menuOptions.size() ; i++)
         {
-            cout << "║  "<< left << setw(37)<< "{"+to_string(i+1)+"} "+menuOptions[i] << "  ║" << endl;
+            cout << "║  "<< left << setw(3) << to_string(i+1) << "║  "<<  setw(54)<< menuOptions[i] << "  ║" << endl;
+            if(i == menuOptions.size()-1)
+            {
+                continue;
+            }
+            cout << "╠════════════════════════════════════════════════════════════════╣" << endl;
         }
 
-        cout << "╚═════════════════════════════════════════╝" << endl;
+        cout << "╚════════════════════════════════════════════════════════════════╝" << endl;
     }
 
     void confirmDetails()
@@ -282,6 +298,7 @@ struct Registration
     T staffPartyItem;
     T orderStatus;
     T feedbackStatus;
+    T doneCount;
     double TAX = 0.06;
     LoginDetails login;
     Package<string> package;
@@ -293,7 +310,7 @@ struct Registration
         login.email + "," + packageChosen + "," + totalCost
         + "," + bookingStatus + "," + guestAmount + "," + specialRequest + "," +
         customStatus + "," + setupStatus + "," + staffCateringStatus + "," + staffDecorationStatus + "," +
-        staffEntertainmentStatus + "," + staffPartyItem + "," + orderStatus + "," + feedbackStatus;  
+        staffEntertainmentStatus + "," + staffPartyItem + "," + orderStatus + "," + feedbackStatus + "," + doneCount;  
     }
 
     Registration(string line = "") 
@@ -321,7 +338,8 @@ struct Registration
             getline(ss, staffEntertainmentStatus, ',');
             getline(ss, staffPartyItem, ',');
             getline(ss, orderStatus, ',');
-            getline(ss, feedbackStatus);
+            getline(ss, feedbackStatus, ',');
+            getline(ss, doneCount);
         }   
     }
 };
@@ -557,6 +575,51 @@ string getIssueDate() {
     ss << put_time(local_tm, "%Y-%m-%d %H:%M:%S");
 
     return ss.str(); 
+}
+
+void part1()
+{
+    cout << "       .                      " << endl;
+    cout << "               }       *     " << endl;
+    cout << "     .--.     {            )" << endl;
+    cout << "    /    \\     }          (" << endl;
+    cout << "    |#   |         +       " << endl;
+    cout << "    \\_ _.'   +         " << endl;
+    cout << "     (^   *       .        " << endl;
+    cout << "      )  _ _  ___  ___  ___" << endl;
+    cout << "     (  | | |/   \\|   \\|  " << endl;
+    cout << "      ) |   || - || -_/| -" << endl;
+    cout << "        |_|_||_|_||_|  |_| " << endl;
+}
+
+void part2()
+{
+    cout << "       .                      .    *+*+*   +             " << endl;
+    cout << "               }       *           |||||       .---.    " << endl;
+    cout << "     .--.     {            )     @@.@.@.@@    /     \\ " << endl;
+    cout << "    /    \\     }          (      |'='='='|    |#     " << endl;
+    cout << "    |#   |         +            @@.@.@.@.@@   '._ _,/ " << endl;
+    cout << "    \\_ _.'   +          *   )   |'='='='='|   " << endl;
+    cout << "     (^   *       .            @@.@.@.@.@.@@     )  " << endl;
+    cout << "      )  _ _  ___  ___  ___+__  __  ___  _  ___  " << endl;
+    cout << "     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||   " << endl;
+    cout << "      ) |   || - || -_/| -_/ \\  /  | _ <| || - / " << endl;
+    cout << "        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\ " << endl;
+}
+
+void part3()
+{
+    cout << "       .                      .    *+*+*   +             *       .---,     " << endl;
+    cout << "               }       *           |||||       .---.            /#    `\\   " << endl;
+    cout << "     .--.     {            )     @@.@.@.@@    /     \\  .        |      |   " << endl;
+    cout << "    /    \\     }          (      |'='='='|    |#     |          '.   _/    " << endl;
+    cout << "    |#   |         +            @@.@.@.@.@@   '._ _,/             `(^      " << endl;
+    cout << "    \\_ _.'   +          *   )   |'='='='='|     (^            +     )      " << endl;
+    cout << "     (^   *       .            @@.@.@.@.@.@@     )        *        (       " << endl;
+    cout << "      )  _ _  ___  ___  ___+__  __  ___  _  ___  ___+ _ _  ___  ___ __ *__ " << endl;
+    cout << "     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||   \\|   || | ||   \\/   \\\\ \\/ / " << endl;
+    cout << "      ) |   || - || -_/| -_/ \\  /  | _ <| || - / | | |   || | || - | \\  /  " << endl;
+    cout << "        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\ |_| |_|_||___/|_|_| /_/   " << endl;
 }
 
 void stars(int amt)
@@ -993,23 +1056,6 @@ void printReceipt(const vector<vector<string>>& registerRecord,int index,string 
         //total theme cost
         cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[27][0] << " : " << left << setw(10) << registerRecord[27][1] << "║" << endl;
         cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
-
-        // //subtotal
-        // cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[28][0] << " : " << left << setw(10) << registerRecord[28][1] << "║" << endl;
-        // cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
-
-
-        // //amount before tax
-        // cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[29][0] << left << setw(55) << registerRecord[29][1] << "║" << endl;
-        // cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
-
-        // //tax amount
-        // cout << "║  " << setfill(' ')<< left << setw(40)  << registerRecord[30][0] << " | " << left << setw(14)  << registerRecord[30][1] << " | " << left << setw(15)  << registerRecord[30][2] << "║" << endl;
-        // cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
-
-        // //total bill
-        // cout << "║  " << setfill(' ')<< left << setw(40)  << registerRecord[31][0] << " | " << left << setw(14)  << registerRecord[31][1] << " | " << left << setw(15)  << registerRecord[31][2] << "║" << endl;
-        // cout << "╠" << setfill('-') << setw(80) << right << "╣" << endl;
     }
     else
     {
@@ -1017,20 +1063,6 @@ void printReceipt(const vector<vector<string>>& registerRecord,int index,string 
         cout << "║  " << setfill(' ')<< left << setw(20)  << registerRecord[38][0] << " : " << left << setw(52) << registerRecord[38][1] << "║" << endl;
         cout << "╠" << setfill('=') << setw(80) << right << "╣" << endl;
     }
-// {"SUBTOTAL (RM)",receiptList[index].amtBeforeTax,"",""},//28
-//                         {"AMOUNT BEFORE TAX (RM)",receiptList[index].amtBeforeTax,"",""},//29
-//                         {"TAX (6 PERCENT) (RM)",receiptList[index].taxAmt,"",""},//30
-//                         {"TOTAL BILL (AFTER TAX) (RM)",receiptList[index].amtAfterTax,"",""},//31
-//                         {"DEPOSIT AMOUNT (20 PERCENT OF TOTAL BILL) (RM)",receiptList[index].depositAmt,"",""},//32
-//                         {"PAYMENT TYPE",receiptList[index].paymentType,"",""},//33
-//                         //deposit
-//                         {"AMOUNT NEED TO PAY (RM)",receiptList[index].depositAmt,"",""},//34
-//                         //full payment
-//                         {"AMOUNT NEED TO PAY (RM)",receiptList[index].amtAfterTax,"",""},//35
-//                         //deduct dposit
-//                         {"(-) DEPOSIT AMOUNT (RM)",receiptList[index].depositAmt,"",""},//36
-//                         {"ORIGINAL AMOUNT (RM)",amtAfterTaxString,"",""},//37
-//                         {"TOTAL GUEST AMOUNT",receiptList[index].totalGuestAmt,"",""}//38
         if(receiptType == "DEPOSIT")
         {
              //total bill with tax
@@ -1043,8 +1075,8 @@ void printReceipt(const vector<vector<string>>& registerRecord,int index,string 
 
         if(receiptType == "PAYMENT DONE")
         {
-
-            cout << "║  " << setfill(' ')<< right << setw(62)  << registerRecord[39][0] << " : " << left << setw(10) << registerRecord[39][1] << "║" << endl;
+            cout << "║  " << setfill(' ')<< right << setw(60)  << registerRecord[33][0] << " : " << left << setw(12) << registerRecord[33][1] << "║" << endl;
+            cout << "║  " << setfill(' ')<< right << setw(60)  << registerRecord[39][0] << " : " << left << setw(12) << registerRecord[39][1] << "║" << endl;
         }
        
        //deposit
@@ -1074,57 +1106,111 @@ void printReceipt(const vector<vector<string>>& registerRecord,int index,string 
     cout << setfill(' ');
 }
 
-void outputPackage(const vector<vector<string>>& packageList,int index)
-{
-    cout << "╔════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "║                                PACKAGE LIST                                ║" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
-    for (int i =0; i < packageList.size()-1; i++)
-    {
-        if(packageList[i][0] == "TIME DURATION")
-        {
-            cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(56) << packageList[i][1]+" HOURS" << "║" << endl;
-            cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
-            continue;
-        }
-        cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(56) << packageList[i][1] << "║" << endl;
-        cout << "╠════════════════════════════════════════════════════════════════════════════╣" << endl;
-    }
-        cout << "║  "<< left << setw(15) << packageList[packageList.size()-1][0]<<"║  RM" << left << setw(54) << packageList[packageList.size()-1][1] << "║" << endl;
-        cout << "╚════════════════════════════════════════════════════════════════════════════╝" << endl;
-}
-
-void outputConfirm(const vector<vector<string>>& confirmList)
+void outputPackage(const vector<vector<string>>& packageList,int index,string prefix)
 {
     cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "║                              BOOKING CONFIRMATION                              ║" << endl;
+    cout << "║                                PACKAGE LIST                                    ║" << endl;
+    cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+
+    if(prefix == "GENERAL")
+    {
+        for (int i =0; i < packageList.size()-1; i++)
+        {
+            if(packageList[i][0] == "TIME DURATION")
+            {
+                cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(60) << packageList[i][1]+" HOURS" << "║" << endl;
+                cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+                continue;
+            }
+            cout << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(60) << packageList[i][1] << "║" << endl;
+            cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        }
+            cout << "║  "<< left << setw(15) << packageList[packageList.size()-1][0]<<"║  RM" << left << setw(58) << packageList[packageList.size()-1][1] << "║" << endl;
+    }
+    else if(prefix == "EDIT")
+    {
+        for (int i =0; i < packageList.size()-1; i++)
+        {
+            if(packageList[i][0] == "TIME DURATION")
+            {
+                cout << "║  "<< left << setw(3) << to_string(i+1) << "║  "<< left << setw(15) << packageList[i][0]<<"║  " << left << setw(54) << packageList[i][1]+" HOURS" << "║" << endl;
+                cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+                continue;
+            }
+            cout << "║  "<< left << setw(3) << to_string(i+1) << "║  " << left << setw(15) << packageList[i][0]<<"║  " << left << setw(54) << packageList[i][1] << "║" << endl;
+            cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        }
+            cout << "║  "<< left << setw(3) << to_string(packageList.size()) << "║  "<< left << setw(15) << packageList[packageList.size()-1][0]<<"║  RM" << left << setw(52) << packageList[packageList.size()-1][1] << "║" << endl;
+    }
+        cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
+}
+
+void outputConfirm(const vector<vector<string>>& confirmList,string prefix)
+{
+    cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║  " << left << setw(78) << prefix << "║" << endl;
     cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
     for (int i =0; i < confirmList.size(); i++)
     {
         cout << "║  "<< left << setw(19) << confirmList[i][0]<<"║  " << left << setw(56) << confirmList[i][1] << "║" << endl;
+        if(i == confirmList.size()-1)
+        {
+            continue;
+        }
         cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
     }
         cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
-void outputCustomMenu()
+void outputList(const vector<vector<string>>& list,string title)
+{
+    cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║  " << left << setw(78) << title + " SECTION" << "║" << endl;
+    cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    for (int i =0; i < list.size(); i++)
+    {
+        cout << "║  "<< left << setw(3) << to_string(i+1) << "║  "<< left << setw(19) << list[i][0]<<"║  " << left << setw(50) << list[i][1] << "║" << endl;
+        if(i == list.size()-1)
+        {
+            continue;
+        }
+        cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    }
+        cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
+}
+
+void outputCustomMenu(string prefix,int specificIndex)
 {
     vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
 
-    cout << "╔════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
-    cout << "║  ITEM                ║  PRICE                ║  ITEM STATUS        ║" << endl;
-    cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
-    for (int i =0; i < customPackage.size(); i++)
+    cout << "╔═══════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    cout << "║  ITEM                               ║  PRICE                ║  ITEM STATUS        ║" << endl;
+    cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    
+    if(prefix == "GENERAL")
     {
-        cout << "║  " << left << setw(3) << to_string(i+1) << "║  " << left << setw(14) << 
-        customPackage[i].item<<"║  RM" << left << setw(19) << customPackage[i].itemPrice << "║  " << left << setw(19) << customPackage[i].itemStatus << "║" << endl;
-        cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
+    for (int i =0; i < customPackage.size(); i++)
+        {
+            cout << "║  " << left << setw(3) << to_string(i+1) << "║  " << left << setw(29) << 
+            customPackage[i].item<<"║  RM" << left << setw(19) << customPackage[i].itemPrice << "║  " << left << setw(19) << customPackage[i].itemStatus << "║" << endl;
+            if(i == customPackage.size()-1)
+            {
+                continue;
+            }
+
+            cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
+        }
     }
-        cout << "╚════════════════════════════════════════════════════════════════════╝" << endl;
+    else if(prefix == "SPECIFIC")
+    {
+            cout << "║  " << left << setw(35) << customPackage[specificIndex].item<<"║  RM" << left << setw(19) << 
+            customPackage[specificIndex].itemPrice << "║  " << left << setw(19) << customPackage[specificIndex].itemStatus << "║" << endl;
+    }
+        cout << "╚═══════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
-void outputTheme()
+void outputTheme(string prefix,int specificIndex)
 {
     vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
 
@@ -1132,12 +1218,21 @@ void outputTheme()
     cout << "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  ITEM                                                              ║  PRICE          ║  ITEM STATUS       ║" << endl;
     cout << "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
-    for (int i =0; i < themeList.size(); i++)
+    
+    if(prefix == "GENERAL")
     {
-        cout << "║  " << left << setw(3) << to_string(i+1) << "║  " << left << setw(60) << 
-        themeList[i].themeDescription<<"║  RM" << left << setw(13) << themeList[i].themePrice << "║  " << left << setw(18) << themeList[i].themeStatus << "║"<<  endl;
-        cout << "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
+    for (int i =0; i < themeList.size(); i++)
+        {
+            cout << "║  " << left << setw(3) << to_string(i+1) << "║  " << left << setw(60) << 
+            themeList[i].themeDescription<<"║  RM" << left << setw(13) << themeList[i].themePrice << "║  " << left << setw(18) << themeList[i].themeStatus << "║"<<  endl;
+            cout << "╠═══════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
 
+        }
+    }
+    else if(prefix == "SPECIFIC")
+    {
+        cout << "║  " << left << setw(66) << themeList[specificIndex].themeDescription<<"║  RM" << left << setw(13) << themeList[specificIndex].themePrice << "║  " << left << setw(18) << 
+        themeList[specificIndex].themeStatus << "║"<<  endl;
     }
     cout << "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
@@ -1173,9 +1268,7 @@ void outputCustomCart(string receiptID)
 
 void outputProfile(const vector<vector<string>>& profileList,int index)
 {
-    cout << "╔" << setfill('=') << setw(55) << right << "╗" << endl;
-    cout << "║  " << setfill(' ')<< left << setw(50)  << "USER PROFILE" << "║" << endl;
-    cout << "╠" << setfill('=') << setw(55) << right << "╣" << endl;
+    profilePic();
 
     for(int i = 0;i<profileList.size()-1;i++)
     {
@@ -1210,6 +1303,11 @@ void outputFeedBackList(const vector<vector<string>>& list)
             cout << "║  " << left << setw(20)<< list[i][0] << "║  " << left << setw(25) << list[i][1] << "║  ";
             stars(starRate);
             cout << "║" <<endl;
+
+            if(i == list.size()-1)
+            {
+                continue;
+            }
             cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
         }
         cout << "╚════════════════════════════════════════════════════════════════════╝" << endl;
@@ -1308,6 +1406,58 @@ void outputOperations(const vector<vector<string>>& list,string prefix)
 
         cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
     }
+    else if(prefix == "MONITOR EVENT")
+    {
+        cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left << setw(20)  << "CATEGORY"  << "  ║  " << left << setw(17)  << "OPERATIONS                    " << "║  " << left << setw(20)  << "STATUS" <<  "║" << endl;
+        cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+
+        for(int i  = 0 ; i < list.size() ; i++)
+        {
+            cout << "║ " << left << setw(4) << to_string(i+1) <<"║  " << left << setw(16)  << list[i][0]  << "║  " << left << setw(30)  << list[i][1] << "║  " << left << setw(20)  << list[i][2] <<  "║" << endl;
+            if(i == list.size()-1)
+            {
+                continue;
+            }
+            cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        }
+
+        cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
+    }
+}
+
+void outputSetupDetails(const vector<vector<string>>& list, string prefix)
+{
+    cout << "╔════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║  " << left << setw(20)  << "CATEGORY"  << "  ║  " << left << setw(53)  << "STATUS" << "║" << endl;
+    cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+
+    if(prefix == "VIEW")
+    {
+        for(int i  = 0 ; i < list.size() ; i++)
+        {
+            cout << "║  " << left << setw(22) << list[i][0] << "║  " << left << setw(53) << list[i][1] << "║" <<endl;
+            if(i == list.size()-1)
+            {
+                continue;
+            }
+            cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        }
+    }
+    else if(prefix == "MANAGE")
+    {
+        for(int i  = 0 ; i < list.size() ; i++)
+        {
+            cout << "║  " << left << setw(3) << to_string(i+1) << "║  " <<  left << setw(16) << list[i][0] << "║  " << left << setw(53) << list[i][1] << "║" <<endl;
+            if(i == list.size()-1)
+            {
+                continue;
+            }
+            cout << "╠════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        }
+    }
+
+    cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
 // Print records in groups of 3 mini-tables per row
@@ -1484,6 +1634,10 @@ void staffViewFeedBack(string name, int staffIndex);
 void staffCreateCampaign(string name, int staffIndex);
 void staffManageOperation(string name, int staffIndex);
 void manageOperation(string name, int staffIndex, string prefix);
+void manageEvent(string name,int staffIndex, int registerIndex);
+void manageItemOptions(string name,int staffIndex,string prefix);
+void editItem(string name,int staffIndex,string prefix);
+void editOptions(string name,int staffIndex,string prefix,int index);
 
 
 //MAIN FUNCTION 
@@ -2359,7 +2513,7 @@ void addPackageList(int packageIndex)
         {"PRICE",packageList[packageIndex].price}
     };
 
-    outputPackage(packageRecord,packageIndex);
+    outputPackage(packageRecord,packageIndex,"GENERAL");
 }
 
 string addHoursToTime(const string& timeStr, int addHours) {
@@ -2688,7 +2842,7 @@ void custRegis(string name , int userIndex)
         {"SPECIAL REQUEST",r.specialRequest}
     };
  
-    outputConfirm(confirmRecord);
+    outputConfirm(confirmRecord,"BOOKING CONFIRMATION");
 
     status = true;
     string confirmation;
@@ -2722,6 +2876,7 @@ void custRegis(string name , int userIndex)
             newResgister.staffPartyItem = "PARTY ITEM PENDING";
             newResgister.orderStatus = "FALSE";
             newResgister.feedbackStatus = "FALSE";
+            newResgister.doneCount = "0";
             registerList.push_back(newResgister);
             saveVectorList(registerList,"registration.txt");
             newCustom.registers.serialNum = receiptId;
@@ -3042,6 +3197,109 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
     }
 }
 
+void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex)
+{
+    MenuTemplate <string> m;
+
+    bool status = true;
+    string ans;
+    system("clear");
+
+    vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
+    vector <vector<string>> setupRecords;
+
+    setupRecords = 
+    {
+        {"CATERING",registerList[registerIndex].staffCateringStatus},
+        {"DECORATION",registerList[registerIndex].staffDecorationStatus},
+        {"ENTERATAINMENT",registerList[registerIndex].staffEntertainmentStatus},
+        {"PARTY ITEM",registerList[registerIndex].staffPartyItem}
+    };
+
+    m.menuTitle = "VIEW BOOKING SECTION";
+    m.menuTitleTemplate();
+
+    m.menuTitle = "MAINE MENU";
+    m.menuOptions.push_back("VIEW RECEIPT");
+    m.menuOptions.push_back("VIEW SET UP STATUS");
+
+    m.menuTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            custViewBooking(name,usernameIndex);
+            status = false;
+        }
+
+        if(ans == "1")
+        {
+            system("clear");
+            addReceiptDetails("PAYMENT DONE",registerIndex, customIndex);
+            cout << "THANKS FOR TRUSTING US :)\n"<<endl;
+            pressAny();
+            viewSetUp(name, usernameIndex, registerIndex, customIndex);
+            status = false;
+        }
+        else if(ans == "2")
+        {
+            if(registerList[registerIndex].setupStatus == "SET UP PENDING")
+            {
+                system("clear");
+                cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
+                pressAny();
+                part1();
+                cout << "\n";
+                outputSetupDetails(setupRecords,"VIEW");
+                cout << "\nWE HAVE START PREPARING YOUR BIRTDAY EVENT ALREADY"<<endl;
+                cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
+                pressAny();
+                viewSetUp(name, usernameIndex, registerIndex, customIndex);
+                status = false;
+            }
+            else if(registerList[registerIndex].setupStatus == "SET UP HALFWAY")
+            {
+                system("clear");
+                cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
+                pressAny();
+                part2();
+                cout << "\n";
+                outputSetupDetails(setupRecords,"VIEW");
+                cout << "\nYOUR BIRTYDAY PARTY DONE 50 PERCENTS ALREADY :)"<<endl;
+                cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
+                pressAny();
+                viewSetUp(name, usernameIndex, registerIndex, customIndex);
+                status = false;
+            }
+            else if(registerList[registerIndex].setupStatus == "SET UP DONE")
+            {
+                system("clear");
+                cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
+                pressAny();
+                part3();
+                cout << "\n";
+                outputSetupDetails(setupRecords,"VIEW");
+                cout << "ALL DONE !!! HOPE YOU HAVE A GREAT BIRTHDAY PARTY :)"<<endl;
+                pressAny();
+                viewSetUp(name, usernameIndex, registerIndex, customIndex);
+                status = false;
+            }
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT.... PLEASE ENTER AGAIN...\n"<< endl;
+            continue;
+        }
+
+        status = false;
+    }
+}
+
 //Customer view booking function
 void custViewBooking(string name,int usernameIndex)
 {
@@ -3174,10 +3432,7 @@ void custViewBooking(string name,int usernameIndex)
             }
             else if(registeredList[registerIndex].bookingStatus == "PAYMENT DONE")
             {
-                addReceiptDetails("PAYMENT DONE",registerIndex,customIndex);
-                cout << "\nTHANKS FOR TRUSTING US :)\n";
-                pressAny();
-                custMainPage(name,usernameIndex);
+                viewSetUp(name,usernameIndex,registerIndex,customIndex);
                 status = false;
             }
         }
@@ -3725,7 +3980,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
 
     string ans;
     
-    outputCustomMenu();
+    outputCustomMenu("GENERAL",0);
 
     while(status)
     {
@@ -3867,7 +4122,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
 
     cout << "\n\n";
     
-    outputTheme();
+    outputTheme("GENERAL",0);
 
     while(status)
     {
@@ -4456,6 +4711,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
     vector<Registration<string>> registerList = getVectorList <Registration<string>>("registration.txt");
     vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
     vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+ 
 
     totalBill = stod(receiptList[registerIndex].amtAfterTax);
     deposit = stod(receiptList[registerIndex].depositAmt);
@@ -4513,6 +4769,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+
                 addOperation(usernameIndex,"CUSTOMER PAY DEPOSIT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -4522,6 +4779,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
                 registerList[registerIndex].bookingStatus = "PAYMENT DONE";
                 cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
+
                 addOperation(usernameIndex,"CUSTOMER PAY FULL PAYMENT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -4539,6 +4797,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+
                 addOperation(usernameIndex,"CUSTOMER PAY DEPOSIT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -4565,6 +4824,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
+                
                 addOperation(usernameIndex,"CUSTOMER PAY DEPOSIT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -4598,6 +4858,7 @@ void feedBackSection(string name, int userIndex,int registerIndex)
     Feedback newFeedback;
 
     bool status = true;
+    int starRate = 0;
 
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
     vector<Feedback> feedbackList = getVectorList <Feedback> ("feedback.txt");
@@ -4619,7 +4880,7 @@ void feedBackSection(string name, int userIndex,int registerIndex)
             status = false;
         }
 
-        int starRate = stoi(f.rate);
+        starRate = stoi(f.rate);
         cout << "\n";
         comments(starRate);
         pressAny();
@@ -4648,10 +4909,12 @@ void feedBackSection(string name, int userIndex,int registerIndex)
             continue;
         }
 
+        string rateString = to_string(starRate);
+
         newFeedback.registers.serialNum = registeredList[registerIndex].serialNum;
         newFeedback.registers.login.nickname = registeredList[registerIndex].login.nickname;
         newFeedback.content = f.content;
-        newFeedback.rate = f.rate;
+        newFeedback.rate = rateString;
         newFeedback.fbStatus = "FALSE";
         newFeedback.viewStatus = "VIEW PENDING";
         registeredList[registerIndex].feedbackStatus = "TRUE";
@@ -4768,16 +5031,1789 @@ void custFeedback(string name, int userIndex)
     }
 }
 
+void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
+{
+    bool status = true;
+    string ans;
+
+    vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector<Operation> operateList = getVectorList <Operation> ("operation.txt");
+
+    while(status)
+    {
+        cout << "ARE YOU SURE THE <" << prefix << "> IS DONE ? <y/n> : ";
+        getline(cin,ans);
+
+        if(ans == "y" || ans == "Y")
+        {
+            if(prefix == "CATERING")
+            {
+                registerList[registerIndex].staffCateringStatus = "CATERING DONE";
+            }
+            else if(prefix == "DECORATION")
+            {
+                registerList[registerIndex].staffDecorationStatus = "DECORATION DONE";
+            }
+            else if(prefix == "ENTERTAINMENT")
+            {
+                registerList[registerIndex].staffEntertainmentStatus = "ENTERTAINMENT DONE";
+            }
+            else if(prefix == "PARTY ITEM")
+            {
+                registerList[registerIndex].staffPartyItem = "PARTY ITEM DONE";
+            }
+
+            int counter = stoi(registerList[registerIndex].doneCount);
+            cout <<  "BEFORE :" <<counter << endl;;
+            counter +=1;
+            string counterString = to_string(counter);
+            cout <<  "after :" << counterString <<endl;
+            registerList[registerIndex].doneCount = counterString;
+
+            if (registerList[registerIndex].doneCount == "2") 
+            {
+            registerList[registerIndex].setupStatus = "SET UP HALFWAY";
+            }
+            else if (registerList[registerIndex].doneCount == "4") 
+            {
+                registerList[registerIndex].setupStatus = "SET UP DONE";
+            }
+            else
+            {
+                registerList[registerIndex].setupStatus = "SET UP PENDING";
+            }
+
+            addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
+            saveVectorList(registerList,"registration.txt");
+            saveVectorList(operateList,"operation.txt");
+            status = false; 
+        }
+        else if(ans == "n" || ans == "N")
+        {
+            manageEvent(name, staffIndex, registerIndex);
+            status = false; 
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n" << endl;
+            continue;
+        }
+
+        status = false;
+    }
+}
+
+void manageEventOptions(string name,int staffIndex, int registerIndex, string prefix)
+{
+    if(prefix == "CATERING")
+    {
+        eventApproval(name,staffIndex,registerIndex,prefix);
+        cout << "YOU HAVE APPROVED " + prefix + "\'S STATUS SUCCESSFULLY.... :)\n" <<endl;
+        pressAny();
+        manageEvent(name,staffIndex,registerIndex);
+    }
+    else if(prefix == "DECORATION")
+    {
+        eventApproval(name,staffIndex,registerIndex,prefix);
+        cout << "YOU HAVE APPROVED " + prefix + "\'S STATUS SUCCESSFULLY.... :)\n" <<endl;
+        pressAny();
+        manageEvent(name,staffIndex,registerIndex);
+    }
+    else if(prefix == "ENTERTAINMENT")
+    {
+        eventApproval(name,staffIndex,registerIndex,prefix);
+        cout << "YOU HAVE APPROVED " + prefix + "\'S STATUS SUCCESSFULLY.... :)\n" <<endl;
+        pressAny();
+        manageEvent(name,staffIndex,registerIndex);
+    }
+    else if(prefix == "PARTY ITEM")
+    {
+        eventApproval(name,staffIndex,registerIndex,prefix);
+        cout << "YOU HAVE APPROVED " + prefix + "\'S STATUS SUCCESSFULLY.... :)\n" <<endl;
+        pressAny();
+        manageEvent(name,staffIndex,registerIndex);
+    }
+}
+
+void manageEvent(string name,int staffIndex, int registerIndex)
+{
+    MenuTemplate <string> m;
+
+    bool status = true, innerStatus = true;
+    string ans;
+
+    vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
+    vector <vector<string>> setupRecords;
+
+    setupRecords = 
+    {
+        {"CATERING",registerList[registerIndex].staffCateringStatus},
+        {"DECORATION",registerList[registerIndex].staffDecorationStatus},
+        {"ENTERATAINMENT",registerList[registerIndex].staffEntertainmentStatus},
+        {"PARTY ITEM",registerList[registerIndex].staffPartyItem}
+    };
+
+    system("clear");
+    m.menuTitle = "MANAGE EVENT SECTION";
+    m.menuTitleTemplate();
+
+    m.menuTitle = "BOOKING MANAGING " + registerList[registerIndex].serialNum;
+    m.menuTitleTemplate();
+
+    m.menuTitle = "MANAGE EVENT OPTIONS";
+    string prompt = "";
+    if(registerList[registerIndex].setupStatus == "SET UP DONE")
+    {
+        prompt = "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> <d TO COPLETE THE EVENT BOOKING> : ";
+    }
+    else
+    {
+        prompt = "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+    }
+
+    outputSetupDetails(setupRecords,"MANAGE");
+
+    while(status)
+    {
+        cout << prompt;
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            staffMonitorEvent(name,staffIndex);
+            status = false;
+        }
+
+
+        if(ans == "1")
+        {
+            if(registerList[registerIndex].staffCateringStatus == "CATERING DONE")
+            {
+                cout << "YOU HAVE APPROVED THIS CATEGORY :)\n" << endl;
+                continue;
+            }
+            manageEventOptions(name,staffIndex,registerIndex,"CATERING");
+            status = false;
+        }
+        else if(ans == "2")
+        {
+            if(registerList[registerIndex].staffDecorationStatus == "DECORATION DONE")
+            {
+                cout << "YOU HAVE APPROVED THIS CATEGORY :)\n" << endl;
+                continue;
+            }
+            manageEventOptions(name,staffIndex,registerIndex,"DECORATION");
+            status = false;
+        }
+        else if(ans == "3")
+        {
+            if(registerList[registerIndex].staffEntertainmentStatus == "ENTERTAINMENT DONE")
+            {
+                cout << "YOU HAVE APPROVED THIS CATEGORY :)\n" << endl;
+                continue;
+            }
+            manageEventOptions(name,staffIndex,registerIndex,"ENTERTAINMENT");
+            status = false;
+        }
+        else if(ans == "4")
+        {
+            if(registerList[registerIndex].staffPartyItem == "PARTY ITEM DONE")
+            {
+                cout << "YOU HAVE APPROVED THIS CATEGORY :)\n" << endl;
+                continue;
+            }
+            manageEventOptions(name,staffIndex,registerIndex,"PARTY ITEM");
+            status = false;
+        }
+        else if((ans == "d" || ans == "D") && registerList[registerIndex].setupStatus == "SET UP DONE")
+        {
+            registerList[registerIndex].orderStatus = "DONE";
+            saveVectorList(registerList,"registration.txt");
+            cout << "<" << registerList[registerIndex].serialNum << "> HAS DONE SUCCESSFULLY :)\n" << endl;
+            pressAny();
+            staffMainPage(name,staffIndex);
+            status = false;
+        }
+        else 
+        {
+            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n"<<endl;
+            continue;
+        }
+
+        status = false;
+    }
+}
+
 //Staff monitor event function
 void staffMonitorEvent(string name, int staffIndex)
 {
-    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
+    system("clear");
+    MenuTemplate <string> m;
+
+    bool status = true;
+    string ans;
+
+    m.menuTitle = "MANAGE EVENT SECTION";
+
+    m.menuTitleTemplate();
+
+    cout << "\n";
+
+    vector<vector<pair<string,string>>> bookingRecords;
+    vector<string> headers = {"RECEIPT ID","USERNAME","STATUS","CUSTOMIZE","SET UP"};
+    vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
+
+
+    for(int i = 0;i < registeredList.size(); i++)
+    {
+        if(registeredList[i].bookingStatus != "PAYMENT DONE")
+        {
+            cout << "THERE\'S NO BOOKING NEED TO BE MONITOR :)\n"<<endl;
+            pressAny();
+            staffMainPage(name,staffIndex);
+        }
+    }
+
+
+    for(int i = 0 ; i < registeredList.size() ; i++)
+    {
+        string reId;
+        string userName;
+        string status;
+        string customStatus;
+        string setupStatus;
+        if(registeredList[i].bookingStatus == "PAYMENT DONE")
+        {
+            reId = registeredList[i].serialNum;
+            userName = registeredList[i].login.nickname;;
+            status = registeredList[i].bookingStatus;
+            customStatus = registeredList[i].customStatus;
+            setupStatus = registeredList[i].setupStatus;
+
+        }
+
+        bookingRecords.push_back
+        (
+            {   
+                {headers[0],reId},
+                {headers[1],userName},
+                {headers[2],status},
+                {headers[3],customStatus},
+                {headers[4],setupStatus}
+            }
+        );
+    }
+
+    printRecords(bookingRecords);
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY RECORDS TO MANAGE THE BOOKINGS <0 to exit> <enter the RECIPET ID> : ";
+        getline(cin,ans);   
+
+        if(ans == "0")
+        {
+            staffMainPage(name,staffIndex);
+            status = false;
+        }
+
+        transform(ans.begin(),ans.end(),ans.begin(),::toupper);
+
+        int registerIndex = getIndex<Registration<string>>(registeredList, ans , [](Registration<string>r){return r.serialNum;});
+
+        if(ans == registeredList[registerIndex].serialNum)
+        {
+            manageEvent(name,staffIndex,registerIndex);
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT.... PLEASE ENTER AGAIN :)\n" << endl;
+            continue;
+        }
+
+        status = false;
+    }
+}
+
+void outputPackageRecord(int index,string purpose)
+{
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<vector<string>> packageRecord;
+
+            packageRecord =
+                {
+                    {"PACKAGE TYPE",packageList[index].packageType},
+                    {"VENUE",packageList[index].venue},
+                    {"TIME DURATION",packageList[index].timeDuration},
+                    {"CATERING",packageList[index].catering},
+                    {"DECORATION",packageList[index].decoration},
+                    {"ENTERTAINMENT",packageList[index].entertaintment},
+                    {"ACTIVITIES",packageList[index].activities},
+                    {"PARTY GIFT",packageList[index].partyGift},
+                    {"CAKE",packageList[index].cake},
+                    {"PRICE",packageList[index].price}
+                };
+
+            if(purpose == "OUTPUT")
+            {
+                outputPackage(packageRecord,index,"GENERAL");
+            }
+            else if(purpose == "EDIT")
+            {
+                outputPackage(packageRecord,index,"EDIT");    
+            }
+}
+
+void itemList(string option,string prefix)
+{
+    MenuTemplate <string> m; 
+
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+
+    system("clear");
+
+    m.menuTitle = option+" "+ prefix + "\'S ITEM SECTION";
+    m.menuTitleTemplate();
+
+    bool status = true, innerStatus = true;
+    string title, ans, confirmAns;
+
+    if(prefix == "PACKAGE")
+    {
+        title = "PACKAGE LIST";
+        for(int i = 0 ; i < packageList.size();i++)
+        {
+            m.menuOptions.push_back(packageList[i].packageType);
+        }
+    }
+    else if(prefix == "GENERAL ADD ON")
+    {
+        title = "GENERAL ADD ON LIST";
+        for(int i = 0 ; i < customPackage.size();i++)
+        {
+            m.menuOptions.push_back(customPackage[i].item);
+        }
+    }
+    else if(prefix == "CUSTOM THEME")
+    {
+        title = "CUSTOME THEME LIST";
+        for(int i = 0 ; i < themeList.size();i++)
+        {
+            m.menuOptions.push_back(themeList[i].themeDescription);
+        }
+    }
+
+    m.menuTitle = title;
+    m.menuTemplate();
+}
+
+void addItem(string name,int staffIndex,string prefix)
+{
+    MenuTemplate <string> m; 
+    Package <string> p;
+    CustomPackage <string> c;
+    Theme <string> t;
+    Package <string> newPackage;
+    CustomPackage <string> newCustomPackage;
+    Theme <string> newTheme;
+
+    vector <Package <string>> packageList = getVectorList <Package <string>> ("packageList.txt");
+    vector <CustomPackage <string>> customPackage = getVectorList <CustomPackage <string>> ("customPackage.txt");
+    vector <Theme <string>> themeList = getVectorList <Theme <string>> ("theme.txt");
+    vector<vector<string>> confirmRecord;
+
+    m.menuTitle = "ADD"+ prefix + "\'S ITEM SECTION";
+    m.menuTitleTemplate();
+
+    bool status = true, innerStatus = true;
+    string title, ans;
+
+    system("clear");
+    m.menuTitle = "ADD "+prefix+"\'S ITEM SECTION";
+    m.menuTitleTemplate();
+
+    if(prefix == "PACKAGE")
+    {
+        m.menuTitle = "PACKAGE\'S NAME";
+        m.menuTitleTemplate();
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S NAME <0 to exit> : ";
+            getline(cin,p.packageType);
+
+            if(p.packageType == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "PACKAGE\'S VENUE";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S VENUE <0 to exit> : ";
+            getline(cin,p.venue);
+
+            if(p.venue == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            status = false;
+        }
+
+        m.menuTitle = "PACKAGE\'S TIME DURATION";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOU NEW PACKAGE\'S TIME DURATION <0 to exit> : ";
+            getline(cin,p.timeDuration);
+
+            if(p.timeDuration == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+        
+            status = false;
+        }
+
+        m.menuTitle = "PACKAGE\'S CATERING";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S CATERING <0 t exit> : ";
+            getline(cin,p.catering);
+
+            if(p.catering == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "PACKAGE\'S DECORATION";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S DECORATION <0 to exit> : ";
+            getline(cin,p.decoration);
+
+            if(p.decoration == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "PACKAGE\'S ENTERTAINMENT";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S ENTERTAINMENT <0 to exit> : ";
+            getline(cin,p.entertaintment);
+
+            if(p.entertaintment == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        status = true;
+
+        m.menuTitle = "PACKAGE\'S ACTIVITIES";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOU NEW PACKAGE\'S ACTIVITIES <0 to exit> : ";
+            getline(cin,p.activities);
+
+            if(p.activities == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        status = true;
+
+        m.menuTitle = "PACKAGE\'S PARTY GIFTS";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S PARTY GIFT <0 to exit> : ";
+            getline(cin,p.partyGift);
+
+            if(p.partyGift == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        status = true;
+
+        m.menuTitle = "PACKAGE\'S CAKE";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOU NEW PACKAGE\'S CAKE <0 to exit> : ";
+            getline(cin,p.cake);
+
+            if(p.partyGift == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        status = true;
+
+        m.menuTitle = "PACKAGE\'S PRICE";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER YOUR NEW PACKAGE\'S PRICE <0 to exit> : ";
+            getline(cin,p.price);
+
+            if(p.price == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        newPackage.packageType = p.packageType;
+        newPackage.venue = p.venue;
+        newPackage.timeDuration = p.timeDuration;
+        newPackage.catering = p.catering;
+        newPackage.decoration = p.decoration;
+        newPackage.entertaintment = p.entertaintment;
+        newPackage.activities = p.activities;
+        newPackage.partyGift = p.partyGift;
+        newPackage.cake = p.cake;
+        newPackage.price = p.price;
+
+        confirmRecord =
+        {
+            {"NAME",p.packageType},
+            {"VENUE",p.venue},
+            {"TIME DURATION",p.timeDuration},
+            {"CATERING",p.catering},
+            {"DECORATION",p.decoration},
+            {"ENTERTAINMENT",p.entertaintment},
+            {"ACTIVITIES",p.activities},
+            {"PARTY GIFT",p.partyGift},
+            {"CAKE",p.cake},
+            {"PRICE",p.price}
+        };
+
+        system("clear");
+
+        outputConfirm(confirmRecord,"PACKAGE CONFIRMATION");
+
+        status = true;
+        string confirmPackage;
+
+        while(status)
+        {   
+            cout << "PLEASE CHECK BEFORE PUBLISH THE NEW PACKAGE <y/n> : ";
+            getline(cin,confirmPackage);
+
+            if(confirmPackage == "Y" || confirmPackage == "y")
+            {
+                packageList.push_back(newPackage);
+                saveVectorList(packageList,"packageList.txt");
+                cout << "NEW PACKAGE PUBLISH SUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else if(confirmPackage == "N" || confirmPackage == "n")
+            {
+                cout << "NEW PACKAGE PUBLISH UNSUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else
+            {
+                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                continue;
+            }
+            status = false;
+        }
+    }
+    else if(prefix == "GENERAL ADD ON")
+    {
+        m.menuTitle = "ITEM\'S NAME";
+        m.menuTitleTemplate();
+
+        while(status)
+        {
+            cout << "PLEASE ENTER THE NEW GENERAL ADD ON\'S NAME <0 to exit> : ";
+            getline(cin,c.item);
+
+            if(c.item == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "ITEM\'S PRICE";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER THE NEW GENERAL ADD ON\'S PRICE <0 to exit> : ";
+            getline(cin,c.itemPrice);
+
+            if(c.itemPrice == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "ITEM\'S AMOUNT STATUS";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        string amtStatus;
+
+        while(status)
+        {
+            cout << "IS THE NEW GENERAL ADD ON\'S AMOUNT ABLE TO ADD MORE THAN ONE <0 to exit> <y/n> : ";
+            getline(cin,amtStatus);
+
+            if(amtStatus == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            if(amtStatus == "Y" || amtStatus == "y")
+            {
+                c.itemAmountStatus = "TRUE";
+
+                m.menuTitle = "ITEM\'S AMOUNT LIMIT";
+                m.menuTitleTemplate();
+
+                while(innerStatus)
+                {
+                    cout << "PLEASE ENTER THE AMOUNT LIMIT <0 to exit> : ";
+                    getline(cin,c.itemAmtLimit);
+
+                    if(c.itemAmtLimit == "0")
+                    {
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+
+                    innerStatus = false;
+                }
+
+                status = false;
+            }
+            else if(amtStatus == "N" || amtStatus == "n")
+            {   
+                c.itemAmountStatus = "FALSE";
+                c.itemAmtLimit = "0";
+                status = false;
+            }
+
+            status = false;
+        }
+
+        newCustomPackage.item = c.item;
+        newCustomPackage.itemPrice = c.itemPrice;
+        newCustomPackage.tempStatus = "FALSE";
+        newCustomPackage.itemStatus = "AVAILABLE";
+        newCustomPackage.itemAmountStatus = c.itemAmountStatus;
+        newCustomPackage.itemAmount = "0";
+        newCustomPackage.itemAmtLimit = c.itemAmtLimit;
+
+        confirmRecord =
+        {
+            {"NAME",c.item},
+            {"PRICE",c.itemPrice},
+            {"AMOUNT STATUS",c.itemAmountStatus},
+            {"AMOUNT LIMIT",c.itemAmtLimit}
+        };
+
+        system("clear");
+
+        outputConfirm(confirmRecord,"GENERAL ADD ON CONFIRMATION");
+
+        status = true;
+        string confirmAddon;
+
+        while(status)
+        {   
+            cout << "PLEASE CHECK BEFORE PUBLISH THE NEW THEME <y/n> : ";
+            getline(cin,confirmAddon);
+
+            if(confirmAddon == "Y" || confirmAddon == "y")
+            {
+                customPackage.push_back(newCustomPackage);
+                saveVectorList(customPackage,"customPackage.txt");
+                cout << "NEW GENERAL ADD ON PUBLISH SUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else if(confirmAddon == "N" || confirmAddon == "n")
+            {
+                cout << "NEW GENERAL ADD ON PUBLISH UNSUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else
+            {
+                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                continue;
+            }
+            status = false;
+        }
+    }
+    else if(prefix == "CUSTOM THEME")
+    {
+        m.menuTitle = "THEME\'S NAME";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {
+            cout << "PLEASE ENTER THE NEW THEME\'S NAME <0 to exit> : ";
+            getline(cin,t.themeDescription);
+
+            if(t.themeDescription == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        m.menuTitle = "THEME\'S PRICE";
+        m.menuTitleTemplate();
+
+        status = true;
+
+        while(status)
+        {   
+            cout << "PLEASE ENTER NEW THEME\'S PRICE <0 to exit> : ";
+            getline(cin,t.themePrice);
+
+            if(t.themePrice == "0")
+            {
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+
+            status = false;
+        }
+
+        newTheme.themeDescription = t.themeDescription;
+        newTheme.themePrice = t.themePrice;
+        newTheme.themeStatus = "AVAILABLE";
+        newTheme.themeTemp = "FALSE";
+
+        confirmRecord =
+        {
+            {"NAME",t.themeDescription},
+            {"PRICE",t.themePrice}
+        };
+
+        system("clear");
+
+        outputConfirm(confirmRecord,"THEME CONFIRMATION");
+
+        status = true;
+        string confirmTheme;
+
+        while(status)
+        {   
+            cout << "PLEASE CHECK BEFORE PUBLISH THE NEW THEME <y/n> : ";
+            getline(cin,confirmTheme);
+
+            if(confirmTheme == "Y" || confirmTheme == "y")
+            {
+                themeList.push_back(newTheme);
+                saveVectorList(themeList,"theme.txt");
+                cout << "NEW THEME PUBLISH SUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else if(confirmTheme == "N" || confirmTheme == "n")
+            {
+                cout << "NEW THEME PUBLISH UNSUCCESSFUL....\n"<<endl;
+                pressAny();
+                manageItemOptions(name,staffIndex,prefix);
+                status = false;
+            }
+            else
+            {
+                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                continue;
+            }
+            status = false;
+        }
+    }
+}
+
+void removeItem(string name,int staffIndex,string prefix)
+{
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector<vector<string>> listRecord;
+
+    bool status = true, innerStatus = true;
+    string title, ans, confirmAns;
+
+    system("clear");
+
+    itemList("REMOVE",prefix);
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            manageItemOptions(name,staffIndex,prefix);
+            status = false;
+        }
+
+        int packageIndex = stoi(ans) - 1;
+        if(prefix == "PACKAGE")
+        {
+            system("clear");
+
+            outputPackageRecord(packageIndex,"OUTPUT");
+
+                while(innerStatus)
+                {
+                    cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
+                    getline(cin,confirmAns);
+
+                    if(confirmAns == "y" || confirmAns == "Y")
+                    {
+                        cout << "YOU HAVE BEEN REMOVED <" << packageList[packageIndex].packageType << "> SUCCESSFUL...\n"<<endl;
+                        packageList.erase(packageList.begin()+packageIndex);
+                        saveVectorList(packageList,"packageList.txt");
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else if(confirmAns == "N" || confirmAns == "n")
+                    {
+                        cout << "REMOVE ITEM UNSUCCESFUL...\n" << endl;
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else
+                    {
+                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        continue;
+                    }
+                    innerStatus = false;
+                }
+        }
+        else if(prefix == "GENERAL ADD ON")
+        {
+            system("clear");
+            outputCustomMenu("SPECIFIC",packageIndex);
+
+                while(innerStatus)
+                {
+                    cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
+                    getline(cin,confirmAns);
+
+                    if(confirmAns == "y" || confirmAns == "Y")
+                    {
+                        cout << "YOU HAVE BEEN REMOVED <" << customPackage[packageIndex].item << "> SUCCESSFUL...\n"<<endl;
+                        customPackage.erase(customPackage.begin()+packageIndex);
+                        saveVectorList(customPackage,"customPackage.txt");
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else if(confirmAns == "N" || confirmAns == "n")
+                    {
+                        cout << "REMOVE ITEM UNSUCCESFUL...\n" << endl;
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else
+                    {
+                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        continue;
+                    }
+                    innerStatus = false;
+                }
+        }
+        else if(prefix == "CUSTOM THEME")
+        {
+            system("clear");
+            outputTheme("SPECIFIC",packageIndex);
+
+                while(innerStatus)
+                {
+                    cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
+                    getline(cin,confirmAns);
+
+                    if(confirmAns == "y" || confirmAns == "Y")
+                    {
+                        cout << "YOU HAVE BEEN REMOVED <" << themeList[packageIndex].themeDescription << "> SUCCESSFUL...\n"<<endl;
+                        themeList.erase(themeList.begin()+packageIndex);
+                        saveVectorList(themeList,"theme.txt");
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else if(confirmAns == "N" || confirmAns == "n")
+                    {
+                        cout << "REMOVE ITEM UNSUCCESFUL...\n" << endl;
+                        pressAny();
+                        manageItemOptions(name,staffIndex,prefix);
+                        innerStatus = false;
+                    }
+                    else
+                    {
+                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        continue;
+                    }
+                    innerStatus = false;
+                }
+        }        
+        status = false;
+    }
+}
+
+void editSection(string name,int staffIndex,string prefix,int index,string option)
+{
+    bool status = true;
+    string ans;
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+
+    if(prefix == "PACKAGE")
+    {
+        if(option == "1")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <NAME> OF THE <"+prefix+"> :)" <<endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW NAME <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].packageType << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].packageType = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "2")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <VENUE> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW VENUE <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE VENUE SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].venue << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].venue = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "3")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <TIME DURATION> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW TIME DURATION <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE TIME DURATION SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].timeDuration << " HOURS> TO <" << ans << " HOURS> :)\n"<<endl;
+                packageList[index].timeDuration = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "4")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <CATERING> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW CATERING <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE CATERING SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].catering << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].catering = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "5")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <DECORATION> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW DECORATION <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE DECORATION SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].decoration << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].decoration = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "6")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <ENTERTAINMENT> OF THE <"+prefix+"> :)"<< endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW ENTERTAINMENT <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE ENTERTAINMENT SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].entertaintment << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].entertaintment = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "7")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <ACTIVITIES> OF THE <"+prefix+"> :)"<< endl; 
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW ACTIVITIES <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE ACTIVITIES SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].activities << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].activities = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "8")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <PARTY GIFT> OF THE <"+prefix+"> :)"<< endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW PARTY GIFT <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE PARTY GIFT SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].partyGift << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].partyGift = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "9")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <CAKE> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW CAKE <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE CAKE SUCCESSFUL..."<<endl;
+                cout << "FROM <" << packageList[index].cake << "> TO <" << ans << "> :)\n"<<endl;
+                packageList[index].cake = ans;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+
+        }
+        else if(option == "10")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <PRICE> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                double newPackagePrice = stod(ans);
+                stringstream ssPackagePrice;
+                ssPackagePrice << fixed << setprecision(2) << newPackagePrice;
+                string newPackagePriceString = ssPackagePrice.str();
+
+                cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                cout << "FROM <RM" << packageList[index].price << "> TO <RM" << newPackagePriceString << "> :)\n"<<endl;
+                packageList[index].price = newPackagePriceString;
+                saveVectorList(packageList,"packageList.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+    }
+    else if(prefix == "GENERAL ADD ON")
+    {
+        if(option == "1")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <NAME> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW NAME <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                cout << "FROM <" << customPackage[index].item << "> TO <" << ans << "> :)\n"<<endl;
+                customPackage[index].item = ans;
+                saveVectorList(customPackage,"customPackage.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "2")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <PRICE> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+                double newCustomPackagePrice = stod(ans);
+                stringstream ssCustomPackagePrice;
+                ssCustomPackagePrice << fixed << setprecision(2) << newCustomPackagePrice;
+                string newCustomPackagePriceString = ssCustomPackagePrice.str();
+
+                cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                cout << "FROM <RM" << customPackage[index].itemPrice << "> TO <RM" << newCustomPackagePriceString << "> :)\n"<<endl;
+                customPackage[index].itemPrice = newCustomPackagePriceString;
+                saveVectorList(customPackage,"customPackage.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "3")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <AMOUNT STATUS> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW AMOUNT STATUS <0 to exit> <y = ACTIVATE / n = NOT ACTIVATE> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+                
+                string newAmtStatus;
+                if(ans == "Y" || ans == "y")
+                {
+                    newAmtStatus = "TRUE";
+                    cout << "YOU HAVE CHANGED THE AMOUNT STATUS SUCCESSFUL..."<<endl;
+                    cout << "FROM <" << customPackage[index].itemAmountStatus << "> TO <" << newAmtStatus << "> :)\n"<<endl;
+                    customPackage[index].itemAmountStatus = newAmtStatus;
+                    status = false;
+                }
+                else if(ans == "N" || ans == "n")
+                {
+                    newAmtStatus = "FALSE";
+                    cout << "YOU HAVE CHANGED THE AMOUNT STATUS SUCCESSFUL..."<<endl;
+                    cout << "FROM <" << customPackage[index].itemAmountStatus << "> TO <" << newAmtStatus << "> :)\n"<<endl;
+                    customPackage[index].itemAmountStatus = newAmtStatus;
+                    status = false;
+                }
+                else
+                {
+                    cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n" << endl;
+                    continue;
+                }
+
+                saveVectorList(customPackage,"customPackage.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "4")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <AMOUNT LIMIT> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW AMOUNT LIMIT <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE AMOUNT LIMIT SUCCESSFUL..."<<endl;
+                cout << "FROM <" << customPackage[index].itemAmtLimit << "> TO <" << ans << "> :)\n"<<endl;
+                customPackage[index].itemAmtLimit = ans;
+                saveVectorList(customPackage,"customPackage.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+    }
+    else if(prefix == "CUSTOM THEME")
+    {
+        if(option == "1")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <NAME> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW NAME <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                cout << "FROM <" << themeList[index].themeDescription << "> TO <" << ans << "> :)\n"<<endl;
+                themeList[index].themeDescription = ans;
+                saveVectorList(themeList,"theme.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+        else if(option == "2")
+        {
+            cout << "YOU HAVE CHOSE TO EDIT <PRICE> OF THE <"+prefix+"> :)" << endl;
+            while(status)
+            {
+                cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
+                getline(cin,ans);
+
+                if(ans == "0")
+                {
+                    editOptions(name,staffIndex,prefix,index);
+                    status = false;
+                }
+
+                double newThemePrice = stod(ans);
+                stringstream ssThemePrice;
+                ssThemePrice << fixed << setprecision(2) << newThemePrice;
+                string newThemePriceString = ssThemePrice.str();
+
+                cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                cout << "FROM <RM" << themeList[index].themePrice << "> TO <RM" << newThemePriceString << "> :)\n"<<endl;
+                themeList[index].themePrice = newThemePriceString;
+                saveVectorList(themeList,"theme.txt");
+                pressAny();
+                editOptions(name,staffIndex,prefix,index);
+                status = false;
+            }
+        }
+    }
+}
+
+void editOptions(string name,int staffIndex,string prefix,int index)
+{
+    MenuTemplate <string> m;
+
+    bool status = true;
+    string ans, title;
+
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector<vector<string>> customPackageRecords;
+    vector<vector<string>> themeRecords;
+
+    system("clear");
+
+    if(prefix == "PACKAGE")
+    {
+        outputPackageRecord(index,"EDIT");
+    }
+    else if(prefix == "GENERAL ADD ON")
+    {
+        if(customPackage[index].itemAmountStatus == "TRUE")
+        {
+            customPackageRecords = 
+            {
+                {"NAME",customPackage[index].item},
+                {"PRICE",customPackage[index].itemPrice},
+                {"AMOUNT STATUS",customPackage[index].itemAmountStatus},
+                {"ITEM LIMIT ",customPackage[index].itemAmtLimit}
+            };
+        }
+        else
+        {
+            customPackageRecords = 
+            {
+                {"NAME",customPackage[index].item},
+                {"PRICE",customPackage[index].itemPrice},
+                {"AMOUNT STATUS",customPackage[index].itemAmountStatus}
+            };
+        }
+        title = "GENERAL ADD ON EDIT OPTIONS";
+
+        outputList(customPackageRecords,prefix);
+
+    }
+    else if(prefix == "CUSTOM THEME")
+    {
+        title = "CUSTOM THEME EDIT OPTIONS";
+        themeRecords = 
+        {
+            {"NAME",themeList[index].themeDescription},
+            {"PRICE",themeList[index].themePrice}
+        };
+
+        outputList(themeRecords,prefix);
+    }
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE WHICH SECTION TO EDIT <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            editItem(name,staffIndex,prefix);
+            status = false;
+        }
+
+        int ansInt = stoi(ans);
+
+        if(prefix == "PACKAGE"&& (ansInt < 1 || ansInt > 10))
+        {
+            cout << "PLEASE ENTER THE VALID OPTION :)\n"<<endl;
+            continue;
+        }
+        else if(prefix == "GENERAL ADD ON"&&customPackage[index].itemAmountStatus == "TRUE"&& (ansInt < 1 || ansInt > customPackageRecords.size()))
+        {
+            cout << "PLEASE ENTER THE VALID OPTION :)\n"<<endl;
+            continue;
+        }
+        else if(prefix == "GENERAL ADD ON"&&customPackage[index].itemAmountStatus == "FALSE" && (ansInt < 1 || ansInt > 3))
+        {
+            cout << "PLEASE ENTER THE VALID OPTION :)\n"<<endl;
+            continue;
+        }
+        else if(prefix == "CUSTOM THEME"&& (ansInt < 1 || ansInt > themeRecords.size()))
+        {
+            cout << "PLEASE ENTER THE VALID OPTION :)\n"<<endl;
+            continue;
+        }
+        else
+        {
+            editSection(name,staffIndex,prefix,index,ans);
+            status = false;
+        }
+        status = false;
+    }
+}
+
+void editItem(string name,int staffIndex,string prefix)
+{
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector<vector<string>> listRecord;
+
+    bool status = true,innerStatus = true;
+    string title, ans, editAns;
+    int editIndex;
+
+    system("clear");
+
+    itemList("EDIT",prefix);
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY "+prefix+ " TO EDIT <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            manageItemOptions(name,staffIndex,prefix);
+            status = false;
+        }
+
+        int index = stoi(ans)-1;
+
+        if(prefix == "PACKAGE")
+        {
+            system("clear");
+            editOptions(name,staffIndex,prefix,index);
+            status = false;
+        }
+        else if(prefix == "GENERAL ADD ON")
+        {
+            system("clear");
+            editOptions(name,staffIndex,prefix,index);
+            status = false;
+        }
+        else if(prefix == "CUSTOM THEME")
+        {
+            system("clear");
+            editOptions(name,staffIndex,prefix,index);
+            status = false;
+        }
+        status = false;
+    }
+}
+
+void previewItem(string name,int staffIndex,string prefix)
+{
+    system("clear");
+
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector<vector<string>> listRecord;
+
+    bool status = true;
+    string title, ans, confirmAns;
+
+    itemList("PREVIEW",prefix);
+
+    while(status)
+    {
+        cout << "CHOOSE ANY OPTIONS SHOWN ABOVE TO PREVIEW THE ITEM <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            manageItemOptions(name,staffIndex,prefix);
+            status = false;
+        }
+
+        int index = stoi(ans)-1;
+
+
+        if(prefix == "PACKAGE")
+        {
+            system("clear");
+
+            outputPackageRecord(index,"OUTPUT");
+
+                cout << "HERE\'S THE PREVIEW FOR THE PACKAGE :)\n" << endl;
+                pressAny();
+                previewItem(name,staffIndex,prefix);
+                status = false;
+        }
+        else if(prefix == "GENERAL ADD ON")
+        {
+            system("clear");
+            outputCustomMenu("SPECIFIC",index);
+            cout << "HERE\'S THE PREVIEW FOR THE GENERAL ADD ON :)\n" << endl;
+            pressAny();
+            previewItem(name,staffIndex,prefix);
+            status = false;
+
+        }
+        else if(prefix == "CUSTOM THEME")
+        {
+            system("clear");
+            outputTheme("SPECIFIC",index);
+            cout << "HERE\'S THE PREVIEW FOR THE CUSTOM THEME :)\n" << endl;
+            pressAny();
+            previewItem(name,staffIndex,prefix);
+            status = false;
+        }
+        status = false;
+    }
+}
+
+void manageItemOptions(string name,int staffIndex,string prefix)
+{
+    MenuTemplate <string> m; 
+
+    bool status = true;
+    string title, ans;
+
+    system("clear");
+
+    m.menuTitle = "MANAGE <"+prefix+"> SECTION";
+    m.menuTitleTemplate();
+
+    if(prefix == "PACKAGE")
+    {
+        title = "PACKAGE OPTIONS";
+    }
+    else if(prefix == "GENERAL ADD ON")
+    {
+        title = "GENERAL ADD ON OPTIONS";
+    }
+    else if(prefix == "CUSTOM THEME")
+    {
+        title = "CUSTOM THEME OPTIONS";
+    }
+
+    m.menuTitle = title;
+    m.menuOptions.push_back("ADD ITEM");
+    m.menuOptions.push_back("REMOVE ITEM");
+    m.menuOptions.push_back("EDIT ITEM");
+    m.menuOptions.push_back("PREVIEW ITEM");
+
+    m.menuTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            staffManageItem(name,staffIndex);
+            status = false;
+        }
+
+        if(ans == "1")
+        {
+            addItem(name,staffIndex,prefix);
+            status = false;
+        }
+        else if(ans == "2")
+        {
+            removeItem(name,staffIndex,prefix);
+            status = false;
+        }
+        else if(ans == "3")
+        {   
+            editItem(name,staffIndex,prefix);
+            status = false;
+        }
+        else if(ans == "4")
+        {
+            previewItem(name,staffIndex,prefix);
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT.. PLEASE ENTER AGAIN :) \n" << endl;
+            continue;
+        }
+
+        status = false;
+    }
 }
 
 void staffManageItem(string name,int staffIndex)
 {
     MenuTemplate <string> m; 
+
     bool status = true;
+    string ans;
+
+    system("clear");
+
+    m.menuTitle = "MANAGE ITEM SECTION";
+
+    m.menuOptions.push_back("MANAGE PACKAGE");
+    m.menuOptions.push_back("MANAGE GENERAL ADD ON");
+    m.menuOptions.push_back("MANAGE CUSTOM THEME");
+
+    m.menuTemplate();
+
+    while(status)
+    {
+        cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            staffMainPage(name,staffIndex);
+            status = false;
+        }
+
+        if(ans == "1")
+        {
+            manageItemOptions(name,staffIndex, "PACKAGE");
+            status = false;
+        }
+        else if(ans == "2")
+        {
+            manageItemOptions(name,staffIndex, "GENERAL ADD ON");
+            status = false;
+        }
+        else if(ans == "3")
+        {
+            manageItemOptions(name,staffIndex, "CUSTOM THEME");
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT.... PELASE ENTER AGAIN :)\n" << endl;
+            continue;
+        }
+
+        status = false;
+    }
     
 }   
 
