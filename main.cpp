@@ -22,6 +22,42 @@
 
 using namespace std;
 
+void mainLogo()
+{
+    cout << "                          (             )                            " << endl;
+    cout << "                  )      (*)           (*)      (                    " << endl;
+    cout << "         *       (*)      |             |      (*)                   " << endl;
+    cout << "                  |      |~|           |~|      |          *         " << endl;
+    cout << "                 |~|     | |           | |     |~|                   " << endl;
+    cout << "                 | |     | |           | |     | |                   " << endl;
+    cout << "                ,| |a@@@@| |@@@@@@@@@@@| |@@@@a| |.                  " << endl;
+    cout << "           .,a@@@| |@@@@@| |@@@@@@@@@@@| |@@@@@| |@@@@a,.            " << endl;
+    cout << "         ,a@@@@@@| |@@@@@@@@@@@@.@@@@@@@@@@@@@@| |@@@@@@@a,          " << endl;
+    cout << "        a@@@@@@@@@@@@@@@@@@@@@' . `@@@@@@@@@@@@@@@@@@@@@@@@a         " << endl;
+    cout << "        ;`@@@@@@@@@@@@@@@@@@'   .   `@@@@@@@@@@@@@@@@@@@@@';         " << endl;
+    cout << "        ;@@@`@@@@@@@@@@@@@'     .     `@@@@@@@@@@@@@@@@'@@@;         " << endl;
+    cout << "        ;@@@;,.aaaaaaaaaa       .       aaaaa,,aaaaaaa,;@@@;         " << endl;
+    cout << "        ;;@;;;;@@@@@@@@;@      @.@      ;@@@;;;@@@@@@;;;;@@;         " << endl;
+    cout << "        ;;;;;;;@@@@;@@;;@    @@ . @@    ;;@;;;;@@;@@@;;;;;;;         " << endl;
+    cout << "        ;;;;;;;;@@;;;;;;;  @@   .   @@  ;;;;;;;;;;;@@;;;;@;;         " << endl;
+    cout << "        ;;;;;;;;;;;;;;;;;@@     .     @@;;;;;;;;;;;;;;;;@@@;         " << endl;
+    cout << "    ,%%%;;;;;;;;@;;;;;;;;       .       ;;;;;;;;;;;;;;;;@@;;%%%,     " << endl;
+    cout << " .%%%%%%;;;;;;;@@;;;;;;;;     ,%%%,     ;;;;;;;;;;;;;;;;;;;;%%%%%%,  " << endl;
+    cout << ".%%%%%%%;;;;;;;@@;;;;;;;;   ,%%%%%%%,   ;;;;;;;;;;;;;;;;;;;;%%%%%%%, " << endl;
+    cout << "%%%%%%%%`;;;;;;;;;;;;;;;;  %%%%%%%%%%%  ;;;;;;;;;;;;;;;;;;;'%%%%%%%% " << endl;
+    cout << "%%%%%%%%%%%%`;;;;;;;;;;;;,%%%%%%%%%%%%%,;;;;;;;;;;;;;;;'%%%%%%%%%%%% " << endl;
+    cout << "`%%%%%%%%%%%%%%%%%,,,,,,,%%%%%%%%%%%%%%%,,,,,,,%%%%%%%%%%%%%%%%%%%%' " << endl;
+    cout << "  `%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'   " << endl;
+    cout << "      `%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'       " << endl;
+    cout << "             \"\"\"\"\"\"\"\"\"\"\"\"\"\"`,,,,,,,,,'\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"              " << endl;
+    cout << "                            `%%%%%%%\'                                " << endl;
+    cout << "                             `%%%%%\'                                 " << endl;
+    cout << "                               %%%   BIRTHDAY EVENT MANAGEMENT       " << endl;
+    cout << "                              %%%%%           SYSTEM                 " << endl;
+    cout << "                           .,%%%%%%%,.                               " << endl;
+    cout << "                      ,%%%%%%%%%%%%%%%%%%%,                          " << endl;
+}
+
 void buddha()
 {
     cout << "                  _oo0oo_                      " << endl;
@@ -579,47 +615,53 @@ string getIssueDate() {
 
 void part1()
 {
-    cout << "       .                      " << endl;
-    cout << "               }       *     " << endl;
-    cout << "     .--.     {            )" << endl;
-    cout << "    /    \\     }          (" << endl;
-    cout << "    |#   |         +       " << endl;
-    cout << "    \\_ _.'   +         " << endl;
-    cout << "     (^   *       .        " << endl;
-    cout << "      )  _ _  ___  ___  ___" << endl;
-    cout << "     (  | | |/   \\|   \\|  " << endl;
-    cout << "      ) |   || - || -_/| -" << endl;
-    cout << "        |_|_||_|_||_|  |_| " << endl;
+    cout << "╔═══════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║       .                                                                   ║" << endl;
+    cout << "║               }       *                                                   ║" << endl;
+    cout << "║     .--.     {            )                                               ║" << endl;
+    cout << "║    /    \\     }          (                                                ║" << endl;
+    cout << "║    |#   |         +                                                       ║" << endl;
+    cout << "║    \\_ _.'   +                                                             ║" << endl;
+    cout << "║     (^   *       .                                                        ║" << endl;
+    cout << "║      )  _ _  ___  ___  ___                                                ║" << endl;
+    cout << "║     (  | | |/   \\|   \\|                                                   ║" << endl;
+    cout << "║      ) |   || - || -_/| -                                                 ║" << endl;
+    cout << "║        |_|_||_|_||_|  |_|                                                 ║" << endl;
+    cout << "╚═══════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
 void part2()
 {
-    cout << "       .                      .    *+*+*   +             " << endl;
-    cout << "               }       *           |||||       .---.    " << endl;
-    cout << "     .--.     {            )     @@.@.@.@@    /     \\ " << endl;
-    cout << "    /    \\     }          (      |'='='='|    |#     " << endl;
-    cout << "    |#   |         +            @@.@.@.@.@@   '._ _,/ " << endl;
-    cout << "    \\_ _.'   +          *   )   |'='='='='|   " << endl;
-    cout << "     (^   *       .            @@.@.@.@.@.@@     )  " << endl;
-    cout << "      )  _ _  ___  ___  ___+__  __  ___  _  ___  " << endl;
-    cout << "     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||   " << endl;
-    cout << "      ) |   || - || -_/| -_/ \\  /  | _ <| || - / " << endl;
-    cout << "        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\ " << endl;
+    cout << "╔═══════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║       .                      .    *+*+*   +                               ║" << endl;
+    cout << "║               }       *           |||||       .---.                       ║" << endl;
+    cout << "║     .--.     {            )     @@.@.@.@@    /     \\                      ║" << endl;
+    cout << "║    /    \\     }          (      |'='='='|    |#                           ║" << endl;
+    cout << "║    |#   |         +            @@.@.@.@.@@   '._ _,/                      ║" << endl;
+    cout << "║   \\_ _.'   +          *   )   |'='='='='|                                 ║" << endl;
+    cout << "║     (^   *       .            @@.@.@.@.@.@@     )                         ║" << endl;
+    cout << "║      )  _ _  ___  ___  ___+__  __  ___  _  ___                            ║" << endl;
+    cout << "║     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||                               ║" << endl;
+    cout << "║      ) |   || - || -_/| -_/ \\  /  | _ <| || - /                           ║" << endl;
+    cout << "║        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\                           ║" << endl;
+    cout << "╚═══════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
 void part3()
 {
-    cout << "       .                      .    *+*+*   +             *       .---,     " << endl;
-    cout << "               }       *           |||||       .---.            /#    `\\   " << endl;
-    cout << "     .--.     {            )     @@.@.@.@@    /     \\  .        |      |   " << endl;
-    cout << "    /    \\     }          (      |'='='='|    |#     |          '.   _/    " << endl;
-    cout << "    |#   |         +            @@.@.@.@.@@   '._ _,/             `(^      " << endl;
-    cout << "    \\_ _.'   +          *   )   |'='='='='|     (^            +     )      " << endl;
-    cout << "     (^   *       .            @@.@.@.@.@.@@     )        *        (       " << endl;
-    cout << "      )  _ _  ___  ___  ___+__  __  ___  _  ___  ___+ _ _  ___  ___ __ *__ " << endl;
-    cout << "     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||   \\|   || | ||   \\/   \\\\ \\/ / " << endl;
-    cout << "      ) |   || - || -_/| -_/ \\  /  | _ <| || - / | | |   || | || - | \\  /  " << endl;
-    cout << "        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\ |_| |_|_||___/|_|_| /_/   " << endl;
+    cout << "╔═══════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║       .                      .    *+*+*   +             *       .---,     ║" << endl;
+    cout << "║               }       *           |||||       .---.            /#    `\\   ║" << endl;
+    cout << "║     .--.     {            )     @@.@.@.@@    /     \\  .        |      |   ║" << endl;
+    cout << "║    /    \\     }          (      |'='='='|    |#     |          '.   _/    ║" << endl;
+    cout << "║    |#   |         +            @@.@.@.@.@@   '._ _,/             `(^      ║" << endl;
+    cout << "║    \\_ _.'   +          *   )   |'='='='='|     (^            +     )      ║" << endl;
+    cout << "║     (^   *       .            @@.@.@.@.@.@@     )        *        (       ║" << endl;
+    cout << "║      )  _ _  ___  ___  ___+__  __  ___  _  ___  ___+ _ _  ___  ___ __ *__ ║" << endl;
+    cout << "║     (  | | |/   \\|   \\|   \\\\ \\/ / | _ \\| ||   \\|   || | ||   \\/   \\\\ \\/ / ║" << endl;
+    cout << "║      ) |   || - || -_/| -_/ \\  /  | _ <| || - / | | |   || | || - | \\  /  ║" << endl;
+    cout << "║        |_|_||_|_||_|  |_|   /_/   |___/|_||_._\\ |_| |_|_||___/|_|_| /_/   ║" << endl;
+    cout << "╚═══════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
 void stars(int amt)
@@ -1772,7 +1814,7 @@ void loginScreen()
     string loginAns;
     bool status = true;    
 
-    buddha();
+    mainLogo();
 
     cout << "\n";
 
@@ -2774,15 +2816,10 @@ void custRegis(string name , int userIndex)
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <YYYY-MM-DD> :)\n" << endl;
             continue;
         }   
-        else
-        {
-            cout << "PLEASE ENTER IN <YYY-MM-DD> FORMAT :)\n"<<endl;
-            continue;
-        }
 
         status = false;
     }
-
+    cout << "\n";
     m.menuTitle = "TIME <ENTER IN 24 HOURS FORMAT>";
     m.menuTitleTemplate();
     m.menuTitle = "PLEASE FOLLOW THE FORMAT <HH:MM>";
@@ -2820,11 +2857,7 @@ void custRegis(string name , int userIndex)
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <HH:MM> :)\n" << endl;
             continue;
         }   
-        else
-        {
-            cout << "PLEASE ENTER IN <HH:MM> FORMAT :)\n"<<endl;
-            continue;
-        }
+
         int hoursAdd = stoi(packageList[packageIndex].timeDuration);
         endTime = addHoursToTime(r.startTime,hoursAdd);
         if(dateExist(registerList,"","",endTime,"ENDTIME"))
@@ -2838,6 +2871,7 @@ void custRegis(string name , int userIndex)
 
     status = true;
 
+    cout << "\n";
     m.menuTitle = "BIRTHDAY THEME NAME";
     m.menuTitleTemplate();
     m.menuTitle = "ENTER LESS THAN 20 CHARACTERS";
@@ -2871,7 +2905,8 @@ void custRegis(string name , int userIndex)
 
     status = true;
 
-    m.menuTitle = "CONTACT NUMBER <press\'d\' to use default contact no>";
+    cout << "\n";
+    m.menuTitle = "CONTACT NUMBER <\'d\' to use default contact no>";
     m.menuTitleTemplate();
     m.menuTitle = "PLEASE FOLLOW THE FORMAT <xxx-xxxxxxx>";
     m.menuTitleTemplate();
@@ -2896,7 +2931,7 @@ void custRegis(string name , int userIndex)
         regex contactPattern("^01[0-9]{1}-[0-9]{7}$");
         if(!regex_match(r.login.contactNum,contactPattern))
         {
-            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxx-xxxxxxx> :)" << endl;
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxx-xxxxxxx> :)\n" << endl;
             continue;
         }
         
@@ -2911,7 +2946,8 @@ void custRegis(string name , int userIndex)
 
     status = true;
 
-    m.menuTitle = "EMAIL <d to use default email>";
+    cout << "\n";
+    m.menuTitle = "EMAIL <\'d\' to use default email>";
     m.menuTitleTemplate();
     m.menuTitle = "PLEASE FOLLOW FORMAT <xxxxxxxxxx@xxxxx.com>";
     m.menuTitleTemplate();
@@ -2952,9 +2988,10 @@ void custRegis(string name , int userIndex)
 
     status = true;
 
+    cout << "\n";
     m.menuTitle = "GUEST AMOUNT <ENTER NUMBER>";
     m.menuTitleTemplate();
-    m.menuTitle = "PLEASE AT LEAST 20 PEOPLE";
+    m.menuTitle = "PLEASE ENTER AT LEAST 20 PEOPLE";
     m.menuTitleTemplate();
     m.menuTitle = "PLEASE ENTER LESS THAN 80 PEOPLE";
     m.menuTitleTemplate();
@@ -2994,17 +3031,13 @@ void custRegis(string name , int userIndex)
             cout << "PLEASE ENTER LESS THAN 80 GUEST :)\n" << endl;
             continue;
         }
-        else
-        {
-            status = false;
-        }
-
 
         status = false;
     }
 
     status = true;
 
+    cout << "\n";
     m.menuTitle = "SPECIAL REQUEST";
     m.menuTitleTemplate();
     m.menuTitle = "ENTER LESS THAN 60 CHARACTERS";
@@ -3031,10 +3064,6 @@ void custRegis(string name , int userIndex)
         {
             cout << "PLEASE DON\'T MORE THAN 60 CHARACTERS :)\n"<<endl;
             continue;
-        }
-        else
-        {
-            status = false;
         }
 
 
@@ -3448,6 +3477,7 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
     vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
     vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+    vector<Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     cout << "* * * * * * * * * * * * WARNING * * * * * * * * * * * *" << endl;
     cout << "*                                                     *" << endl;
@@ -3481,10 +3511,12 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
 
             cout << "YOU HAVE CANCELED SUCCESSFULLY....."<<endl;
             cout << "YOU HAVE CANCELED YOUR <" << registeredList[registerIndex].serialNum << "> BOOKING AND LOST YOUR RM" << receiptList[registerIndex].depositAmt << " :)"<<endl;
+            addOperation(usernameIndex,"CANCEL <"+registeredList[registerIndex].serialNum +"> BOOKING","CUSTOMER OPERATION","CUSTOMER");
             pressAny();
             customList.erase(customList.begin()+registerIndex),
             registeredList.erase(registeredList.begin()+registerIndex);
             receiptList.erase(receiptList.begin()+registerIndex);
+            saveVectorList(operateList,"operation.txt");
             saveVectorList(customList,"customList.txt");
             saveVectorList(registeredList,"registration.txt");
             saveVectorList(receiptList,"receipt.txt");
@@ -3509,6 +3541,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
     system("clear");
 
     vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
     vector <vector<string>> setupRecords;
 
     setupRecords = 
@@ -3550,6 +3583,8 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
             system("clear");
             addReceiptDetails("PAYMENT DONE",registerIndex, customIndex);
             cout << "THANKS FOR TRUSTING US :)\n"<<endl;
+            addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> RECEIPT","CUSTOMER OPERATION","CUSTOMER");
+            saveVectorList(operateList,"operation.txt");
             pressAny();
             viewSetUp(name, usernameIndex, registerIndex, customIndex);
             status = false;
@@ -3566,6 +3601,8 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 outputSetupDetails(setupRecords,"VIEW");
                 cout << "\nWE HAVE START PREPARING YOUR BIRTDAY EVENT ALREADY"<<endl;
                 cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
+                addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -3580,6 +3617,8 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 outputSetupDetails(setupRecords,"VIEW");
                 cout << "\nYOUR BIRTYDAY PARTY DONE 50 PERCENTS ALREADY :)"<<endl;
                 cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
+                addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -3593,6 +3632,8 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 cout << "\n";
                 outputSetupDetails(setupRecords,"VIEW");
                 cout << "ALL DONE !!! HOPE YOU HAVE A GREAT BIRTHDAY PARTY :)"<<endl;
+                addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -3621,6 +3662,7 @@ void custViewBooking(string name,int usernameIndex)
     MenuTemplate <string> m;
 
     vector<vector<pair<string,string>>> bookingRecords;
+    vector <Operation> operateList = getVectorList<Operation> ("operation.txt");
     vector<vector<string>> registerRecord;
     vector<string> headers = {"RECEIPT ID","USERNAME","STATUS","CUSTOMIZE","SET UP"};
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
@@ -3713,6 +3755,8 @@ void custViewBooking(string name,int usernameIndex)
         {
             if(registeredList[registerIndex].bookingStatus == "PAYMENT PENDING")
             {
+                addOperation(usernameIndex,"VIEWED <"+registeredList[registerIndex].serialNum +"> BOOKING","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 addReceiptDetails("RECEIPT",registerIndex,customIndex);
                 custPayment("RECEIPT",registerIndex,customIndex,name,usernameIndex);
                 status = false;
@@ -3771,6 +3815,7 @@ void custViewCampaign(string name,int usernameIndex)
     vector<vector<string>> campaignRecord;
     vector <string> headers = {"CAMPAIGN ID","CAMPAIGN TITLE","CAMPAIGN CONTENT"}; 
     vector<Campaign> campaignList = getVectorList<Campaign>("campaign.txt");
+    vector <Operation> operateList = getVectorList<Operation> ("operation.txt");
 
     system("clear");
 
@@ -3782,43 +3827,46 @@ void custViewCampaign(string name,int usernameIndex)
     while(status)
     {
         cout << "PLEASE CHOOSE ANY CAMPAIGN TO VIEW <0 to exit> <enter the number> : ";
-        getline(cin,ans);
+        getline(cin, ans);
 
         if(ans == "0")
         {
-            custMainPage(name,usernameIndex);
+            custMainPage(name, usernameIndex);
             status = false;
         }
 
-        if(ans.empty())
+        if(ans.empty() || !regex_match(ans, regex("^[0-9]+$")))
         {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            cout << "PLEASE ENTER A VALID NUMBER ONLY :)\n" << endl;
             continue;
         }
 
         int ansInt = stoi(ans);
-        int campaignIndex = ansInt-1;
+        int campaignIndex = ansInt - 1;
 
-        if(ansInt < 1 || ansInt > campaignList.size())
+        if(ansInt >= 1 && ansInt <= campaignList.size())  // inclusive check
         {
-            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<< endl;
+            campaignRecord = {
+                {headers[0], campaignList[campaignIndex].campaignId},
+                {headers[1], campaignList[campaignIndex].contentTitle},
+                {headers[2], campaignList[campaignIndex].content}
+            };
+
+            outputCampaign(campaignRecord, "VIEW CAMPAIGN", campaignIndex);
+            addOperation(usernameIndex,"VIEWED <"+campaignList[campaignIndex].campaignId +"> CAMPAIGN","CUSTOMER OPERATION","CUSTOMER");
+            saveVectorList(operateList,"operation.txt");
+            pressAny();
+            custViewCampaign(name, usernameIndex);
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER BETWEEN 1 TO " << campaignList.size() << " :)\n" << endl;
             continue;
         }
 
-        campaignRecord = 
-        {
-            {headers[0],campaignList[campaignIndex].campaignId},
-            {headers[1],campaignList[campaignIndex].contentTitle},
-            {headers[2],campaignList[campaignIndex].content}
-        };
-
-        outputCampaign(campaignRecord,"VIEW CAMPAIGN",campaignIndex);
-
-        pressAny();
-        custViewCampaign(name,usernameIndex);
         status = false;
     }
-
 }
 
 void manageCart(string name,string category,int userIndex,int customIndex,string receiptID,string prefix)
@@ -3828,6 +3876,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
     string ans,chosenItem,ans1,newAmt;
 
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     if(prefix == "REMOVE")
     {
@@ -3907,6 +3956,8 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                 {
                     addRemoveItem("REMOVE",userIndex,ansIndex,customIndex,"0","FALSE");
                     cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  category <<"> :)\n" <<endl;
+                    addOperation(userIndex,"REMOVED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     pressAny();
                     custCustomPartyOption(name,userIndex,receiptID);
                     status = false;
@@ -3950,6 +4001,8 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                         getline(cin,newAmt);
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
+                        addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
+                        saveVectorList(operateList,"operation.txt");
                         customList[customIndex].item1Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -3965,6 +4018,8 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                         getline(cin,newAmt);
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
+                        addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
+                        saveVectorList(operateList,"operation.txt");
                         customList[customIndex].item2Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -3980,6 +4035,8 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                         getline(cin,newAmt);
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
+                        addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
+                        saveVectorList(operateList,"operation.txt");
                         customList[customIndex].item3Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -3995,6 +4052,8 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                         getline(cin,newAmt);
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
+                        addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
+                        saveVectorList(operateList,"operation.txt");
                         customList[customIndex].item4Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -4079,6 +4138,12 @@ void customPartyCart(string name , int userIndex,string receiptID)
                 cout << "PLEASE CHOOSE THE CATEGORY <g = GENERAL ADD ON / t = CUSTOMIZE THEME> : ";
                 getline(cin,removeItem);
 
+                if(removeItem.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
                 if(removeItem == "g" || removeItem == "G")
                 {
                     if(customList[customIndex].item1Status == "FALSE" && customList[customIndex].item2Status == "FALSE" &&customList[customIndex].item3Status == "FALSE" &&customList[customIndex].item4Status == "FALSE")
@@ -4102,7 +4167,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
                 }
                 else
                 {
-                    cout << "INVALID INPUT... PLASE TRY AGAIN :)\n" << endl;
+                    cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
                     continue;
                 }
                 innerstatus = false;
@@ -4115,7 +4180,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<<endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n"<<endl;
             continue;
         }
     status = false;
@@ -4289,6 +4354,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
     vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
     vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector<Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     int customIndex = getIndex<CustomList<string>>(customList , receiptID , [](CustomList<string> cl){return cl.registers.serialNum;});
     int userIndex = getIndex<Registration<string>>(registerList , receiptID , [](Registration<string> r){return r.serialNum;});
@@ -4374,6 +4440,8 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
         else if(customPackage[ansIndex].itemStatus == "AVAILABLE" && customPackage[ansIndex].itemAmountStatus == "TRUE" && customPackage[ansIndex].tempStatus == "FALSE")
         {
             cout << "YOU HAVE CHOSE <"<< customPackage[ansIndex].item << "> TO ADD ON." << endl;
+            addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+            saveVectorList(operateList,"operation.txt");
             customPackage[ansIndex].tempStatus = "TRUE";
             saveVectorList(customPackage,"customPackage.txt");
             status = true;
@@ -4391,7 +4459,8 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
                 string totalAmtString = to_string(totalAmt);
 
                 addRemoveItem("ADD",userIndex,ansIndex,customIndex,totalAmtString,"TRUE");
-
+                addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 cout << "YOU HAVE ADDED <" << customPackage[ansIndex].item << "> SUCESSFULLY... :)"<<endl;
                 status = false;
             }
@@ -4406,21 +4475,29 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
 
             if(customList[customIndex].item1=="EMPTY")
             {
+                addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item2=="EMPTY")
             {
+                addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 addRemoveItem("ADD",userIndex,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item3=="EMPTY")
             {
+                addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item4=="EMPTY")
             {
+                addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
+                saveVectorList(operateList,"operation.txt");
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
@@ -4456,6 +4533,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
     vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
     vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector <Operation> operateList = getVectorList<Operation>("operation.txt");
 
     int customIndex = getIndex<CustomList<string>>(customList , receiptID , [](CustomList<string> cl){return cl.registers.serialNum;});
 
@@ -4546,6 +4624,8 @@ void customPartyTheme(string name , int userIndex,string receiptID)
                     {
                         themeList[i].themeTemp = "FALSE";
                     }
+                    addOperation(userIndex,"ADDED CUSTOM THEME","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     registerList[userIndex].customStatus = "ACTIVE";
                     saveVectorList(registerList,"registration.txt");
                     saveVectorList(themeList,"theme.txt");
@@ -4820,6 +4900,9 @@ void custProfileEdit(string name,int userIndex,string prefix)
 
     vector<LoginDetails> customerList = getVectorList<LoginDetails>("customer.txt");
     vector<vector<string>> profileRecord;
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
+    vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
+    int registerIndex = getIndex<Registration<string>>(registerList, name , [](Registration<string>r){return r.login.nickname;});
     int num = customerList[userIndex].password.length();
     string passLen = to_string(num);
 
@@ -4838,6 +4921,8 @@ void custProfileEdit(string name,int userIndex,string prefix)
     {
         m.menuTitle = "VIEW PROFILE";
         m.menuTitleTemplate();
+        addOperation(userIndex,"VIEWED USER PROFILE","CUSTOMER OPERATION","CUSTOMER");
+        saveVectorList(operateList,"operation.txt");
         outputProfile(profileRecord,userIndex);
         pressAny();
         custViewProfile(name,userIndex);
@@ -4892,6 +4977,8 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
                     cout << "YOU HAVE CHANGED YOUR USERNAME SUCCESSFUL :)"<<endl;
+                    addOperation(userIndex,"CHANGED USERNAME","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     customerList[userIndex].username = l.username;
                     addOperation(userIndex,"CUSTOMER CHANGE USERNAME","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -4928,12 +5015,22 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
                     cout << "YOU HAVE CHANGED YOUR NICKNAME SUCCESSFUL :)"<<endl;
+                    addOperation(userIndex,"CHANGED NICKNAME","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     transform(l.nickname.begin(),l.nickname.end(),l.nickname.begin(),::toupper);
                     customerList[userIndex].nickname = l.nickname;
+                    for(int i = 0 ; i < registerList.size();i++)
+                    {
+                        if(registerList[i].login.nickname == name)
+                        {
+                            registerList[i].login.nickname = l.nickname;
+                        }
+                    }
+                    saveVectorList(registerList,"registration.txt");
                     addOperation(userIndex,"CUSTOMER CHANGE NICKNAME","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
                     pressAny();
-                    custViewProfile(name,userIndex);
+                    login("customer");
                     innerStatus = false;
                 }
                 else if(confirmAns == "N" || confirmAns == "n")
@@ -4965,6 +5062,8 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
                     cout << "YOU HAVE CHANGED YOUR CONTACT NUMBER SUCCESSFUL :)"<<endl;
+                    addOperation(userIndex,"CHANGED CONTACT NUMBER","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     customerList[userIndex].contactNum = l.contactNum;
                     addOperation(userIndex,"CUSTOMER CHANGE CONTACT NUM","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -5001,6 +5100,8 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
                     cout << "YOU HAVE CHANGED YOUR EMAIL SUCCESSFUL :)"<<endl;
+                    addOperation(userIndex,"CHANGED EMAIL","CUSTOMER OPERATION","CUSTOMER");
+                    saveVectorList(operateList,"operation.txt");
                     customerList[userIndex].email = l.email;
                     addOperation(userIndex,"CUSTOMER CHANGE EMAIL","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -5579,6 +5680,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
 
     vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
     vector <vector<string>> setupRecords;
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     setupRecords = 
     {
@@ -5599,7 +5701,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
     string prompt = "";
     if(registerList[registerIndex].setupStatus == "SET UP DONE")
     {
-        prompt = "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> <d TO COPLETE THE EVENT BOOKING> : ";
+        prompt = "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> <\'d\' TO COPLETE THE EVENT BOOKING> : ";
     }
     else
     {
@@ -5607,6 +5709,12 @@ void manageEvent(string name,int staffIndex, int registerIndex)
     }
 
     outputSetupDetails(setupRecords,"MANAGE");
+    if(registerList[registerIndex].setupStatus == "SET UP DONE" && registerList[registerIndex].orderStatus == "DONE")
+    {
+        cout << "THE CURRENT BOOKING HAVE BEEN DONE :)\n" << endl;
+        pressAny();
+        staffMonitorEvent(name,staffIndex);
+    }
 
     while(status)
     {
@@ -5668,6 +5776,8 @@ void manageEvent(string name,int staffIndex, int registerIndex)
         else if((ans == "d" || ans == "D") && registerList[registerIndex].setupStatus == "SET UP DONE")
         {
             registerList[registerIndex].orderStatus = "DONE";
+            addOperation(staffIndex,"COMPLETE BOOKING","STAFF OPERATION","STAFF");
+            saveVectorList(operateList,"operation.txt");
             saveVectorList(registerList,"registration.txt");
             cout << "<" << registerList[registerIndex].serialNum << "> HAS DONE SUCCESSFULLY :)\n" << endl;
             pressAny();
@@ -5870,6 +5980,7 @@ void addItem(string name,int staffIndex,string prefix)
     vector <CustomPackage <string>> customPackage = getVectorList <CustomPackage <string>> ("customPackage.txt");
     vector <Theme <string>> themeList = getVectorList <Theme <string>> ("theme.txt");
     vector<vector<string>> confirmRecord;
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     string newThemePriceString, newPackagePriceString, newCustomPackagePriceString, newAddOnPriceString;
     regex priceFormat("^(?:0|[1-9][0-9]*)$");
@@ -6286,6 +6397,8 @@ void addItem(string name,int staffIndex,string prefix)
             if(confirmPackage == "Y" || confirmPackage == "y")
             {
                 packageList.push_back(newPackage);
+                addOperation(staffIndex,"ADDED NEW PACKAGE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 saveVectorList(packageList,"packageList.txt");
                 cout << "NEW PACKAGE PUBLISH SUCCESSFUL....\n"<<endl;
                 pressAny();
@@ -6501,6 +6614,8 @@ void addItem(string name,int staffIndex,string prefix)
                 customPackage.push_back(newCustomPackage);
                 saveVectorList(customPackage,"customPackage.txt");
                 cout << "NEW GENERAL ADD ON PUBLISH SUCCESSFUL....\n"<<endl;
+                addOperation(staffIndex,"ADDED NEW GENERAL ADD ON","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
@@ -6637,6 +6752,8 @@ void addItem(string name,int staffIndex,string prefix)
                 themeList.push_back(newTheme);
                 saveVectorList(themeList,"theme.txt");
                 cout << "NEW THEME PUBLISH SUCCESSFUL....\n"<<endl;
+                addOperation(staffIndex,"ADDED NEW THEME","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
@@ -6664,6 +6781,7 @@ void removeItem(string name,int staffIndex,string prefix)
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
     vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
     vector<vector<string>> listRecord;
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     bool status = true, innerStatus = true;
     string title, ans, confirmAns;
@@ -6704,6 +6822,8 @@ void removeItem(string name,int staffIndex,string prefix)
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << packageList[packageIndex].packageType << "> SUCCESSFUL...\n"<<endl;
+                        addOperation(staffIndex,"REMOVED PACKAGE","STAFF OPERATION","STAFF");
+                        saveVectorList(operateList,"operation.txt");
                         packageList.erase(packageList.begin()+packageIndex);
                         saveVectorList(packageList,"packageList.txt");
                         pressAny();
@@ -6744,6 +6864,8 @@ void removeItem(string name,int staffIndex,string prefix)
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << customPackage[packageIndex].item << "> SUCCESSFUL...\n"<<endl;
+                        addOperation(staffIndex,"REMOVED GENERAL ADD ON","STAFF OPERATION","STAFF");
+                        saveVectorList(operateList,"operation.txt");
                         customPackage.erase(customPackage.begin()+packageIndex);
                         saveVectorList(customPackage,"customPackage.txt");
                         pressAny();
@@ -6784,6 +6906,8 @@ void removeItem(string name,int staffIndex,string prefix)
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << themeList[packageIndex].themeDescription << "> SUCCESSFUL...\n"<<endl;
+                        addOperation(staffIndex,"REMOVED THEME","STAFF OPERATION","STAFF");
+                        saveVectorList(operateList,"operation.txt");
                         themeList.erase(themeList.begin()+packageIndex);
                         saveVectorList(themeList,"theme.txt");
                         pressAny();
@@ -6817,6 +6941,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
     vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
     vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
     regex priceFormat("^(?:0|[1-9][0-9]*)$");
 
     if(prefix == "PACKAGE")
@@ -6848,6 +6973,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S NAME","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].packageType << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].packageType = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -6883,6 +7010,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE VENUE SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACKAGE\'S VENUE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].venue << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].venue = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -6920,6 +7049,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE TIME DURATION SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S TIME DURATION","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].timeDuration << " HOURS> TO <" << ans << " HOURS> :)\n"<<endl;
                 packageList[index].timeDuration = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -6955,6 +7086,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE CATERING SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S CATERING","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].catering << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].catering = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -6990,6 +7123,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE DECORATION SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S DECORATION","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].decoration << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].decoration = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7025,6 +7160,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE ENTERTAINMENT SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S ENTERTAINMENT","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].entertaintment << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].entertaintment = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7060,6 +7197,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE ACTIVITIES SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S ACTIVITIES","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].activities << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].activities = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7095,6 +7234,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE PARTY GIFT SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S PARTY GIFT","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].partyGift << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].partyGift = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7130,6 +7271,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE CAKE SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S CAKE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].cake << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].cake = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7178,6 +7321,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 string newPackagePriceString = ssPackagePrice.str();
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED PACAKAGE\'S PRICE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <RM" << packageList[index].price << "> TO <RM" << newPackagePriceString << "> :)\n"<<endl;
                 packageList[index].price = newPackagePriceString;
                 saveVectorList(packageList,"packageList.txt");
@@ -7217,6 +7362,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED CUSTOM ITEM\'S NAME","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << customPackage[index].item << "> TO <" << ans << "> :)\n"<<endl;
                 customPackage[index].item = ans;
                 saveVectorList(customPackage,"customPackage.txt");
@@ -7258,6 +7405,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 newCustomPackagePriceString = ssCustomPackagePrice.str();
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED CUSTOM ITEM\'S PRICE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <RM" << customPackage[index].itemPrice << "> TO <RM" << newCustomPackagePriceString << "> :)\n"<<endl;
                 customPackage[index].itemPrice = newCustomPackagePriceString;
                 saveVectorList(customPackage,"customPackage.txt");
@@ -7299,6 +7448,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     newAmtStatus = "FALSE";
                     cout << "YOU HAVE CHANGED THE AMOUNT STATUS SUCCESSFUL..."<<endl;
+                    addOperation(staffIndex,"CHANGED AMOUNT STATUS","STAFF OPERATION","STAFF");
+                    saveVectorList(operateList,"operation.txt");
                     cout << "FROM <" << customPackage[index].itemAmountStatus << "> TO <" << newAmtStatus << "> :)\n"<<endl;
                     customPackage[index].itemAmountStatus = newAmtStatus;
                     status = false;
@@ -7336,6 +7487,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE AMOUNT LIMIT SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED AMOUNT LIMIT","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << customPackage[index].itemAmtLimit << "> TO <" << ans << "> :)\n"<<endl;
                 customPackage[index].itemAmtLimit = ans;
                 saveVectorList(customPackage,"customPackage.txt");
@@ -7374,6 +7527,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED THEME\'S NAME","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << themeList[index].themeDescription << "> TO <" << ans << "> :)\n"<<endl;
                 themeList[index].themeDescription = ans;
                 saveVectorList(themeList,"theme.txt");
@@ -7414,6 +7569,8 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 string newThemePriceString = ssThemePrice.str();
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
+                addOperation(staffIndex,"CHANGED THEME\'S PRICE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 cout << "FROM <RM" << themeList[index].themePrice << "> TO <RM" << newThemePriceString << "> :)\n"<<endl;
                 themeList[index].themePrice = newThemePriceString;
                 saveVectorList(themeList,"theme.txt");
@@ -7599,6 +7756,7 @@ void previewItem(string name,int staffIndex,string prefix)
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
     vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
     vector<vector<string>> listRecord;
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
 
     bool status = true;
     string title, ans, confirmAns;
@@ -7632,6 +7790,8 @@ void previewItem(string name,int staffIndex,string prefix)
             outputPackageRecord(index,"OUTPUT");
 
                 cout << "HERE\'S THE PREVIEW FOR THE PACKAGE :)\n" << endl;
+                addOperation(staffIndex,"PREVIEWED PACKAGE","STAFF OPERATION","STAFF");
+                saveVectorList(operateList,"operation.txt");
                 pressAny();
                 previewItem(name,staffIndex,prefix);
                 status = false;
@@ -7641,6 +7801,8 @@ void previewItem(string name,int staffIndex,string prefix)
             system("clear");
             outputCustomMenu("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE GENERAL ADD ON :)\n" << endl;
+            addOperation(staffIndex,"PREVIEWED GENERAL ADD ON","STAFF OPERATION","STAFF");
+            saveVectorList(operateList,"operation.txt");
             pressAny();
             previewItem(name,staffIndex,prefix);
             status = false;
@@ -7651,6 +7813,8 @@ void previewItem(string name,int staffIndex,string prefix)
             system("clear");
             outputTheme("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE CUSTOM THEME :)\n" << endl;
+            addOperation(staffIndex,"PREVIEWED THEME","STAFF OPERATION","STAFF");
+            saveVectorList(operateList,"operation.txt");
             pressAny();
             previewItem(name,staffIndex,prefix);
             status = false;
