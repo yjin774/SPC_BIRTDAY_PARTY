@@ -1184,7 +1184,6 @@ void outputCustomMenu(string prefix,int specificIndex)
     vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
 
     cout << "╔═══════════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
     cout << "║  ITEM                               ║  PRICE                ║  ITEM STATUS        ║" << endl;
     cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
     
@@ -1199,7 +1198,7 @@ void outputCustomMenu(string prefix,int specificIndex)
                 continue;
             }
 
-            cout << "╠════════════════════════════════════════════════════════════════════╣" << endl;
+            cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
         }
     }
     else if(prefix == "SPECIFIC")
@@ -1510,16 +1509,133 @@ void printRecords(const vector<vector<pair<string, T>>>& records, int width = 25
     }
 }
 
-//To match list's elements
+
 template <typename T>
-bool usernameExist(const vector<T>& list , const string& compareItem)
+bool usernameExist(const vector<T>& list, const string& compareItem)
 {
-    for(auto r : list)
+    string lowerCompareItem = compareItem;
+    transform(lowerCompareItem.begin(), lowerCompareItem.end(), lowerCompareItem.begin(), ::tolower);
+
+    string listValue;
+    for(int i = 0; i < list.size(); i++)
     {
-        if(r.username == compareItem)
+        listValue = list[i].username;
+        transform(listValue.begin(), listValue.end(), listValue.begin(), ::tolower);
+        if(listValue == lowerCompareItem)
         {
             return true;
-        }   
+        }
+    }
+    return false;
+}
+
+template <typename T>
+bool dateExist(const vector<T>& list, const string& date,const string& startTimes,const string& endTimes,string prefix)
+{
+    for(int i = 0; i < list.size(); i++)
+    {
+        if(prefix == "DATE")
+        {
+            if(list[i].eventDate == date)
+            {
+                return true;
+            }
+        }
+        else if(prefix == "STARTTIME")
+        {
+            if(list[i].startTime == startTimes)
+            {
+                return true;
+            }
+        }
+        else if(prefix == "ENDTIME")
+        {
+            if(list[i].endTime == endTimes)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+template <typename T>
+bool packageExist(const vector<T>& list, const string& packageName)
+{
+    string comparePackage = packageName;
+
+    transform(comparePackage.begin(),comparePackage.end(),comparePackage.begin(),::tolower);
+    for(int i = 0; i < list.size(); i++)
+    {
+        string listValue;
+            listValue = list[i].packageType;
+            transform(listValue.begin(),listValue.end(),listValue.begin(),::tolower);
+            if(listValue == comparePackage)
+            {
+                return true;
+            }
+    }
+    return false;
+}
+
+template <typename T>
+bool customExist(const vector<T>& list,const string& customName)
+{
+    string compareCustom = customName;
+
+    transform(compareCustom.begin(),compareCustom.end(),compareCustom.begin(),::tolower);
+
+    for(int i = 0; i < list.size(); i++)
+    {
+        string listValue;
+
+            listValue = list[i].item;
+            transform(listValue.begin(),listValue.end(),listValue.begin(),::tolower);
+            if(listValue == compareCustom)
+            {
+                return true;
+            }
+    }
+    return false;
+}
+
+template <typename T>
+bool themeExist(const vector<T>& list,const string& themeName)
+{
+    string comprareTheme = themeName;
+
+    transform(comprareTheme.begin(),comprareTheme.end(),comprareTheme.begin(),::tolower);
+
+    for(int i = 0; i < list.size(); i++)
+    {
+        string listValue;
+
+            listValue = list[i].themeDescription;
+            transform(listValue.begin(),listValue.end(),listValue.begin(),::tolower);
+            if(listValue == comprareTheme)
+            {
+                return true;
+            }
+    }
+    return false;
+}
+
+template <typename T>
+bool campaignExist(const vector<T>& list,const string& camapaignName)
+{
+    string compareCampaign = camapaignName;
+
+    transform(compareCampaign.begin(),compareCampaign.end(),compareCampaign.begin(),::tolower);
+    for(int i = 0; i < list.size(); i++)
+    {
+        string listValue;
+    
+            listValue = list[i].contentTitle;
+            transform(listValue.begin(),listValue.end(),listValue.begin(),::tolower);
+            if(listValue == compareCampaign)
+            {
+                return true;
+            }
     }
     return false;
 }
@@ -1692,7 +1808,7 @@ void loginScreen()
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER VALID OPTIONS <1 ~ 3>"<<endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTIONS <1 ~ 3> :)\n"<<endl;
             continue;
         }
         status = false;
@@ -1742,7 +1858,7 @@ void custPage()
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)"<< endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<< endl;
             continue;
         }
         status = false;
@@ -1786,7 +1902,7 @@ void staffPage()
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)"<< endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<< endl;
             continue;
         }
         status = false;
@@ -1854,6 +1970,12 @@ void login(string aspect)
             }
         }
 
+        if(l.username.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         cout << "PLEASE ENTER YOUR PASSWORD <0 to exit> : ";
         getline(cin,l.password);
 
@@ -1869,6 +1991,12 @@ void login(string aspect)
                 staffPage();
                 status = false;
             }
+        }
+
+        if(l.password.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         int usernameIndex = getIndex<LoginDetails>(currentList , l.username , [](LoginDetails ld){return ld.username;});
@@ -1918,7 +2046,6 @@ void signUp(string aspect)
     if(aspect == "customer")
     {
         currentList = getVectorList<LoginDetails>("customer.txt");
-        
         m.menuTitle = "CUSTOMER SIGN UP";
         m.menuTitleTemplate();
     }
@@ -1929,6 +2056,13 @@ void signUp(string aspect)
         m.menuTitleTemplate();
     }
 
+    cout << "\n";
+
+    m.menuTitle = "USERNAME <LESS THAN 20 CHARACTERS>";
+    m.menuTitleTemplate();
+    m.menuTitle = "ALLOW ALPHABET AND UNDERSCORE ONLY";
+    m.menuTitleTemplate();
+
     while(status)
     {
         cout << "PLEASE ENTER YOUR USERNAME <0 to exit> : ";
@@ -1936,26 +2070,40 @@ void signUp(string aspect)
 
         if(l.username == "0")
         {
-            if(aspect == "customer")
-                {
-                    custPage();
-                    status = false;
-                }
-                else
-                {
-                    staffPage();
-                    status = false;
-                }
-            status = false;
+            if(aspect == "customer") custPage();
+            else staffPage();
+            return;
         }
 
-        tempArr[row][column] = l.username;
-        column++;
-        status = false;
+        if(l.username.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(usernameExist(currentList,l.username))
+        {
+            cout << "THE USERNAME HAVE BEEN USED :)\n"<<endl;
+            continue;
+        }
+
+        regex usernamePattern("^[a-zA-Z0-9_]{1,20}$");
+        if(!regex_match(l.username, usernamePattern))
+        {
+            cout << "INVALID USERNAME... ONLY ALLOW ALPHABET, UNDERSCORE AND MAX 20 CHARACTERS :)\n" << endl;
+            continue;
+        }
+
+        tempArr[row][column++] = l.username;
+        break;
     }
 
-    status = true;
+    m.menuTitle = "CONTACT NUMBER <ENTER WITH NUMBER>";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE FOLLOW THE FORMAT <xxx-xxxxxxx>";
+    m.menuTitleTemplate();
 
+    status = true;
     while(status)
     {
         cout << "PLEASE ENTER YOUR CONTACT NUMBER <0 to exit> : ";
@@ -1963,37 +2111,34 @@ void signUp(string aspect)
 
         if(l.contactNum == "0")
         {
-            if(aspect == "customer")
-                {
-                    custPage();
-                    status = false;
-                }
-                else
-                {
-                    staffPage();
-                    status = false;
-                }
-            status = false;
+            if(aspect == "customer") custPage();
+            else staffPage();
+            return;
         }
 
-        regex contactPattern("01[0-9]+-\\d+");
-
-        if(regex_match(l.contactNum,contactPattern) && l.contactNum.length() == 11)
+        if(l.contactNum.empty())
         {
-            tempArr[row][column] = l.contactNum;
-            column++;
-            status = false;
-        }
-        else
-        {
-            cout << "PLEASE ENTER THE CONTAC NUMBER WITH FORMAT <xxx-xxxxxxx> :)"<<endl;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
-        status = false;
+
+        regex contactPattern("^01[0-9]{1}-[0-9]{7}$");
+        if(!regex_match(l.contactNum, contactPattern))
+        {
+            cout << "INVALID INPUT... PLEASE USE THE FORMAT <xxx-xxxxxxx> :)\n" << endl;
+            continue;
+        }
+
+        tempArr[row][column++] = l.contactNum;
+        break;
     }
 
-    status = true;
+    m.menuTitle = "EMAIL <LESS THAN 30 CHARACTERS>";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE FOLLOW FORMAT <xxxxxxxxxx@xxxxx.com>";
+    m.menuTitleTemplate();
 
+    status = true;
     while(status)
     {
         cout << "PLEASE ENTER YOUR EMAIL <0 to exit> : ";
@@ -2001,31 +2146,38 @@ void signUp(string aspect)
 
         if(l.email == "0")
         {
-            if(aspect == "customer")
-                {
-                    custPage();
-                    status = false;
-                }
-                else
-                {
-                    staffPage();
-                    status = false;
-                }
-            status = false;
+            if(aspect == "customer") custPage();
+            else staffPage();
+            return;
         }
 
-        regex emailPattern("[a-zA-Z0-9]+@[a-zA-Z]+.com");
-
-        if(regex_match(l.email,emailPattern)&&l.email.length() == 25)
+        if(l.email.empty())
         {
-            tempArr[row][column] = l.email;
-            column++;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
+            continue;
         }
-    status = false;
+        
+
+        regex emailPattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$");
+        if(!regex_match(l.email,emailPattern))
+        {
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT<xxxxxxxxxx@xxxxx.com> :)\n" << endl;
+            continue;
+        }
+        else if(l.email.length() > 30)
+        {
+            cout << "INVALID INPUT... PLEASE ENTER LESS THAN 30 CHARACTERS :)\n"<<endl;
+            continue;
+        }
+
+        tempArr[row][column++] = l.email;
+        break;
     }
 
-    status = true;
+    m.menuTitle = "PASSWORD <LESS THAN 20 CHARACTERS>";
+    m.menuTitleTemplate();
 
+    status = true;
     while(status)
     {
         cout << "PLEASE ENTER PASSWORD <0 to exit> : ";
@@ -2033,37 +2185,49 @@ void signUp(string aspect)
 
         if(l.password == "0")
         {
-            if(aspect == "customer")
-                {
-                    custPage();
-                    status = false;
-                }
-                else
-                {
-                    staffPage();
-                    status = false;
-                }
-            status = false;
+            if(aspect == "customer") custPage();
+            else staffPage();
+            return;
         }
+
+        if(l.password.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(l.password.length() > 20)
+        {
+            cout << "INVALID INPUT...  PLEASE ENTER LESS THAN 20 CHARACTERS :)\n" << endl;
+            continue;
+        }
+
+        m.menuTitle = "CONFIRM YOUR PASSWORD";
+        m.menuTitleTemplate();
 
         cout << "PLEASE CONFIRM YOUR PASSWORD : ";
         getline(cin,confirmPass);
 
-        if(confirmPass == l.password)
+        if(confirmPass.empty())
         {
-            tempArr[row][column] = l.password;
-            column++;
-        }
-        else
-        {
-            cout << "\nPLEASE MAKE SURE YOU HAVE ENTERED THE SAME PASSWORD :)"<< endl;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
-        status = false;
+
+        if(confirmPass != l.password)
+        {
+            cout << "PASSWORD NOT MATCH... PLEASE TRY AGAIN :)\n" << endl;
+            continue;
+        }
+
+        tempArr[row][column++] = l.password;
+        break;
     }
 
-    status = true;
+    m.menuTitle = "NICKNAME <LESS THAN 20 CHARACTERS>";
+    m.menuTitleTemplate();
 
+    status = true;
     while(status)
     {
         cout << "PLEASE ENTER YOUR NICKNAME <0 to exit> : ";
@@ -2071,41 +2235,42 @@ void signUp(string aspect)
 
         if(l.nickname == "0")
         {
-            if(aspect == "customer")
-            {
-                custPage();
-                status = false;
-            }
-            else
-            {
-                staffPage();
-                status = false;
-            }
-            status = false;
+            if(aspect == "customer") custPage();
+            else staffPage();
+            return;
+        }
+
+        if(l.nickname.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :) \n" << endl;
+            continue;
+        }
+
+        if(l.nickname.length() > 20 )
+        {
+            cout << "INVAID INPUT... PLEASE ENTER LESS THAN 20 CHARACTERS :)\n" << endl;
+            continue;
         }
 
         transform(l.nickname.begin(),l.nickname.end(),l.nickname.begin(),::toupper);
-
-        tempArr[row][column] = l.nickname;
-        column = 0;
-        status = false;
+        tempArr[row][column++] = l.nickname;
+        break;
     }
 
-tempArr[0][0] = l.username;
-tempArr[0][1] = l.password;
-tempArr[0][2] = l.nickname;
-tempArr[0][3] = l.contactNum;
-tempArr[0][4] = l.email;
+    tempArr[0][0] = l.username;
+    tempArr[0][1] = l.password;
+    tempArr[0][2] = l.nickname;
+    tempArr[0][3] = l.contactNum;
+    tempArr[0][4] = l.email;
 
-m.menuOptions.clear(); // Clear to avoid duplicates
-for (int j = 0; j < 5; j++) {
-    m.menuOptions.push_back(tempArr[0][j]);
-}
-m.menuTitle = "DETAILS CONFIRMATION";
-m.confirmDetails();
+    m.menuOptions.clear();
+    for (int j = 0; j < 5; j++) {
+        m.menuOptions.push_back(tempArr[0][j]);
+    }
+    m.menuTitle = "DETAILS CONFIRMATION";
+    m.confirmDetails();
 
     status = true;
-
     while(status)
     {
         cout << "\n*PLEASE CHECK BEFORE PROCEED* <y/n> : ";
@@ -2114,7 +2279,6 @@ m.confirmDetails();
         if(confirmDetails == "Y" || confirmDetails == "y")
         {
             cout << "ACCOUNTE CREATED SUCCESSFUL~~~" << endl;
-
             pressAny();
 
             newCust.username = l.username;
@@ -2124,7 +2288,6 @@ m.confirmDetails();
             newCust.email = l.email;
 
             currentList.push_back(newCust);
-            
             int currentIndex = currentList.size()-1;
 
             if(aspect == "customer")
@@ -2132,40 +2295,29 @@ m.confirmDetails();
                 saveVectorList(currentList,"customer.txt");
                 addOperation(currentIndex,"CUSTOMER SIGN UP","SIGN UP","customer");
                 custPage();
-                status = false;
             }
             else
             {
                 saveVectorList(currentList,"staff.txt");
                 addOperation(currentIndex,"STAFF SIGN UP","SIGN UP","staff");
                 staffPage();
-                status = false;
             }
+            status = false;
         }
         else if(confirmDetails == "N" || confirmDetails == "n")
         {
             cout << "ACCOUNTE CREATED UNSUCCESSFUL :(" << endl;
-
             pressAny();
-   
             system("clear");
-            if(aspect == "customer")
-            {
-                custPage();
-                status = false;
-            }
-            else
-            {
-                staffPage();
-                status = false;
-            }
+            if(aspect == "customer") custPage();
+            else staffPage();
+            status = false;
         }
         else
         {
-            cout << "PLEASE ENTER VALID OPTIONS :)"<< endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)"<< endl;
             continue;
         }
-        status = false;
     }
 }
 
@@ -2215,6 +2367,12 @@ void changePass(string aspect)
             }
         }
 
+        if(username.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         index = getIndex<LoginDetails>(currentList , username , [](LoginDetails ld){return ld.username;});
 
         if(usernameExist(currentList , username))
@@ -2237,6 +2395,12 @@ void changePass(string aspect)
         cout << "PLEASE ENTER YOUR OLD PASSWORD : ";
         getline(cin,pass);
 
+        if(pass.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(currentList[index].password != pass)
         {
             cout << "PLEASE ENTER THE CORRECT OLD PASSWORD :)" << endl;
@@ -2256,9 +2420,15 @@ void changePass(string aspect)
         cout << "\nPLEASE ENTER YOUR NEW PASSWORD <maximum 15 characters> : ";
         getline(cin,newPass);
 
+        if(newPass.empty())
+        {
+            cout << "PELASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(newPass.length() > 15)
         {
-            cout << "PLEASE LIMIT THE CHARACTER IN 15 WORDS ONLY :)";
+            cout << "PLEASE LIMIT THE CHARACTER IN 15 WORDS ONLY :)\n" << endl;
             continue;
         }
 
@@ -2274,7 +2444,7 @@ void changePass(string aspect)
             saveVectorList(currentList,"staff.txt");
         }
 
-        cout << "\n" << currentList[index].nickname << "\'s PASSWORD HAS CHANGED SUCCESSFULLY" << endl;
+        cout << "\n" << currentList[index].nickname << "\'s PASSWORD HAS CHANGED SUCCESSFULLY\n" << endl;
 
         if(aspect == "customer")
         {
@@ -2356,7 +2526,7 @@ void custMainPage(string name,int usernameIndex)
         }
         else if(ans == "7")
         {
-            cout << "ARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
+            cout << "\nARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
             getline(cin,confirmDetails);
 
             if(confirmDetails == "Y" || confirmDetails == "y")
@@ -2372,14 +2542,14 @@ void custMainPage(string name,int usernameIndex)
             }
             else
             {
-                cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)" <<endl;
+                cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)\n" <<endl;
                 continue;
             }
             status = false;
         }
         else
         {
-            cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)" <<endl;
+            cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)\n" <<endl;
             continue;
         }
         status = false;
@@ -2464,7 +2634,7 @@ void staffMainPage(string name,int staffIndex)
         }
         else if(ans == "7")
         {
-            cout << "ARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
+            cout << "\nARE YOU SURE YOU WANT TO LOG OUT ? <y/n> : ";
             getline(cin,confirmDetails);
 
             if(confirmDetails == "Y" || confirmDetails == "y")
@@ -2480,14 +2650,14 @@ void staffMainPage(string name,int staffIndex)
             }
             else
             {
-                cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)" <<endl;
+                cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)\n" <<endl;
                 continue;
             }
             status = false;
         }
         else
         {
-            cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)" <<endl;
+            cout << "INVALID INPUT~~~ PLEASE CHOOSE VALID OPTION :)\n" <<endl;
             continue;
         }
         status = false;
@@ -2547,6 +2717,7 @@ void custRegis(string name , int userIndex)
     string confirmPackage;
     string ans;
     string receiptId;
+    string endTime;
 
     Registration<string> r;
     Registration<string> newResgister;
@@ -2570,6 +2741,8 @@ void custRegis(string name , int userIndex)
 
     m.menuTitle = "EVENT DATE";
     m.menuTitleTemplate();
+    m.menuTitle = "PLEASE ENTER IN <YYYY-MM-DD>";
+    m.menuTitleTemplate();
 
     while(status)
     {
@@ -2582,11 +2755,24 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        regex dateFormat("20[0-9]{2}-(0[1-9]|1[0-2])-(0[0-9]|[12][0-9]|3[01])");
-
-        if(regex_match(r.eventDate,dateFormat))
+        if(r.eventDate.empty())
         {
-            status = false;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n"<<endl;
+            continue;
+        }
+
+        if(dateExist(registerList,r.eventDate,"","","DATE"))
+        {
+            cout << "THE DATE YOU HAVE CHOSE HAVE BEEN BOOKED BY OTHER PERSON :)\n" << endl;
+            continue;
+        }
+
+        regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
+
+        if(!regex_match(r.eventDate,dateFormat))
+        {
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <YYYY-MM-DD> :)\n" << endl;
+            continue;
         }   
         else
         {
@@ -2597,7 +2783,9 @@ void custRegis(string name , int userIndex)
         status = false;
     }
 
-    m.menuTitle = "TIME";
+    m.menuTitle = "TIME <ENTER IN 24 HOURS FORMAT>";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE FOLLOW THE FORMAT <HH:MM>";
     m.menuTitleTemplate();
 
     status = true;
@@ -2613,25 +2801,46 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        regex timeFormat("([0-1][0-9]|2[0-3]):[0-5][0-9]");
-
-        if(regex_match(r.startTime,timeFormat))
+        if(r.startTime.empty())
         {
-            r.startTime = timePrefix(r.startTime);
-            status = false;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY ;)\n" << endl;
+            continue;
+        }
+
+        if(dateExist(registerList,"",r.startTime,"","STARTTIME"))
+        {
+            cout << "THE TIME HAVE BEEN BOOKED BY OTHER PEROSN :)\n" << endl;
+            continue;
+        }
+
+        regex timeFormat("^([01]\\d|2[0-3]):[0-5]\\d$");
+
+        if(!regex_match(r.startTime,timeFormat))
+        {
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <HH:MM> :)\n" << endl;
+            continue;
         }   
         else
         {
             cout << "PLEASE ENTER IN <HH:MM> FORMAT :)\n"<<endl;
             continue;
         }
-
+        int hoursAdd = stoi(packageList[packageIndex].timeDuration);
+        endTime = addHoursToTime(r.startTime,hoursAdd);
+        if(dateExist(registerList,"","",endTime,"ENDTIME"))
+        {
+            cout << "THE TIME HAVE BEEN BOOKED BY OTHER PERSON :)\n" << endl;
+            continue;
+        }
+        r.startTime = timePrefix(r.startTime);
         status = false;
     }
 
     status = true;
 
     m.menuTitle = "BIRTHDAY THEME NAME";
+    m.menuTitleTemplate();
+    m.menuTitle = "ENTER LESS THAN 20 CHARACTERS";
     m.menuTitleTemplate();
 
     while(status)
@@ -2644,13 +2853,27 @@ void custRegis(string name , int userIndex)
             custMainPage(name,userIndex);
             status = false;
         }
+
+        if(r.birthdayName.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(r.birthdayName.length() > 20)
+        {
+            cout << "INVALID INPUT... PLEASE ENTER LESS THAN 20 CHARACTERS :)\n" << endl;
+            continue;
+        }
         transform(r.birthdayName.begin(),r.birthdayName.end(),r.birthdayName.begin(),::toupper);
         status = false;
     }
 
     status = true;
 
-    m.menuTitle = "CONTACT NUMBER <d to use default contact no>";
+    m.menuTitle = "CONTACT NUMBER <press\'d\' to use default contact no>";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE FOLLOW THE FORMAT <xxx-xxxxxxx>";
     m.menuTitleTemplate();
 
     while(status)
@@ -2662,6 +2885,19 @@ void custRegis(string name , int userIndex)
         {
             custMainPage(name,userIndex);
             status = false;
+        }
+
+        if(r.login.contactNum.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        regex contactPattern("^01[0-9]{1}-[0-9]{7}$");
+        if(!regex_match(r.login.contactNum,contactPattern))
+        {
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxx-xxxxxxx> :)" << endl;
+            continue;
         }
         
         if(r.login.contactNum == "D" || r.login.contactNum == "d")
@@ -2677,11 +2913,33 @@ void custRegis(string name , int userIndex)
 
     m.menuTitle = "EMAIL <d to use default email>";
     m.menuTitleTemplate();
+    m.menuTitle = "PLEASE FOLLOW FORMAT <xxxxxxxxxx@xxxxx.com>";
+    m.menuTitleTemplate();
 
     while(status)
     {
         cout << "PLEASE ENTER YOUR EMAIL <0 to exit> : ";
         getline(cin,r.login.email);
+
+        if(r.login.email == "0")
+        {
+            custMainPage(name,userIndex);
+            status = false;
+        }
+
+        if(r.login.email.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        regex emailPattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$");
+        if(!regex_match(r.login.email,emailPattern)&&r.login.email.length()>35)
+        {
+            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxxxxxxxxx@xxxxx.com> :)" << endl;
+            cout << "PLEASE ENTER LESS THAN 35 CHAACTERS :)\n" <<endl;
+            continue;
+        }
 
         if(r.login.email == "D" || r.login.email == "d")
         {
@@ -2689,17 +2947,16 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.login.email == "0")
-        {
-            custMainPage(name,userIndex);
-            status = false;
-        }
         status = false;
     }
 
     status = true;
 
-    m.menuTitle = "GUEST AMOUNT";
+    m.menuTitle = "GUEST AMOUNT <ENTER NUMBER>";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE AT LEAST 20 PEOPLE";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE ENTER LESS THAN 80 PEOPLE";
     m.menuTitleTemplate();
 
     while(status)
@@ -2713,17 +2970,28 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        regex guestFormat("\\d+");
-        int amt = stoi(r.guestAmount);
+        if(r.guestAmount.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        regex guestFormat("^(?:[1-9]|[1-7][0-9])$");
 
         if(!regex_match(r.guestAmount , guestFormat))
         {
-            cout << "PLEASE ENTER WITH NUMBERS :)" << endl;
+            cout << "PLEASE ENTER NUMBER AND WITHIN 20 TO 80 GUEST :)\n" << endl;
             continue;
         }
-        else if(amt <= 0 || r.guestAmount.empty())
+        int amt = stoi(r.guestAmount);
+        if(amt < 20)
         {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY OR ZERO" << endl;
+            cout << "PLEASE ENTER AT LEAST 20 GUEST :)\n" << endl;
+            continue;
+        }
+        else if(amt > 80)
+        {
+            cout << "PLEASE ENTER LESS THAN 80 GUEST :)\n" << endl;
             continue;
         }
         else
@@ -2739,6 +3007,8 @@ void custRegis(string name , int userIndex)
 
     m.menuTitle = "SPECIAL REQUEST";
     m.menuTitleTemplate();
+    m.menuTitle = "ENTER LESS THAN 60 CHARACTERS";
+    m.menuTitleTemplate();
 
     while(status)
     {
@@ -2751,9 +3021,15 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.specialRequest.length()>70)
+        if(r.specialRequest.empty())
         {
-            cout << "PLEASE DON\'T MORE THAN 70 CHARACTERS :)\n"<<endl;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(r.specialRequest.length()>60)
+        {
+            cout << "PLEASE DON\'T MORE THAN 60 CHARACTERS :)\n"<<endl;
             continue;
         }
         else
@@ -2789,6 +3065,12 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         int ansInt = stoi(ans);
         packageIndex = ansInt-1;
         if(ansInt <= packageList.size() && ansInt > 0)
@@ -2797,13 +3079,19 @@ void custRegis(string name , int userIndex)
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)" << endl;
+            cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)\n" << endl;
             continue;
         }
 
         cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
         
         getline(cin, confirmPackage);
+
+        if(confirmPackage.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
 
         if(confirmPackage == "Y" || confirmPackage == "y")
         {
@@ -2825,8 +3113,6 @@ void custRegis(string name , int userIndex)
 
     vector<vector<string>> confirmRecord;
 
-    int hoursAdd = stoi(packageList[packageIndex].timeDuration);
-    string endTime = addHoursToTime(r.startTime,hoursAdd);
     confirmRecord =
     {
         {"CUSTOMER NAME",custList[userIndex].nickname},
@@ -2853,6 +3139,12 @@ void custRegis(string name , int userIndex)
     {
         cout << "ARE YOU SURE ALL THE DETAILS SHOWN ABOVE ARE CORRECT ? <y/n> : ";
         getline(cin , confirmation);
+
+        if(confirmation.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
         if(confirmation == "Y" || confirmation == "y")
         {
             newResgister.serialNum = receiptId;
@@ -3169,6 +3461,12 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
         cout << "ARE UYOU SURE YOU WANT TO CANCEL YOU BOOKING ? <y/n>" ;
         getline(cin,ans);
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "N" || ans == "n")
         {
             cout << "CANCEL BOOKING UNSUCCESSFUL......"<< endl;
@@ -3192,6 +3490,11 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
             saveVectorList(receiptList,"receipt.txt");
             custMainPage(name,usernameIndex);
             status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n" << endl;
+            continue;
         }
         status = false;
     }
@@ -3234,6 +3537,12 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
         {
             custViewBooking(name,usernameIndex);
             status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         if(ans == "1")
@@ -3394,6 +3703,12 @@ void custViewBooking(string name,int usernameIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(compareAns == registeredList[registerIndex].serialNum)
         {
             if(registeredList[registerIndex].bookingStatus == "PAYMENT PENDING")
@@ -3474,12 +3789,19 @@ void custViewCampaign(string name,int usernameIndex)
             custMainPage(name,usernameIndex);
             status = false;
         }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         int ansInt = stoi(ans);
         int campaignIndex = ansInt-1;
 
         if(ansInt < 1 || ansInt > campaignList.size())
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n"<< endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<< endl;
             continue;
         }
 
@@ -3522,6 +3844,12 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     customPartyCart(name,userIndex,receiptID);
                     status = false;
                 }
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
                 ansIndex = stoi(ans);
 
                 if(ans == "1" && customList[customIndex].item1Status == "FALSE")
@@ -3569,6 +3897,12 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     status = false;
                 }
 
+                if(chosenItem.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
                 if(chosenItem == "Y" || chosenItem == "y")
                 {
                     addRemoveItem("REMOVE",userIndex,ansIndex,customIndex,"0","FALSE");
@@ -3600,6 +3934,12 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                 {
                     customPartyCart(name,userIndex,receiptID);
                     status = false;
+                }
+
+                if(ans1.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
                 }
 
                 if(ans1 == "1" && customList[customIndex].amt1Status == "TRUE")
@@ -3726,6 +4066,12 @@ void customPartyCart(string name , int userIndex,string receiptID)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             while(innerstatus)
@@ -3769,7 +4115,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
         }
         else
         {
-            cout << "INVALID INPUT... ENETER AGAIN :)\n"<<endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n"<<endl;
             continue;
         }
     status = false;
@@ -3906,6 +4252,12 @@ void confirmation(string name, int userIndexs, string receiptID)
         cout << "WOULD YOU LIKE TO ADD ON ANYTHING ? <y/n> : ";
         getline(cin,ans);
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl; 
+            continue;
+        }
+
         if(ans == "Y" || ans == "y")
         {
             customPartyGeneral(name,userIndexs,receiptID);
@@ -3918,7 +4270,7 @@ void confirmation(string name, int userIndexs, string receiptID)
         }
         else
         {
-            cout << "INVALID INPUT../ PLEASE ENTER AGAIN :)\n" << endl;
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n" << endl;
             continue;
         }
     innerStatus = false;
@@ -3995,7 +4347,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
 
         if (ans.empty()) 
         {
-            cout << "PLEASE ENTER A VALID OPTION :)\n" << endl;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
 
@@ -4081,7 +4433,11 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
                 status = false;
             }
         confirmation(name,userIndexs,receiptID);
-
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
+            continue;
         }
         status = false;
     }
@@ -4140,6 +4496,12 @@ void customPartyTheme(string name , int userIndex,string receiptID)
                     saveVectorList(themeList,"theme.txt");
             custCustomParty(name,userIndex);
             status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         if(themeList[ansIndex].themeTemp == "TRUE")
@@ -4201,7 +4563,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN\n"<<endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n"<<endl;
             continue;
         }
         status = false;
@@ -4238,6 +4600,12 @@ void custCustomPartyOption(string name, int userIndex,string receiptId)
         {
             custMainPage(name,userIndex);
             status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         if(ans == "1")
@@ -4336,6 +4704,12 @@ void custCustomParty(string name , int userIndex)
             status = false;
         }
 
+        if(receiptId.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
+            continue;
+        }
+
         if(registeredList[registerIndex].bookingStatus == "DEPOSIT DONE")
         {
             cout << "YOU HAVE PAYED THE DEPOSIT,WHICH MEANS YOU CAN\'T CUSTOMIZE YOUR BDAY PARTY ALREADY :)\n"<<endl;
@@ -4383,6 +4757,12 @@ void custDeleteAccountAlert(string name,int userIndex)
         cout << "ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT ? <y/n>" ;
         getline(cin,ans);
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n"<< endl;
+            continue;
+        }
+
         if(ans == "N" || ans == "n")
         {
             cout << "DELETE ACCOUNT UNSUCCESSFUL......"<< endl;
@@ -4420,6 +4800,11 @@ void custDeleteAccountAlert(string name,int userIndex)
             saveVectorList(customList,"customList.txt");
             loginScreen();
             status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
+            continue;
         }
         status = false;
     }
@@ -4485,6 +4870,12 @@ void custProfileEdit(string name,int userIndex,string prefix)
         {
             custViewProfile(name,userIndex);
             status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         if(ans ==  "1")
@@ -4640,7 +5031,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
         }
         else
         {
-            cout << "INVALID INPUT.... PLEASE ENTER AGAIN :)\n"<< endl;
+            cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :)\n"<< endl;
             continue;
         }
         status = false;
@@ -4674,6 +5065,12 @@ void custViewProfile(string name,int userIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             custProfileEdit(name,userIndex,"VIEW");
@@ -4691,7 +5088,7 @@ void custViewProfile(string name,int userIndex)
         }
         else
         {
-            cout << "INVALID INPUT..... PLEASE ENTER AGAIN :)\n"<< endl;
+            cout << "INVALID INPUT..... PLEASE ENTER A VALID OPTION :)\n"<< endl;
             continue;
         }
 
@@ -4758,6 +5155,12 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
         {
             custViewBooking(name,usernameIndex);
             status = false;
+        }
+
+        if(payType.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
+            continue;
         }
 
         if(payType == "1")
@@ -4844,7 +5247,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n"<< endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n"<< endl;
             continue;
         }
         status = false;
@@ -4880,6 +5283,20 @@ void feedBackSection(string name, int userIndex,int registerIndex)
             status = false;
         }
 
+        if(f.rate.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        regex starFormat("^[1-5]$");
+
+        if(!regex_match(f.rate,starFormat))
+        {
+            cout << "PLEASE ENTER NUMBER BETWEEN 1 to 5 ONLY :)\n" << endl;
+            continue;
+        }
+
         starRate = stoi(f.rate);
         cout << "\n";
         comments(starRate);
@@ -4894,18 +5311,26 @@ void feedBackSection(string name, int userIndex,int registerIndex)
     {
         m.menuTitle = "COMMENT SECTION";
         m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 150 CHARACTERS";
+        m.menuTitleTemplate();
         cout << "PLEASE ENTER YOUR COMMENT <0 to exit> : ";
         getline(cin,f.content);
 
-        if(f.rate == "0")
+        if(f.content == "0")
         {
             custMainPage(name,userIndex);
             status = false;
         }
 
-        if(f.content.length() > 81 )
+        if(f.content.empty())
         {
-            cout << "PLEASE DON\'T ENTER MORE THAN 80 CHARACTERS :)\n"<<endl;
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(f.content.length() > 150 )
+        {
+            cout << "PLEASE DON\'T ENTER MORE THAN 150 CHARACTERS :)\n"<<endl;
             continue;
         }
 
@@ -5011,6 +5436,12 @@ void custFeedback(string name, int userIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(registeredList[registerIndex].feedbackStatus == "TRUE")
         {
             cout << "YOU HAVE PROVIDED YOUR FEED BACK FOR THIS BOOOKING ALREADY :)\n"<<endl;
@@ -5044,6 +5475,12 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
         cout << "ARE YOU SURE THE <" << prefix << "> IS DONE ? <y/n> : ";
         getline(cin,ans);
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "y" || ans == "Y")
         {
             if(prefix == "CATERING")
@@ -5064,10 +5501,8 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
             }
 
             int counter = stoi(registerList[registerIndex].doneCount);
-            cout <<  "BEFORE :" <<counter << endl;;
             counter +=1;
             string counterString = to_string(counter);
-            cout <<  "after :" << counterString <<endl;
             registerList[registerIndex].doneCount = counterString;
 
             if (registerList[registerIndex].doneCount == "2") 
@@ -5095,7 +5530,7 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n" << endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
             continue;
         }
 
@@ -5184,6 +5619,11 @@ void manageEvent(string name,int staffIndex, int registerIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
 
         if(ans == "1")
         {
@@ -5236,7 +5676,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
         }
         else 
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n"<<endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n"<<endl;
             continue;
         }
 
@@ -5317,6 +5757,12 @@ void staffMonitorEvent(string name, int staffIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         transform(ans.begin(),ans.end(),ans.begin(),::toupper);
 
         int registerIndex = getIndex<Registration<string>>(registeredList, ans , [](Registration<string>r){return r.serialNum;});
@@ -5328,7 +5774,7 @@ void staffMonitorEvent(string name, int staffIndex)
         }
         else
         {
-            cout << "INVALID INPUT.... PLEASE ENTER AGAIN :)\n" << endl;
+            cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :)\n" << endl;
             continue;
         }
 
@@ -5425,6 +5871,9 @@ void addItem(string name,int staffIndex,string prefix)
     vector <Theme <string>> themeList = getVectorList <Theme <string>> ("theme.txt");
     vector<vector<string>> confirmRecord;
 
+    string newThemePriceString, newPackagePriceString, newCustomPackagePriceString, newAddOnPriceString;
+    regex priceFormat("^(?:0|[1-9][0-9]*)$");
+
     m.menuTitle = "ADD"+ prefix + "\'S ITEM SECTION";
     m.menuTitleTemplate();
 
@@ -5439,6 +5888,8 @@ void addItem(string name,int staffIndex,string prefix)
     {
         m.menuTitle = "PACKAGE\'S NAME";
         m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
+        m.menuTitleTemplate();
 
         while(status)
         {
@@ -5451,10 +5902,28 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            status = false;
+            if(p.packageType.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+            else if(p.packageType.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :)\n" << endl;
+                continue;
+            }
+            else if(packageExist(packageList,p.packageType))
+            {
+                cout << "THE NAME HAVE BEEN USED BY OTHER PACKAGE :)\n" << endl;
+                continue;
+            }
         }
 
+            status = false;
+
         m.menuTitle = "PACKAGE\'S VENUE";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5469,10 +5938,26 @@ void addItem(string name,int staffIndex,string prefix)
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
             }
+
+            if(p.venue.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+            else if(p.venue.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :)\n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         m.menuTitle = "PACKAGE\'S TIME DURATION";
+        m.menuTitleTemplate();
+        m.menuTitle = "ALLOW INTERGER NUMBER ONLY";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER WITHIN 1 TO 6 HOURS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5487,11 +5972,27 @@ void addItem(string name,int staffIndex,string prefix)
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
             }
+
+            if(p.timeDuration.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            regex timeFormat("^[1-6]$");
+
+            if(!regex_match(p.timeDuration,timeFormat))
+            {
+                cout << "INVALID INPUT... PLEASE ENTER WITHIN 1 TO 6 HOURS ONLY :)\n" << endl;
+                continue;
+            }
         
             status = false;
         }
 
         m.menuTitle = "PACKAGE\'S CATERING";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5507,10 +6008,24 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.catering.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.catering.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         m.menuTitle = "PACKAGE\'S DECORATION";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5526,10 +6041,24 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.decoration.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.decoration.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         m.menuTitle = "PACKAGE\'S ENTERTAINMENT";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5545,12 +6074,26 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.entertaintment.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.entertaintment.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         status = true;
 
         m.menuTitle = "PACKAGE\'S ACTIVITIES";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5566,12 +6109,26 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.activities.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.activities.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         status = true;
 
         m.menuTitle = "PACKAGE\'S PARTY GIFTS";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5587,12 +6144,26 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.partyGift.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.partyGift.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
+            }
+
             status = false;
         }
 
         status = true;
 
         m.menuTitle = "PACKAGE\'S CAKE";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
         status = true;
@@ -5602,10 +6173,22 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE ENTER YOU NEW PACKAGE\'S CAKE <0 to exit> : ";
             getline(cin,p.cake);
 
-            if(p.partyGift == "0")
+            if(p.cake == "0")
             {
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
+            }
+
+            if(p.cake.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.cake.length() > 52)
+            {
+                cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                continue;
             }
 
             status = false;
@@ -5614,6 +6197,8 @@ void addItem(string name,int staffIndex,string prefix)
         status = true;
 
         m.menuTitle = "PACKAGE\'S PRICE";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER INTEGER NUMBER ONLY";
         m.menuTitleTemplate();
 
         status = true;
@@ -5629,6 +6214,29 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(p.price.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(p.price.length() > 4)
+            {
+                cout << "PLEASE DON\'T MAKE IT TOO EXPENSIVE :) \n" << endl;
+                continue;
+            }
+
+            if(!regex_match(p.price,priceFormat))
+            {
+                cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                continue;
+            }
+
+            double newPackagePrice = stod(p.price);
+            stringstream ssPacakgePrice;
+            ssPacakgePrice << fixed << setprecision(2) << newPackagePrice;
+            newPackagePriceString = ssPacakgePrice.str();
+
             status = false;
         }
 
@@ -5641,7 +6249,7 @@ void addItem(string name,int staffIndex,string prefix)
         newPackage.activities = p.activities;
         newPackage.partyGift = p.partyGift;
         newPackage.cake = p.cake;
-        newPackage.price = p.price;
+        newPackage.price = newPackagePriceString;
 
         confirmRecord =
         {
@@ -5654,7 +6262,7 @@ void addItem(string name,int staffIndex,string prefix)
             {"ACTIVITIES",p.activities},
             {"PARTY GIFT",p.partyGift},
             {"CAKE",p.cake},
-            {"PRICE",p.price}
+            {"PRICE",newPackagePriceString}
         };
 
         system("clear");
@@ -5668,6 +6276,12 @@ void addItem(string name,int staffIndex,string prefix)
         {   
             cout << "PLEASE CHECK BEFORE PUBLISH THE NEW PACKAGE <y/n> : ";
             getline(cin,confirmPackage);
+
+            if(confirmPackage.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
 
             if(confirmPackage == "Y" || confirmPackage == "y")
             {
@@ -5687,7 +6301,7 @@ void addItem(string name,int staffIndex,string prefix)
             }
             else
             {
-                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :) \n" << endl;
                 continue;
             }
             status = false;
@@ -5696,6 +6310,8 @@ void addItem(string name,int staffIndex,string prefix)
     else if(prefix == "GENERAL ADD ON")
     {
         m.menuTitle = "ITEM\'S NAME";
+        m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 30 CHARACTERS";
         m.menuTitleTemplate();
 
         while(status)
@@ -5707,6 +6323,23 @@ void addItem(string name,int staffIndex,string prefix)
             {
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
+            }
+
+            if(c.item.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(c.item.length() > 30)
+            {
+                cout << "PLEASE ENTER LESS THAN 30 CHARACTERS :)\n" << endl;
+                continue;
+            }
+            else if(customExist(customPackage,c.item))
+            {
+                cout << "THE NAME HAVE BEEN USED BY OTHER GENERAL ADD ON :)\n" << endl;
+                continue;
             }
 
             status = false;
@@ -5728,10 +6361,30 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(c.itemPrice.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(!regex_match(c.itemPrice,priceFormat))
+            {
+                cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                continue;
+            }
+
+            double newAddOnPrice = stod(c.itemPrice);
+            stringstream ssAddOnPrice;
+            ssAddOnPrice << fixed << setprecision(2) << newAddOnPrice;
+            newAddOnPriceString = ssAddOnPrice.str();
+
+
             status = false;
         }
 
         m.menuTitle = "ITEM\'S AMOUNT STATUS";
+        m.menuTitleTemplate();
+        m.menuTitle = "y = ACTIVATE / n = NON ACTIVATE";
         m.menuTitleTemplate();
 
         status = true;
@@ -5740,7 +6393,7 @@ void addItem(string name,int staffIndex,string prefix)
 
         while(status)
         {
-            cout << "IS THE NEW GENERAL ADD ON\'S AMOUNT ABLE TO ADD MORE THAN ONE <0 to exit> <y/n> : ";
+            cout << "IS THE NEW GENERAL ADD ON\'S AMOUNT ABLE TO ADD MORE THAN ONE ? <0 to exit> <y/n> : ";
             getline(cin,amtStatus);
 
             if(amtStatus == "0")
@@ -5749,11 +6402,19 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(amtStatus.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
             if(amtStatus == "Y" || amtStatus == "y")
             {
                 c.itemAmountStatus = "TRUE";
 
                 m.menuTitle = "ITEM\'S AMOUNT LIMIT";
+                m.menuTitleTemplate();
+                m.menuTitle = "ENTER INTEGER NUMBER ONLY";
                 m.menuTitleTemplate();
 
                 while(innerStatus)
@@ -5767,6 +6428,20 @@ void addItem(string name,int staffIndex,string prefix)
                         innerStatus = false;
                     }
 
+                    if(c.itemAmtLimit.empty())
+                    {
+                        cout << "PLEASE DON\'T LEAVE IT EMPTY :) \n" << endl;
+                        continue;
+                    }
+
+                    regex amtFormat("^-?(?:0|[1-9][0-9]*)$");
+
+                    if(!regex_match(c.itemAmtLimit,amtFormat))
+                    {
+                        cout << "PLEASE ENTER INTEGER NUMBER ONLT :)\n" << endl;
+                        continue;
+                    }
+
                     innerStatus = false;
                 }
 
@@ -5778,12 +6453,17 @@ void addItem(string name,int staffIndex,string prefix)
                 c.itemAmtLimit = "0";
                 status = false;
             }
+            else
+            {
+                cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
+                continue;
+            }
 
             status = false;
         }
 
         newCustomPackage.item = c.item;
-        newCustomPackage.itemPrice = c.itemPrice;
+        newCustomPackage.itemPrice = newAddOnPriceString;
         newCustomPackage.tempStatus = "FALSE";
         newCustomPackage.itemStatus = "AVAILABLE";
         newCustomPackage.itemAmountStatus = c.itemAmountStatus;
@@ -5793,7 +6473,7 @@ void addItem(string name,int staffIndex,string prefix)
         confirmRecord =
         {
             {"NAME",c.item},
-            {"PRICE",c.itemPrice},
+            {"PRICE",newAddOnPriceString},
             {"AMOUNT STATUS",c.itemAmountStatus},
             {"AMOUNT LIMIT",c.itemAmtLimit}
         };
@@ -5807,8 +6487,14 @@ void addItem(string name,int staffIndex,string prefix)
 
         while(status)
         {   
-            cout << "PLEASE CHECK BEFORE PUBLISH THE NEW THEME <y/n> : ";
+            cout << "PLEASE CHECK BEFORE PUBLISH THE NEW GENERAL ADD ON <y/n> : ";
             getline(cin,confirmAddon);
+
+            if(confirmAddon.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
 
             if(confirmAddon == "Y" || confirmAddon == "y")
             {
@@ -5828,7 +6514,7 @@ void addItem(string name,int staffIndex,string prefix)
             }
             else
             {
-                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :) \n" << endl;
                 continue;
             }
             status = false;
@@ -5838,6 +6524,8 @@ void addItem(string name,int staffIndex,string prefix)
     {
         m.menuTitle = "THEME\'S NAME";
         m.menuTitleTemplate();
+        m.menuTitle = "ENTER LESS THAN 42 CHARACTERS";
+        m.menuTitleTemplate();
 
         status = true;
 
@@ -5846,10 +6534,27 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE ENTER THE NEW THEME\'S NAME <0 to exit> : ";
             getline(cin,t.themeDescription);
 
+            if(t.themeDescription.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
             if(t.themeDescription == "0")
             {
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
+            }
+
+            if(t.themeDescription.length() > 42)
+            {
+                cout << "PLEASE ENTER LESS THAN 42 CHARACTERS :)\n" << endl;
+                continue;
+            }
+            else if(themeExist(themeList,t.themeDescription))
+            {
+                cout << "THE NAME HAVE BEEN USED BY OTHER THEME:)\n" << endl;
+                continue;
             }
 
             status = false;
@@ -5871,11 +6576,35 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
+            if(t.themePrice.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            if(t.themePrice.length() > 4 )
+            {
+                cout << "PLEASE DON\'T MAKE IT TOO EXPENSIVE :)\n" << endl;
+                continue;
+            }
+
+            regex priceFormat("^(?:0|[1-9][0-9]*)$");
+
+            if(!regex_match(t.themePrice,priceFormat))
+            {
+                cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                continue;
+            }
+
+            double newThemePrice = stod(ans);
+            stringstream ssThemePrice;
+            ssThemePrice << fixed << setprecision(2) << newThemePrice;
+            newThemePriceString = ssThemePrice.str();
             status = false;
         }
 
         newTheme.themeDescription = t.themeDescription;
-        newTheme.themePrice = t.themePrice;
+        newTheme.themePrice = newThemePriceString;
         newTheme.themeStatus = "AVAILABLE";
         newTheme.themeTemp = "FALSE";
 
@@ -5897,6 +6626,12 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE CHECK BEFORE PUBLISH THE NEW THEME <y/n> : ";
             getline(cin,confirmTheme);
 
+            if(confirmTheme.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
             if(confirmTheme == "Y" || confirmTheme == "y")
             {
                 themeList.push_back(newTheme);
@@ -5915,7 +6650,7 @@ void addItem(string name,int staffIndex,string prefix)
             }
             else
             {
-                cout << "INVALID INPUT.... PLEASE ENTER AGAIN :) \n" << endl;
+                cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :) \n" << endl;
                 continue;
             }
             status = false;
@@ -5960,6 +6695,12 @@ void removeItem(string name,int staffIndex,string prefix)
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
 
+                    if(confirmAns.empty())
+                    {
+                        cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                        continue;
+                    }
+
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << packageList[packageIndex].packageType << "> SUCCESSFUL...\n"<<endl;
@@ -5978,7 +6719,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     }
                     else
                     {
-                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :) \n" << endl;
                         continue;
                     }
                     innerStatus = false;
@@ -5993,6 +6734,12 @@ void removeItem(string name,int staffIndex,string prefix)
                 {
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
+
+                    if(confirmAns.empty())
+                    {
+                        cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                        continue;
+                    }
 
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
@@ -6012,7 +6759,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     }
                     else
                     {
-                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :) \n" << endl;
                         continue;
                     }
                     innerStatus = false;
@@ -6027,6 +6774,12 @@ void removeItem(string name,int staffIndex,string prefix)
                 {
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
+
+                    if(confirmAns.empty())
+                    {
+                        cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                        continue;
+                    }
 
                     if(confirmAns == "y" || confirmAns == "Y")
                     {
@@ -6046,7 +6799,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     }
                     else
                     {
-                        cout << "INVALID INPUT... PLEASE ENTER AGAIN :) \n" << endl;
+                        cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :) \n" << endl;
                         continue;
                     }
                     innerStatus = false;
@@ -6060,15 +6813,17 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 {
     bool status = true;
     string ans;
+    string newThemePriceString, newPackagePriceString, newCustomPackagePriceString;
     vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
     vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    regex priceFormat("^(?:0|[1-9][0-9]*)$");
 
     if(prefix == "PACKAGE")
     {
         if(option == "1")
         {
-            cout << "YOU HAVE CHOSE TO EDIT <NAME> OF THE <"+prefix+"> :)" <<endl;
+            cout << "YOU HAVE CHOSE TO EDIT <NAME> OF THE <"+prefix+"> :)\n" <<endl;
             while(status)
             {
                 cout << "PLEASE ENTER THE NEW NAME <0 to exit> : ";
@@ -6078,6 +6833,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
@@ -6103,6 +6870,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE VENUE SUCCESSFUL..."<<endl;
                 cout << "FROM <" << packageList[index].venue << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].venue = ans;
@@ -6124,6 +6903,20 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                regex timeFormat("^[1-6]$");
+
+                if(!regex_match(ans,timeFormat))
+                {
+                    cout << "INVALID INPUT... PLEASE ENTER WITHIN 1 TO 6 HOURS ONLY :)\n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE TIME DURATION SUCCESSFUL..."<<endl;
@@ -6149,6 +6942,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE CATERING SUCCESSFUL..."<<endl;
                 cout << "FROM <" << packageList[index].catering << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].catering = ans;
@@ -6170,6 +6975,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE DECORATION SUCCESSFUL..."<<endl;
@@ -6195,6 +7012,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE ENTERTAINMENT SUCCESSFUL..."<<endl;
                 cout << "FROM <" << packageList[index].entertaintment << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].entertaintment = ans;
@@ -6216,6 +7045,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE ACTIVITIES SUCCESSFUL..."<<endl;
@@ -6241,6 +7082,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE PARTY GIFT SUCCESSFUL..."<<endl;
                 cout << "FROM <" << packageList[index].partyGift << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].partyGift = ans;
@@ -6262,6 +7115,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(ans.length() > 52)
+                {
+                    cout << "PLEASE ENTER LESS THAN 52 CHARACTERS :) \n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE CAKE SUCCESSFUL..."<<endl;
@@ -6286,6 +7151,25 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+
+                if(ans.length() > 4)
+                {
+                    cout << "PLEASE DON\'T MAKE IT TOO EXPENSIVE :) \n" << endl;
+                    continue;
+                }
+
+                if(!regex_match(ans,priceFormat))
+                {
+                    cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                    continue;
                 }
 
                 double newPackagePrice = stod(ans);
@@ -6319,6 +7203,19 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY ;)\n" << endl;
+                    continue;
+                }
+
+
+                if(ans.length() > 28)
+                {
+                    cout << "PLEASE ENTER LESS THAN 28 CHARACTERS :)\n " << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
                 cout << "FROM <" << customPackage[index].item << "> TO <" << ans << "> :)\n"<<endl;
                 customPackage[index].item = ans;
@@ -6336,15 +7233,29 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
                 getline(cin,ans);
 
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
                 if(ans == "0")
                 {
                     editOptions(name,staffIndex,prefix,index);
-                    status = false;
+                    status = false
+                    ;
                 }
+
+                if(!regex_match(ans,priceFormat))
+                {
+                    cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                    continue;
+                }
+
                 double newCustomPackagePrice = stod(ans);
                 stringstream ssCustomPackagePrice;
                 ssCustomPackagePrice << fixed << setprecision(2) << newCustomPackagePrice;
-                string newCustomPackagePriceString = ssCustomPackagePrice.str();
+                newCustomPackagePriceString = ssCustomPackagePrice.str();
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
                 cout << "FROM <RM" << customPackage[index].itemPrice << "> TO <RM" << newCustomPackagePriceString << "> :)\n"<<endl;
@@ -6368,6 +7279,12 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
                 }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :\n" << endl;
+                    continue;
+                }
                 
                 string newAmtStatus;
                 if(ans == "Y" || ans == "y")
@@ -6388,7 +7305,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 }
                 else
                 {
-                    cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n" << endl;
+                    cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
                     continue;
                 }
 
@@ -6410,6 +7327,12 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(ans.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
                 }
 
                 cout << "YOU HAVE CHANGED THE AMOUNT LIMIT SUCCESSFUL..."<<endl;
@@ -6438,6 +7361,18 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
+                if(ans.empty())
+                {
+                    cout << "PLEAS E DON\'T LEAVE IT EMPTY :)\n " << endl;
+                    continue;
+                }
+
+                if(ans.length() > 42)
+                {
+                    cout<< "PLEASE ENTER LESS THAN 42 CHARACTERS :)\n" << endl;
+                    continue;
+                }
+
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
                 cout << "FROM <" << themeList[index].themeDescription << "> TO <" << ans << "> :)\n"<<endl;
                 themeList[index].themeDescription = ans;
@@ -6455,10 +7390,22 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
                 getline(cin,ans);
 
+                if(ans.empty())
+                {
+                    cout<< "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
                 if(ans == "0")
                 {
                     editOptions(name,staffIndex,prefix,index);
                     status = false;
+                }
+
+                if(!regex_match(ans,priceFormat))
+                {
+                    cout << "PLEASE ENTER INTEGER NUMBER ONLY :)\n" << endl;
+                    continue;
                 }
 
                 double newThemePrice = stod(ans);
@@ -6546,6 +7493,12 @@ void editOptions(string name,int staffIndex,string prefix,int index)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         int ansInt = stoi(ans);
 
         if(prefix == "PACKAGE"&& (ansInt < 1 || ansInt > 10))
@@ -6603,6 +7556,12 @@ void editItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         int index = stoi(ans)-1;
 
         if(prefix == "PACKAGE")
@@ -6622,6 +7581,11 @@ void editItem(string name,int staffIndex,string prefix)
             system("clear");
             editOptions(name,staffIndex,prefix,index);
             status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER VALID OPTION :)\n" << endl;
+            continue;
         }
         status = false;
     }
@@ -6650,6 +7614,12 @@ void previewItem(string name,int staffIndex,string prefix)
         {
             manageItemOptions(name,staffIndex,prefix);
             status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
 
         int index = stoi(ans)-1;
@@ -6684,6 +7654,11 @@ void previewItem(string name,int staffIndex,string prefix)
             pressAny();
             previewItem(name,staffIndex,prefix);
             status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)" << endl;
+            continue;
         }
         status = false;
     }
@@ -6733,6 +7708,12 @@ void manageItemOptions(string name,int staffIndex,string prefix)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             addItem(name,staffIndex,prefix);
@@ -6755,7 +7736,7 @@ void manageItemOptions(string name,int staffIndex,string prefix)
         }
         else
         {
-            cout << "INVALID INPUT.. PLEASE ENTER AGAIN :) \n" << endl;
+            cout << "INVALID INPUT.. PLEASE ENTER VALID OPTION :) \n" << endl;
             continue;
         }
 
@@ -6791,6 +7772,12 @@ void staffManageItem(string name,int staffIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             manageItemOptions(name,staffIndex, "PACKAGE");
@@ -6808,7 +7795,7 @@ void staffManageItem(string name,int staffIndex)
         }
         else
         {
-            cout << "INVALID INPUT.... PELASE ENTER AGAIN :)\n" << endl;
+            cout << "INVALID INPUT.... PELASE ENTER VALID OPTION :)\n" << endl;
             continue;
         }
 
@@ -6955,10 +7942,14 @@ void staffCreateCampaign(string name, int staffIndex)
 
     m.menuTitle = "CREATE CAMPAIGN SECTION";
     m.menuTitleTemplate();
+    m.menuTitle = "ENTER LESS THAN 40 CHARACTERS";
+    m.menuTitleTemplate();
 
     cout << "\n";
 
     m.menuTitle = "CAMPAIGN\'S TITLE";
+    m.menuTitleTemplate();
+    m.menuTitle = "ENTER LESS THAN 40 CHARACTERS";
     m.menuTitleTemplate();
 
     while(status)
@@ -6972,13 +7963,24 @@ void staffCreateCampaign(string name, int staffIndex)
             status = false;
         }
 
-        transform(c.contentTitle.begin(),c.contentTitle.end(),c.contentTitle.begin(),::toupper);
-
-        if(c.contentTitle.length()> 30)
+        if(c.contentTitle.empty())
         {
-            cout << "PLEASE DON\'T ENTER MORE THAN 30 CHARACTERS :)\n";
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
+
+        if(c.contentTitle.length()> 40)
+        {
+            cout << "PLEASE DON\'T ENTER MORE THAN 40 CHARACTERS :)\n";
+            continue;
+        }
+        else if(campaignExist(campaignList,c.contentTitle))
+        {
+            cout<< "THE TITLE HAVE BEEN USED BY OTHER CAMPAIGN :)\n" << endl;
+            continue;
+        }
+
+        transform(c.contentTitle.begin(),c.contentTitle.end(),c.contentTitle.begin(),::toupper);
 
         status = false;
     }
@@ -6986,6 +7988,8 @@ void staffCreateCampaign(string name, int staffIndex)
     status = true;
 
     m.menuTitle = "CAMPAIGN\'S CONTENT";
+    m.menuTitleTemplate();
+    m.menuTitle = "ENTER LESS THAN 150 CHARACTERS";
     m.menuTitleTemplate();
 
     while(status)
@@ -6999,9 +8003,15 @@ void staffCreateCampaign(string name, int staffIndex)
             status = false;
         }
 
-        if(c.content.length()> 80)
+        if(c.content.empty())
         {
-            cout << "PLEASE DON\'T ENTER MORE THAN 80 CHARACTERS :)\n";
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(c.content.length()> 150)
+        {
+            cout << "PLEASE DON\'T ENTER MORE THAN 150 CHARACTERS :)\n";
             continue;
         }
         status = false;
@@ -7023,6 +8033,12 @@ void staffCreateCampaign(string name, int staffIndex)
     {
         cout << "PLEASE MAKE SURE THE ALL THE CONTENT IS CORRECT BEFORE PUBLISH <y/n> : ";
         getline(cin,confirmCam);
+
+        if(confirmCam.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
 
         if(confirmCam == "Y" || confirmCam == "y")
         {
@@ -7051,6 +8067,7 @@ void staffCreateCampaign(string name, int staffIndex)
         }
         else
         {
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
             continue;
         }
         status = false;
@@ -7140,6 +8157,12 @@ void manageOperation(string name, int staffIndex, string prefix)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             filterOperation(name,staffIndex,prefix,"LOG IN");
@@ -7157,7 +8180,7 @@ void manageOperation(string name, int staffIndex, string prefix)
         }
         else
         {
-            cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n" << endl;
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
             continue;
         }
         status = false;
@@ -7196,6 +8219,12 @@ void staffManageOperation(string name, int staffIndex)
             status = false;
         }
 
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(ans == "1")
         {
             manageOperation(name,staffIndex,"STAFF");
@@ -7208,7 +8237,7 @@ void staffManageOperation(string name, int staffIndex)
         }
         else
         {
-            cout << "INVALID INPUT.... PLEASE ENTER AGIAN :)\n"<<endl;
+            cout << "INVALID INPUT.... PLEASE ENTER A VALID OPTION :)\n"<<endl;
             continue;
         }
 
