@@ -58,32 +58,6 @@ void mainLogo()
     cout << "                      ,%%%%%%%%%%%%%%%%%%%,                          " << endl;
 }
 
-void buddha()
-{
-    cout << "                  _oo0oo_                      " << endl;
-    cout << "                 o8888888o                     " << endl;
-    cout << "                 88\" . \"88                     " << endl;
-    cout << "                 (| -_- |)                     " << endl;
-    cout << "                 0\\  =  /0                     " << endl;
-    cout << "               ___/`---'\\___                   " << endl;
-    cout << "             .' \\\\|     |// '.                 " << endl;
-    cout << "            / \\\\|||  :  |||// \\                " << endl;
-    cout << "           / _||||| -:- |||||- \\               " << endl;
-    cout << "          |   | \\\\\\  -  /// |   |              " << endl;
-    cout << "          | \\_|  ''\\---/''  |_/ |              " << endl;
-    cout << "          \\  .-\\__  '-'  ___/-. /              " << endl;
-    cout << "        ___'. .'  /--.--\\  `. .'___            " << endl;
-    cout << "     .\"\" '<  `.___\\_<|>_/___.' >' \"\".          " << endl;
-    cout << "    | | :  `- \\`.;`\\ _ /`;.`/ - ` : | |        " << endl;
-    cout << "    \\  \\ `_.   \\_ __\\ /__ _/   .-` /  /        " << endl;
-    cout << "=====`-.____`.___ \\_____/___.-`___.-'=====     " << endl;
-    cout << "                  `=---='                      " << endl;
-    cout << "                                               " << endl;
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     " << endl;
-    cout << "          佛祖保佑         永無BUG               " << endl;
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     " << endl;
-}
-
 void tq()
 {
     cout << "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << endl;
@@ -219,11 +193,12 @@ struct Package
     T partyGift;
     T cake;
     T price;
+    T packageTimeChosen;
     vector <T> confirmListpackageList;
 
     string commaFormat()
     {
-        return packageType + "," + venue + "," + timeDuration + "," + catering + "," + decoration + "," + entertaintment + "," + activities + "," + partyGift + "," + cake + "," + price;
+        return packageType + "," + venue + "," + timeDuration + "," + catering + "," + decoration + "," + entertaintment + "," + activities + "," + partyGift + "," + cake + "," + price + "," + packageTimeChosen;
     }
 
     Package(string line = "") 
@@ -240,7 +215,8 @@ struct Package
             getline(ss, activities, ',');
             getline(ss, partyGift, ',');
             getline(ss, cake, ',');
-            getline(ss, price);
+            getline(ss, price, ',');
+            getline(ss, packageTimeChosen);
         }
     }
 
@@ -262,10 +238,11 @@ struct Theme
     T themePrice;
     T themeStatus;
     T themeTemp;
+    T themeTimeChosen;
 
     string commaFormat() const
     {
-        return themeDescription + "," + themePrice + "," + themeStatus + "," + themeTemp;
+        return themeDescription + "," + themePrice + "," + themeStatus + "," + themeTemp + "," + themeTimeChosen;
     }
 
     Theme(string line = "") 
@@ -276,7 +253,8 @@ struct Theme
             getline(ss, themeDescription, ',');
             getline(ss, themePrice, ',');
             getline(ss, themeStatus, ',');
-            getline(ss, themeTemp);
+            getline(ss, themeTemp, ',');
+            getline(ss, themeTimeChosen);
         }
     }
 };
@@ -291,10 +269,11 @@ struct CustomPackage
     T itemAmountStatus;
     T itemAmount;
     T itemAmtLimit;
+    T customTimeChosen;
 
     string commaFormat() const
     {
-        return item + "," + itemPrice + "," + tempStatus + "," + itemStatus + "," + itemAmountStatus + "," + itemAmount + "," + itemAmtLimit;
+        return item + "," + itemPrice + "," + tempStatus + "," + itemStatus + "," + itemAmountStatus + "," + itemAmount + "," + itemAmtLimit + "," + customTimeChosen; 
     }
 
     CustomPackage(string line = "") 
@@ -308,7 +287,8 @@ struct CustomPackage
             getline(ss, itemStatus, ',');
             getline(ss, itemAmountStatus, ',');
             getline(ss, itemAmount, ',');
-            getline(ss, itemAmtLimit);
+            getline(ss, itemAmtLimit,',');
+            getline(ss, customTimeChosen);
         }
     }
 };
@@ -528,11 +508,12 @@ struct Feedback
     string rate;
     string fbStatus;
     string viewStatus;
+    string feedBackDate;
     Registration <string> registers;
 
     string commaFormat()
     {
-        return registers.serialNum + "," + registers.login.nickname + "," + content + "," + rate + "," + fbStatus + "," + viewStatus;
+        return registers.serialNum + "," + registers.login.nickname + "," + content + "," + rate + "," + fbStatus + "," + viewStatus + "," + feedBackDate;
     }
 
     Feedback(string line = "") 
@@ -545,7 +526,8 @@ struct Feedback
             getline(ss, content, ',');
             getline(ss, rate, ',');
             getline(ss, fbStatus, ',');
-            getline(ss, viewStatus);
+            getline(ss, viewStatus, ',');
+            getline(ss, feedBackDate);
         }
     }
 };
@@ -765,6 +747,29 @@ vector<T> getVectorList(const string& fileName)
     return list;
 }
 
+tm parseDate(const string &dateStr)
+{
+    tm t = {};
+    stringstream ss(dateStr);
+    ss >> get_time(&t, "%Y-%m-%d");
+    t.tm_hour = 0; t.tm_min = 0; t.tm_sec = 0;
+    return t;
+}
+
+bool checkDateRange(const string &date, const string &start, const string &end)
+{
+
+    tm d_tm = parseDate(date);
+    tm s_tm = parseDate(start);
+    tm e_tm = parseDate(end);
+
+    time_t d = mktime(&d_tm);
+    time_t s = mktime(&s_tm);
+    time_t e = mktime(&e_tm);
+
+    return d >= s && d <= e;
+}
+
 void outputCampaign(const vector<vector<string>>& campaignRecords,string prefix,int camIndex)
 {
     string word;
@@ -777,6 +782,8 @@ void outputCampaign(const vector<vector<string>>& campaignRecords,string prefix,
     if(prefix == "CONFIRMATION")
     {
         stringstream ss1(campaignRecords[1][1]);
+
+        cout << "\n";
 
         cout << "╔" << setfill('=') << setw(50) << right << "╗" << endl;
         cout << "║  " << setfill(' ')<< left << setw(45)  << "CAMPAIGN CONFIRMATION" << "║" << endl;
@@ -1001,6 +1008,137 @@ void calculateAmount(double& amtBeforeTax,double& taxAmt, double& amtAfterTax,in
     depositAmt = amtAfterTax * 0.2;
 
     totalGeneralAddOn = item1 + item2 + item3 + item4;
+}
+
+bool isNumber(const string &s)
+{
+    regex numPattern(R"(^-?\d+(\.\d+)?$)");
+    return regex_match(s, numPattern);
+}
+
+double safeStod(const string &s)
+{
+    return isNumber(s) ? stod(s) : 0.0;
+}
+
+void calculateReport(double &totalRevenue,double &pendingPayment,double &completePayment,double &totalPackageRevenue,double &totalAddOnRevenue,
+double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &themeTotalRevenue,int &packageTime,int &generalTime,int &themeTime,string &startDate,string &endDate) 
+{
+    // Load data
+    vector<Receipt> receiptList = getVectorList<Receipt>("receipt.txt");
+    vector<Feedback> feedbackList = getVectorList<Feedback>("feedback.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
+    vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
+
+    // Rating calculation
+    double totalRate = 0.0;
+    int ratingCount = 0;
+
+    // Reset all time-chosen counters to zero
+    for (auto &p : customPackage) p.customTimeChosen = "0";
+    for (auto &t : themeList) t.themeTimeChosen = "0";
+    for (auto &p : packageList) p.packageTimeChosen = "0";
+
+    // Main loop: filter receipts within date range
+    for (const auto &r : receiptList) {
+        if (!checkDateRange(r.issueDate, startDate, endDate)) continue;
+
+        // Total revenue
+        totalRevenue += safeStod(r.amtAfterTax);
+
+        if (r.paymentStatus == "DEPOSIT DONE") {
+            pendingPayment += safeStod(r.amtAfterTax) - safeStod(r.depositAmt);
+        }
+
+        totalPackageRevenue += safeStod(r.registers.totalCost);
+        totalAddOnRevenue += safeStod(r.custom.item1Price)
+                           + safeStod(r.custom.item2Price)
+                           + safeStod(r.custom.item3Price)
+                           + safeStod(r.custom.item4Price);
+
+        // Update package time chosen
+        for (auto &pkg : packageList) {
+            if (r.registers.packageChosen == pkg.packageType)
+            {
+                int count = stoi(pkg.packageTimeChosen);
+                pkg.packageTimeChosen = to_string(count + 1);
+                break;
+            }
+        }
+
+        // Update general add-ons
+        vector<pair<string, string>> items = {
+            {r.custom.item1, r.custom.item1Price},
+            {r.custom.item2, r.custom.item2Price},
+            {r.custom.item3, r.custom.item3Price},
+            {r.custom.item4, r.custom.item4Price}
+        };
+
+        for (const auto &itemPair : items) 
+        {
+            const string &itemName = itemPair.first;
+            const string &price = itemPair.second;
+            for (auto &cp : customPackage) 
+            {
+                if (itemName == cp.item) {
+                    int count = stoi(cp.customTimeChosen);
+                    cp.customTimeChosen = to_string(count + 1);
+                    break;
+                }
+            }
+        }
+
+        // Update theme count
+        for (auto &theme : themeList) {
+            if (r.custom.themes.themeDescription == theme.themeDescription) {
+                int count = stoi(theme.themeTimeChosen);
+                theme.themeTimeChosen = to_string(count + 1);
+                break;
+            }
+        }
+    }
+
+    // Feedback processing
+    for (const auto &f : feedbackList) {
+        if (checkDateRange(f.feedBackDate, startDate, endDate)) {
+            totalRate += safeStod(f.rate);
+            ratingCount++;
+        }
+    }
+
+    totalFeedback = ratingCount;
+    averageRating = (ratingCount > 0) ? totalRate / ratingCount : 0.0;
+    completePayment = totalRevenue - pendingPayment;
+
+    // Calculate generalTime and generalTotalRevenue
+    generalTime = 0;
+    generalTotalRevenue = 0.0;
+    for (const auto &cp : customPackage) {
+        int count = stoi(cp.customTimeChosen);
+        generalTime += count;
+        generalTotalRevenue += count * safeStod(cp.itemPrice);
+    }
+
+    // Calculate themeTime and themeTotalRevenue
+    themeTime = 0;
+    themeTotalRevenue = 0.0;
+    for (const auto &theme : themeList) {
+        int count = stoi(theme.themeTimeChosen);
+        themeTime += count;
+        themeTotalRevenue += count * safeStod(theme.themePrice);
+    }
+
+    // Calculate total package times (summed for reporting if needed)
+    packageTime = 0;
+    for (const auto &pkg : packageList) {
+        packageTime += stoi(pkg.packageTimeChosen);
+    }
+
+    // Save updated data back to file
+    saveVectorList(packageList, "packageList.txt");
+    saveVectorList(customPackage, "customPackage.txt");
+    saveVectorList(themeList, "theme.txt");
 }
 
 void printReceipt(const vector<vector<string>>& registerRecord,int index,string receiptType) 
@@ -1501,6 +1639,99 @@ void outputSetupDetails(const vector<vector<string>>& list, string prefix)
     cout << "╚════════════════════════════════════════════════════════════════════════════════╝" << endl;
 }
 
+void outputReport(const vector<vector<string>>& list, const vector<vector<string>>& generalList,const vector<vector<string>>& themeRecords, const vector<vector <string>>& extraInfo, string prefix)
+{
+    vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
+    vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
+    
+    if(prefix == "REVENUE")
+    {
+        cout << "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left <<setw(15) << "RECEIPT ID" << "║  " << left <<setw(15) << "CUSTOMER NAME" << "║  " << left << setw(15) << "ISSUE DATE" << 
+        "║  " << left << setw(20) << "AMOUNT AFTER TAX" << "║  " << left << setw(15) << "PAYMENT STATUS" << "║  " << left << setw(15) << "PAYMENT TYPE" << "║" << endl;
+        cout << "╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        for(int i = 0;i < list.size();i++)
+        {
+            cout << "║  " << left <<setw(15) << list[i][0] << "║  " << left <<setw(15) << list[i][1] << "║  " << left << setw(15) << list[i][2] << 
+            "║  " << left << setw(20) << list[i][3] << "║  " <<  left << setw(15) << list[i][4] << "║  " << left << setw(15) << list[i][5] << "║" << endl;
+        }
+        cout << "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
+
+        cout << "╔══════════════════════════════════════════════════╗" << endl;
+        for(int i = 0;i < extraInfo.size();i++)
+        {
+            if(!extraInfo[i][0].empty())
+            {
+                cout << "║  " << left <<setw(25) << extraInfo[i][0] <<"║  "<< left <<setw(20) << extraInfo[i][1] << "║" << endl;
+            }
+        }
+        cout << "╚══════════════════════════════════════════════════╝\n" << endl;
+    }
+    else if(prefix == "ITEM PERFORMANCE")
+    {
+        cout << "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left <<setw(15) << "PACKAGE NAME" << "║  " << left <<setw(30) << "VENUE" << "║  " << left << setw(25) << "CATERING" << 
+        "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        cout << "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        for(int i = 0;i < list.size();i++)
+        {
+            cout << "║  " << left <<setw(15) << list[i][0] << "║  " << left <<setw(30) << list[i][1] << "║  " <<  left << setw(25) << list[i][2] << "║  " <<
+            left << setw(15) << list[i][3] << "║  " <<  left << setw(15) << list[i][4] << "║" << endl;
+        }
+        cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n" << endl;
+
+        cout << "╔═════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left <<setw(15) << "GENRAL ADD ON" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        cout << "╠═════════════════════════════════════════════════════╣" << endl;
+        for(int i = 0;i < generalList.size();i++)
+        {
+            cout << "║  " << left <<setw(15) << generalList[i][0] << "║  " << left <<setw(15) << generalList[i][1] << "║  " <<  left << setw(15) << generalList[i][2] << "║" << endl;
+        }
+        cout << "╚═════════════════════════════════════════════════════╝\n" << endl;
+
+        cout << "╔═══════════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left <<setw(45) << "CUSTOM THEME" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
+        for(int i = 0;i < themeRecords.size();i++)
+        {
+            cout << "║  " << left <<setw(45) << themeRecords[i][0] << "║  " << left <<setw(15) << themeRecords[i][1] << "║  " <<  left << setw(15) << themeRecords[i][2] << "║" << endl;
+        }
+        cout << "╚═══════════════════════════════════════════════════════════════════════════════════╝\n" << endl;
+
+        cout << "╔══════════════════════════════════════════════════╗" << endl;
+        for(int i = 0;i < extraInfo.size();i++)
+        {
+            if(!extraInfo[i][0].empty())
+            {
+                cout << "║  " << left <<setw(25) << extraInfo[i][0] <<"║  "<< left <<setw(20) << extraInfo[i][1] << "║" << endl;
+            }
+        }
+        cout << "╚══════════════════════════════════════════════════╝\n" << endl;
+    }
+    else if(prefix == "FEEDBACK")
+    {
+        cout << "╔═════════════════════════════════════════════════════╗" << endl;
+        cout << "║  " << left <<setw(15) << "CUSTOMER NAME" << "║  " << left <<setw(15) << "RATING" <<"║  " <<  left << setw(15) << "FEEDBACK DATE" << "║" << endl;
+        cout << "╠═════════════════════════════════════════════════════╣" << endl;
+        for(int i = 0;i < list.size();i++)
+        {
+            cout << "║  " << left <<setw(15) << list[i][0] << "║  " << left <<setw(15) << list[i][1] <<"║  " << left << setw(15) << list[i][2] << "║" << endl;
+        }
+        cout << "╚═════════════════════════════════════════════════════╝\n" << endl;
+
+        cout << "╔══════════════════════════════════════════════════╗" << endl;
+        for(int i = 0;i < extraInfo.size();i++)
+        {
+            if(!extraInfo[i][0].empty())
+            {
+                cout << "║  " << left <<setw(25) << extraInfo[i][0] <<"║  "<< left <<setw(20) << extraInfo[i][1] << "║" << endl;
+            }
+        }
+        cout << "╚══════════════════════════════════════════════════╝\n" << endl;
+    }
+}
+
 // Print records in groups of 3 mini-tables per row
 template <typename T>
 void printRecords(const vector<vector<pair<string, T>>>& records, int width = 25, int perRow = 3) {
@@ -1562,6 +1793,25 @@ bool usernameExist(const vector<T>& list, const string& compareItem)
     for(int i = 0; i < list.size(); i++)
     {
         listValue = list[i].username;
+        transform(listValue.begin(), listValue.end(), listValue.begin(), ::tolower);
+        if(listValue == lowerCompareItem)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <typename T>
+bool nicknameExist(const vector<T>& list, const string& compareItem)
+{
+    string lowerCompareItem = compareItem;
+    transform(lowerCompareItem.begin(), lowerCompareItem.end(), lowerCompareItem.begin(), ::tolower);
+
+    string listValue;
+    for(int i = 0; i < list.size(); i++)
+    {
+        listValue = list[i].nickname;
         transform(listValue.begin(), listValue.end(), listValue.begin(), ::tolower);
         if(listValue == lowerCompareItem)
         {
@@ -1740,6 +1990,20 @@ string timePrefix(string time)
     }
 
     return time+" "+prefix;
+}
+
+string replaceCommas(const string& s) 
+{
+    string result = s;
+    replace(result.begin(), result.end(), ',', ';');
+    return result;
+}
+
+string restoreCommas(const string& s) 
+{
+    string result = s;
+    replace(result.begin(), result.end(), ';', ',');
+    return result;
 }
 
 void pressAny() {
@@ -2293,6 +2557,11 @@ void signUp(string aspect)
             cout << "INVAID INPUT... PLEASE ENTER LESS THAN 20 CHARACTERS :)\n" << endl;
             continue;
         }
+        else if(nicknameExist(currentList,l.nickname))
+        {
+            cout << "THE NICKNAME HAVE BEEN USED BY OTHER PERSON :)\n" << endl;
+            continue;
+        }
 
         transform(l.nickname.begin(),l.nickname.end(),l.nickname.begin(),::toupper);
         tempArr[row][column++] = l.nickname;
@@ -2609,10 +2878,12 @@ void staffMainPage(string name,int staffIndex)
     bool status = true;
     string ans;
     int feedbackCounter = 0;
+    int bookCounter = 0;
 
     vector<Feedback> feedbackList = getVectorList<Feedback>("feedback.txt");
     vector<Operation> operateList = getVectorList<Operation>("operation.txt");
     vector<LoginDetails> staffList = getVectorList<LoginDetails>("staff.txt");
+    vector<Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
 
     for(int i = 0;i < feedbackList.size();i++)
     {
@@ -2622,14 +2893,25 @@ void staffMainPage(string name,int staffIndex)
         }
     }
 
+    for(int i = 0;i < registerList.size();i++)
+    {
+        if(registerList[i].setupStatus != "SET UP DONE")
+        {
+            bookCounter++;
+        }
+    }
+
     string fbCounterString = to_string(feedbackCounter);
-    string viewFeedBack = "VIEW FEEDBACK {"+fbCounterString+" TO VIEW}";
+    string viewFeedBack = "VIEW FEEDBACK { "+fbCounterString+" TO VIEW }";
+
+    string bookCounterStr = to_string(bookCounter);
+    string viewBooking = "MANAGE BOOKINGS { "+bookCounterStr+" TO MANAGE }";
 
     m.menuTitle = "MAIN MENU";
 
     cout << "USERNAME : " << name << "\n" << endl;
 
-    m.menuOptions.push_back("MANAGE BOOKINGS");
+    m.menuOptions.push_back(viewBooking);
     m.menuOptions.push_back("MANAGE ITEMS");
     m.menuOptions.push_back("GENERATE REPORTS");
     m.menuOptions.push_back(viewFeedBack);
@@ -2928,17 +3210,17 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
+        if(r.login.contactNum == "D" || r.login.contactNum == "d")
+        {
+            r.login.contactNum = custList[userIndex].contactNum;
+            status = false;
+        }
+
         regex contactPattern("^01[0-9]{1}-[0-9]{7}$");
         if(!regex_match(r.login.contactNum,contactPattern))
         {
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxx-xxxxxxx> :)\n" << endl;
             continue;
-        }
-        
-        if(r.login.contactNum == "D" || r.login.contactNum == "d")
-        {
-            r.login.contactNum = custList[userIndex].contactNum;
-            status = false;
         }
 
         status = false;
@@ -2969,18 +3251,18 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
+        if(r.login.email == "D" || r.login.email == "d")
+        {
+            r.login.email = custList[userIndex].email;
+            status = false;
+        }
+
         regex emailPattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$");
         if(!regex_match(r.login.email,emailPattern)&&r.login.email.length()>35)
         {
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <xxxxxxxxxx@xxxxx.com> :)" << endl;
             cout << "PLEASE ENTER LESS THAN 35 CHAACTERS :)\n" <<endl;
             continue;
-        }
-
-        if(r.login.email == "D" || r.login.email == "d")
-        {
-            r.login.email = custList[userIndex].email;
-            status = false;
         }
 
         status = false;
@@ -3200,6 +3482,7 @@ void custRegis(string name , int userIndex)
             newResgister.doneCount = "0";
             registerList.push_back(newResgister);
             saveVectorList(registerList,"registration.txt");
+            saveVectorList(packageList,"packageList.txt");
             newCustom.registers.serialNum = receiptId;
             newCustom.item1 = "EMPTY";
             newCustom.item1Price = "0.00";
@@ -3472,6 +3755,7 @@ void addReceiptDetails(string receiptType, int index , int customIndex)
 void cancelAlert(string name, int registerIndex,int usernameIndex)
 {
     bool status = true;
+    int counter;
     string ans;
 
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
@@ -3479,7 +3763,7 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
     vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
     vector<Operation> operateList = getVectorList <Operation> ("operation.txt");
 
-    cout << "* * * * * * * * * * * * WARNING * * * * * * * * * * * *" << endl;
+    cout << "\n\n* * * * * * * * * * * * WARNING * * * * * * * * * * * *" << endl;
     cout << "*                                                     *" << endl;
     cout << "*  ARE YOU SURE YOU WANT TO CANCEL YOUR BOOKING ????  *" << endl;
     cout << "*        YOU WILL LOST YOU DEPOSIT MONEY !!!          *" << endl;
@@ -3506,9 +3790,6 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
         }
         else if(ans == "Y" || ans == "y")
         {
-            cout << "registeredList size: " << registeredList.size() << endl;
-            cout << "receiptList size: " << receiptList.size() << endl;
-
             cout << "YOU HAVE CANCELED SUCCESSFULLY....."<<endl;
             cout << "YOU HAVE CANCELED YOUR <" << registeredList[registerIndex].serialNum << "> BOOKING AND LOST YOUR RM" << receiptList[registerIndex].depositAmt << " :)"<<endl;
             addOperation(usernameIndex,"CANCEL <"+registeredList[registerIndex].serialNum +"> BOOKING","CUSTOMER OPERATION","CUSTOMER");
@@ -3848,8 +4129,8 @@ void custViewCampaign(string name,int usernameIndex)
         {
             campaignRecord = {
                 {headers[0], campaignList[campaignIndex].campaignId},
-                {headers[1], campaignList[campaignIndex].contentTitle},
-                {headers[2], campaignList[campaignIndex].content}
+                {headers[1],restoreCommas(campaignList[campaignIndex].contentTitle)},
+                {headers[2],restoreCommas(campaignList[campaignIndex].content)}
             };
 
             outputCampaign(campaignRecord, "VIEW CAMPAIGN", campaignIndex);
@@ -4411,18 +4692,25 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
             status = false;
         }
 
-        if (ans.empty()) 
+        if (!regex_match(ans, regex("^[0-9]+$"))) 
         {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            cout << "INVALID INPUT... PLEASE ENTER A NUMBER :)\n" << endl;
             continue;
         }
 
         int ansInt = stoi(ans);
+
         int ansIndex = ansInt - 1;
 
         if(ansInt < 1 || ansInt > customPackage.size())
         {
             cout << "PLEASE ENTER A POSITIVE NUMBER BETWEEN <1 to " << customPackage.size() << "> :)\n"<<endl;
+            continue;
+        }
+
+        if (ans.empty()) 
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
         
@@ -4974,6 +5262,18 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT USERNAME <" << customerList[userIndex].username << "> ? <y/n>";
                 getline(cin,confirmAns);
 
+                if(confirmAns.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(usernameExist(customerList,l.username))
+                {
+                    cout << "THE USERNAME HAVE BEEN USED BY OTHER PROPLE :)\n" << endl;
+                    continue;
+                }
+
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
                     cout << "YOU HAVE CHANGED YOUR USERNAME SUCCESSFUL :)"<<endl;
@@ -5011,6 +5311,12 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "\nYOU HAVE ENTERED <" << l.nickname << "> NEW NICKNAME"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT NICKNAME <" << customerList[userIndex].nickname << "> ? <y/n>";
                 getline(cin,confirmAns);
+
+                if(confirmAns.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
 
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
@@ -5055,9 +5361,20 @@ void custProfileEdit(string name,int userIndex,string prefix)
             {
                 cout << "PLEAE ENTER YOU NEW CONTACT NUMBER : ";
                 getline(cin,l.contactNum);
+                if(l.contactNum.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
                 cout << "\nYOU HAVE ENTERED <" << l.contactNum << "> NEW CONTACT NUMBER"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT CONTACT NUMBER <" << customerList[userIndex].contactNum << "> ? <y/n>";
                 getline(cin,confirmAns);
+
+                if(confirmAns.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
 
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
@@ -5205,10 +5522,14 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
     bool status = true;
     string payType;
     double newAmount,totalBill,deposit;
+    int newPackAmt, newGeneralAmt, newThemeAmt;
 
     vector<Registration<string>> registerList = getVectorList <Registration<string>>("registration.txt");
     vector<CustomList<string>> customList = getVectorList <CustomList<string>> ("customList.txt");
     vector<Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+    vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
+    vector <CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector <Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
  
 
     totalBill = stod(receiptList[registerIndex].amtAfterTax);
@@ -5283,7 +5604,6 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
                 registerList[registerIndex].bookingStatus = "PAYMENT DONE";
                 cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
-
                 addOperation(usernameIndex,"CUSTOMER PAY FULL PAYMENT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -5301,7 +5621,6 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
-
                 addOperation(usernameIndex,"CUSTOMER PAY DEPOSIT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
@@ -5311,9 +5630,9 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
                 receiptList[registerIndex].paymentStatus = "PAYMENT DONE";
                 registerList[registerIndex].bookingStatus = "PAYMENT DONE";
                 cout << "THANKS FOR MAKING THE FULL PAYMENT :)\n"<< endl;
-                addOperation(usernameIndex,"CUSTOMER PAY FULL PAYMENT","CUSTOMER OPERATION","customer");
                 saveVectorList(receiptList,"receipt.txt");
                 saveVectorList(registerList,"registration.txt");
+                addOperation(usernameIndex,"CUSTOMER PAY FULL PAYMENT","CUSTOMER OPERATION","customer");
             }
             pressAny();
             custMainPage(name,usernameIndex);
@@ -5354,6 +5673,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
         status = false;
     }
 }
+
 
 void feedBackSection(string name, int userIndex,int registerIndex)
 {
@@ -5439,10 +5759,11 @@ void feedBackSection(string name, int userIndex,int registerIndex)
 
         newFeedback.registers.serialNum = registeredList[registerIndex].serialNum;
         newFeedback.registers.login.nickname = registeredList[registerIndex].login.nickname;
-        newFeedback.content = f.content;
+        newFeedback.content = replaceCommas(f.content);
         newFeedback.rate = rateString;
         newFeedback.fbStatus = "FALSE";
         newFeedback.viewStatus = "VIEW PENDING";
+        newFeedback.feedBackDate = getIssueDate();
         registeredList[registerIndex].feedbackStatus = "TRUE";
         feedbackList.push_back(newFeedback);
         addOperation(userIndex,"CUSTOMER PROVIDE FEEDBACK","CUSTOMER OPERATION","customer");
@@ -5586,20 +5907,25 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
         {
             if(prefix == "CATERING")
             {
+                addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
                 registerList[registerIndex].staffCateringStatus = "CATERING DONE";
             }
             else if(prefix == "DECORATION")
             {
+                addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
                 registerList[registerIndex].staffDecorationStatus = "DECORATION DONE";
             }
             else if(prefix == "ENTERTAINMENT")
             {
+                addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
                 registerList[registerIndex].staffEntertainmentStatus = "ENTERTAINMENT DONE";
             }
             else if(prefix == "PARTY ITEM")
             {
+                addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
                 registerList[registerIndex].staffPartyItem = "PARTY ITEM DONE";
             }
+            saveVectorList(operateList,"operation.txt");
 
             int counter = stoi(registerList[registerIndex].doneCount);
             counter +=1;
@@ -5618,10 +5944,7 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
             {
                 registerList[registerIndex].setupStatus = "SET UP PENDING";
             }
-
-            addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
             saveVectorList(registerList,"registration.txt");
-            saveVectorList(operateList,"operation.txt");
             status = false; 
         }
         else if(ans == "n" || ans == "N")
@@ -6361,6 +6684,7 @@ void addItem(string name,int staffIndex,string prefix)
         newPackage.partyGift = p.partyGift;
         newPackage.cake = p.cake;
         newPackage.price = newPackagePriceString;
+        newPackage.packageTimeChosen = "0";
 
         confirmRecord =
         {
@@ -6582,6 +6906,7 @@ void addItem(string name,int staffIndex,string prefix)
         newCustomPackage.itemAmountStatus = c.itemAmountStatus;
         newCustomPackage.itemAmount = "0";
         newCustomPackage.itemAmtLimit = c.itemAmtLimit;
+        newCustomPackage.customTimeChosen = "0";
 
         confirmRecord =
         {
@@ -6722,6 +7047,7 @@ void addItem(string name,int staffIndex,string prefix)
         newTheme.themePrice = newThemePriceString;
         newTheme.themeStatus = "AVAILABLE";
         newTheme.themeTemp = "FALSE";
+        newTheme.themeTimeChosen = "0";
 
         confirmRecord =
         {
@@ -7968,10 +8294,310 @@ void staffManageItem(string name,int staffIndex)
     
 }   
 
+void generateReport(string name, int staffIndex, string prefix)
+{
+    MenuTemplate <string> m;
+
+    vector <Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
+    vector <Feedback> feedbackList = getVectorList <Feedback> ("feedback.txt");
+    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
+    vector <CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
+    vector <Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
+    vector<vector<string>> reportRecords;
+    vector<vector<string>> generalRecords;
+    vector<vector<string>> themeRecords;
+    vector<vector<string>> extraInfo;
+    string startDate,endDate;
+
+    bool status = true;
+    double totalRevenue = 0.0, pendingPayment = 0.0, completePayment = 0.0, totalPackageRevenue = 0.0,
+    totalAddOnRevenue = 0.0,totalFeedback = 0.0,averageRating = 0.0,generalTotalRevenue = 0.0,themeTotalRevenue = 0.0;
+    int packageTime,generalTime,themeTime;
+    
+    cout << "\n";
+    m.menuTitle = "START DATE";
+    m.menuTitleTemplate();
+    m.menuTitle = "PLEASE ENTER IN <YYYY-MM-DD>";
+    m.menuTitleTemplate();
+
+        while(status)
+        {
+            cout << "PLEASE ENTER THE START DATE <0 to exit> : ";
+            getline(cin,startDate);
+
+            if(startDate == "0")
+            {
+                staffGenerateReport(name,staffIndex);
+                status = false;
+            }
+
+            if(startDate.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
+
+            if(!regex_match(startDate,dateFormat))
+            {
+                cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
+                continue;
+            }
+
+            status = false;
+        }
+
+        status = true;
+
+        m.menuTitle = "END DATE";
+        m.menuTitleTemplate();
+        m.menuTitle = "PLEASE ENTER IN <YYYY-MM-DD>";
+        m.menuTitleTemplate();
+
+        while(status)
+        {
+            cout << "PLEASE ENTER THE END DATE <0 to exit> : ";
+            getline(cin,endDate);
+
+            if(endDate == "0")
+            {
+                staffGenerateReport(name,staffIndex);
+                status = false;
+            }
+
+            if (startDate > endDate)
+            {
+                cout << "START DATE MUST BE EARLIER THAN OR SAME AS END DATE :)\n" << endl;
+                pressAny();
+                staffGenerateReport(name, staffIndex);
+                status = false;
+            }
+
+
+            if(endDate.empty())
+            {
+                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                continue;
+            }
+
+            regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
+
+            if(!regex_match(endDate,dateFormat))
+            {
+                cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
+                continue;
+            }
+            status = false;
+
+            calculateReport(totalRevenue, pendingPayment, completePayment, totalPackageRevenue,totalAddOnRevenue,totalFeedback,averageRating,generalTotalRevenue,themeTotalRevenue,packageTime,generalTime,themeTime,startDate,endDate);
+
+            stringstream ssTotalRevenue,ssPendingPayment, ssCompletePayment, ssTotalPackageRevenue,ssTotalAddOnRevenue,ssTotalFeedback,ssAverageRating,ssGeneralTotalRevenue,ssThemeTotalRevenue;
+
+            ssTotalRevenue << fixed << setprecision(2) << totalRevenue;
+            ssPendingPayment << fixed << setprecision(2) << pendingPayment;
+            ssCompletePayment << fixed << setprecision(2) << completePayment;
+            ssTotalPackageRevenue << fixed << setprecision(2) << totalPackageRevenue;
+            ssTotalAddOnRevenue << fixed << setprecision(2) << totalAddOnRevenue;
+            ssTotalFeedback << fixed << setprecision(2) << totalFeedback;
+            ssAverageRating << fixed << setprecision(2) << averageRating;
+            ssGeneralTotalRevenue << fixed << setprecision(2) << generalTotalRevenue;
+            ssThemeTotalRevenue << fixed << setprecision(2) << themeTotalRevenue;
+
+            string totalRevenueStr = ssTotalRevenue.str();
+            string totalPendingPayemntStr = ssPendingPayment.str();
+            string totalCompletePaymentStr = ssCompletePayment.str();
+            string totalPackageRevenueStr  = ssTotalPackageRevenue.str();
+            string totalAddOnRevenueStr = ssTotalAddOnRevenue.str();
+            string totalFeedbackStr = ssTotalFeedback.str();
+            string averageRatingStr = ssAverageRating.str();
+            string generalTotalRevenueStr = ssGeneralTotalRevenue.str();
+            string themeTotalRevenueStr = ssThemeTotalRevenue.str();
+            string packageTimeStr = to_string(packageTime);
+            string generalTimeStr = to_string(generalTime);
+            string themeTimeStr = to_string(themeTime);
+
+        if(prefix == "REVENUE")
+        {   
+            for(int i = 0; i < receiptList.size();i++)
+            {
+                string receiptID = receiptList[i].receiptID;
+                string custName = receiptList[i].registers.login.nickname;
+                string issueDate = (receiptList[i].issueDate).substr(0,10);
+                string amtAfterTax = receiptList[i].amtAfterTax;
+                string paymentStatus = receiptList[i].paymentStatus;
+                string paymentType = receiptList[i].paymentType;
+                if(checkDateRange(receiptList[i].issueDate,startDate,endDate))
+                {
+                    reportRecords.push_back
+                    (
+                        {receiptID,custName,issueDate,amtAfterTax,paymentStatus,paymentType}
+                    );
+                }
+                else
+                {
+                    cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
+                    pressAny();
+                    staffGenerateReport(name,staffIndex);
+                }
+
+            }
+
+            extraInfo = 
+            {
+                {"TOTAL REVENUE",totalRevenueStr},
+                {"PENDING PAYMENT",totalPendingPayemntStr},
+                {"COMPLETED PAYMENT",totalCompletePaymentStr}
+            };
+        }
+        else if (prefix == "ITEM PERFORMANCE")
+        {
+            for (const auto& p : packageList)
+            {
+                if (stoi(p.packageTimeChosen) > 0)
+                {
+                    reportRecords.push_back
+                    (
+                        { p.packageType, p.venue, p.catering, p.packageTimeChosen, p.price }
+                    );
+                }
+            }
+
+            for (const auto& cp : customPackage)
+            {
+                if (stoi(cp.customTimeChosen) > 0)
+                {
+                    double itemTotalRevenue = safeStod(cp.itemPrice) * stoi(cp.customTimeChosen);
+                    stringstream ss;
+                    ss << fixed << setprecision(2) << itemTotalRevenue;
+                    generalRecords.push_back(
+                        { cp.item, cp.customTimeChosen, ss.str(), "", "", "" }
+                    );
+                }
+            }
+
+            for (const auto& t : themeList)
+            {
+                if (stoi(t.themeTimeChosen) > 0)
+                {
+                    double themeRevenue = safeStod(t.themePrice) * stoi(t.themeTimeChosen);
+                    stringstream ss;
+                    ss << fixed << setprecision(2) << themeRevenue;
+                    themeRecords.push_back
+                    (
+                        { t.themeDescription, t.themeTimeChosen, ss.str(), "", "", "" }
+                    );
+                }
+            }
+
+            extraInfo = 
+            {
+                { "TOTAL PACKAGE REVENUE", totalPackageRevenueStr },
+                { "TOTAL ADD-ON REVENUE", totalAddOnRevenueStr },
+                { "", "" }
+            };
+        }
+        else if(prefix == "FEEDBACK")
+        {
+            for(int i = 0; i < feedbackList.size();i++)
+            {
+                if(checkDateRange(feedbackList[i].feedBackDate,startDate,endDate))
+                {
+                    string custName = feedbackList[i].registers.login.nickname;
+                    string rating = feedbackList[i].rate;
+                    string ratingDate = (feedbackList[i].feedBackDate).substr(0,10);
+                    reportRecords.push_back
+                    (
+                        {custName,rating,ratingDate,"","",""}
+                    );
+                }
+                else
+                {
+                    cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
+                    pressAny();
+                    staffGenerateReport(name,staffIndex);
+                }
+            }
+
+            extraInfo = 
+            {
+                {"TOTAL FEEDBACK",to_string(feedbackList.size())},
+                {"AVERAGE RATING",averageRatingStr},
+                {"",""}
+            };
+        }
+
+        system("clear");
+
+        m.menuTitle = "GENERATE REPORT SECTION";
+        m.menuTitleTemplate();
+
+
+        outputReport(reportRecords,generalRecords,themeRecords,extraInfo,prefix);
+        cout << "\nTHIS IS THE "+ prefix +" REPORT :)\n" << endl;
+        pressAny();
+        staffGenerateReport(name,staffIndex);
+        }
+}
+
 //Staff view report function
 void staffGenerateReport(string name, int staffIndex)
 {
-    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
+    MenuTemplate <string> m;
+    string ans;
+    bool status = true;
+    system("clear");
+
+    m.menuTitle = "GENERATE REPORT SECTION";
+    m.menuTitleTemplate();
+
+    m.menuTitle = "REPORT OPTIONS";
+    m.menuOptions.push_back("REVENUE REPORT");
+    m.menuOptions.push_back("ITEM PERFORMANCE REPORT");
+    m.menuOptions.push_back("FEEDBACK REPORT");
+
+    m.menuTemplate();
+
+    while(status)
+    {
+        cout << "PLASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            staffMainPage(name,staffIndex);
+            continue;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(ans == "1")
+        {
+            generateReport(name,staffIndex,"REVENUE");
+            status = false;
+        }
+        else if(ans == "2")
+        {
+            generateReport(name,staffIndex,"ITEM PERFORMANCE");
+            status = false;
+        }
+        else if(ans == "3")
+        {
+            generateReport(name,staffIndex,"FEEDBACK");
+            status = false;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
+            continue;
+        }
+        status = false;
+    }
 }
 
 void viewFeedback(string name,int staffIndex,int feedBackIndex)
@@ -7995,7 +8621,7 @@ void viewFeedback(string name,int staffIndex,int feedBackIndex)
     {
         {"RECEIPT ID",feedbackList[feedBackIndex].registers.serialNum},
         {"CUSTOMER NAME",feedbackList[feedBackIndex].registers.login.nickname},
-        {"FEED BACK PROVIDED",feedbackList[feedBackIndex].content}
+        {"FEED BACK PROVIDED",restoreCommas(feedbackList[feedBackIndex].content)}
     };
 
     outputFeedbackRecords(feedbackRecords);
@@ -8049,6 +8675,7 @@ void staffViewFeedBack(string name, int staffIndex)
             }
         );
     }
+
     if(feedBackRecords.size()!=0)
     {
         outputFeedBackList(feedBackRecords);
@@ -8065,10 +8692,10 @@ void staffViewFeedBack(string name, int staffIndex)
             status = false;
         }
 
-        int feedBackIndex = getIndex<Feedback>(feedbackList, ans , [](Feedback f){return f.registers.serialNum;});
-
         string ansTran = ans;
         transform(ansTran.begin(),ansTran.end(),ansTran.begin(),::toupper);
+
+        int feedBackIndex = getIndex<Feedback>(feedbackList, ansTran , [](Feedback f){return f.registers.serialNum;});
 
         if(ansTran == feedbackList[feedBackIndex].registers.serialNum)
         {
@@ -8080,7 +8707,6 @@ void staffViewFeedBack(string name, int staffIndex)
             cout << "PLEASE CHOOSE A VALID RECEIPT ID :)\n"<<endl;
             continue;
         }
-
         status = false;
     }
 }
@@ -8210,8 +8836,8 @@ void staffCreateCampaign(string name, int staffIndex)
             string campaignId = generateSerialNo("CE", campaignList, [](const Campaign& c) {return c.campaignId;});
 
             newCampaign.campaignId = campaignId;
-            newCampaign.contentTitle = c.contentTitle;
-            newCampaign.content = c.content;
+            newCampaign.contentTitle = replaceCommas(c.contentTitle);
+            newCampaign.content = replaceCommas(c.content);
             newCampaign.contentStatus = "VIEW PENDING";
             campaignList.push_back(newCampaign);
 
