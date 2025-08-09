@@ -747,6 +747,16 @@ vector<T> getVectorList(const string& fileName)
     return list;
 }
 
+string getTodayDate()
+{
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    string year = to_string(1900 + ltm->tm_year);
+    string month = (ltm->tm_mon + 1 < 10 ? "0" : "") + to_string(ltm->tm_mon + 1);
+    string day = (ltm->tm_mday < 10 ? "0" : "") + to_string(ltm->tm_mday);
+    return year + "-" + month + "-" + day;
+}
+
 tm parseDate(const string &dateStr)
 {
     tm t = {};
@@ -1822,34 +1832,30 @@ bool nicknameExist(const vector<T>& list, const string& compareItem)
 }
 
 template <typename T>
-bool dateExist(const vector<T>& list, const string& date,const string& startTimes,const string& endTimes,string prefix)
+bool dateExist(const vector<T>& list, const string& date, const string& startTimes, const string& endTimes, string prefix)
 {
-    for(int i = 0; i < list.size(); i++)
+    for (const auto& item : list)
     {
-        if(prefix == "DATE")
+        if (prefix == "DATE")
         {
-            if(list[i].eventDate == date)
-            {
+            if (item.eventDate == date)
                 return true;
-            }
         }
-        else if(prefix == "STARTTIME")
+        else if (prefix == "STARTTIME")
         {
-            if(list[i].startTime == startTimes)
-            {
+            // Check BOTH date and time together
+            if (item.eventDate == date && item.startTime == startTimes)
                 return true;
-            }
         }
-        else if(prefix == "ENDTIME")
+        else if (prefix == "ENDTIME")
         {
-            if(list[i].endTime == endTimes)
-            {
+            if (item.eventDate == date && item.endTime == endTimes)
                 return true;
-            }
         }
     }
     return false;
 }
+
 
 template <typename T>
 bool packageExist(const vector<T>& list, const string& packageName)
@@ -3097,7 +3103,15 @@ void custRegis(string name , int userIndex)
         {
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <YYYY-MM-DD> :)\n" << endl;
             continue;
-        }   
+        }  
+
+        string today = getTodayDate();
+        if (r.eventDate < today)
+        {
+            cout << "INVALID INPUT... PLEASE ENTER A DATE THAT IS TODAY OR IN THE FUTURE :)\n" << endl;
+            continue;
+        }
+
 
         status = false;
     }
@@ -3126,27 +3140,28 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
-        if(dateExist(registerList,"",r.startTime,"","STARTTIME"))
-        {
-            cout << "THE TIME HAVE BEEN BOOKED BY OTHER PEROSN :)\n" << endl;
-            continue;
-        }
-
         regex timeFormat("^([01]\\d|2[0-3]):[0-5]\\d$");
 
         if(!regex_match(r.startTime,timeFormat))
         {
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <HH:MM> :)\n" << endl;
             continue;
-        }   
+        }  
 
-        int hoursAdd = stoi(packageList[packageIndex].timeDuration);
-        endTime = addHoursToTime(r.startTime,hoursAdd);
-        if(dateExist(registerList,"","",endTime,"ENDTIME"))
+        if (dateExist(registerList, r.eventDate, r.startTime, "", "STARTTIME"))
         {
-            cout << "THE TIME HAVE BEEN BOOKED BY OTHER PERSON :)\n" << endl;
+            cout << "THE DATE & TIME HAVE BEEN BOOKED BY ANOTHER PERSON :)\n" << endl;
             continue;
         }
+
+        endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
+
+        if (dateExist(registerList, r.eventDate, "", endTime, "ENDTIME"))
+        {
+            cout << "THE DATE & TIME HAVE BEEN BOOKED BY ANOTHER PERSON :)\n" << endl;
+            continue;
+        }
+
         r.startTime = timePrefix(r.startTime);
         status = false;
     }
@@ -6674,15 +6689,15 @@ void addItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
-        newPackage.packageType = p.packageType;
-        newPackage.venue = p.venue;
+        newPackage.packageType = replaceCommas(p.packageType);
+        newPackage.venue = replaceCommas(p.venue);
         newPackage.timeDuration = p.timeDuration;
-        newPackage.catering = p.catering;
-        newPackage.decoration = p.decoration;
-        newPackage.entertaintment = p.entertaintment;
-        newPackage.activities = p.activities;
-        newPackage.partyGift = p.partyGift;
-        newPackage.cake = p.cake;
+        newPackage.catering = replaceCommas(p.catering);
+        newPackage.decoration = replaceCommas(p.decoration);
+        newPackage.entertaintment = replaceCommas(p.entertaintment);
+        newPackage.activities = replaceCommas(p.activities);
+        newPackage.partyGift = replaceCommas(p.partyGift);
+        newPackage.cake = replaceCommas(p.cake);
         newPackage.price = newPackagePriceString;
         newPackage.packageTimeChosen = "0";
 
@@ -6899,7 +6914,7 @@ void addItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
-        newCustomPackage.item = c.item;
+        newCustomPackage.item = replaceCommas(c.item);
         newCustomPackage.itemPrice = newAddOnPriceString;
         newCustomPackage.tempStatus = "FALSE";
         newCustomPackage.itemStatus = "AVAILABLE";
@@ -7043,7 +7058,7 @@ void addItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
-        newTheme.themeDescription = t.themeDescription;
+        newTheme.themeDescription = replaceCommas(t.themeDescription);
         newTheme.themePrice = newThemePriceString;
         newTheme.themeStatus = "AVAILABLE";
         newTheme.themeTemp = "FALSE";
@@ -7302,7 +7317,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S NAME","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].packageType << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].packageType = ans;
+                packageList[index].packageType = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7339,7 +7354,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACKAGE\'S VENUE","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].venue << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].venue = ans;
+                packageList[index].venue = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7415,7 +7430,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S CATERING","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].catering << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].catering = ans;
+                packageList[index].catering = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7452,7 +7467,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S DECORATION","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].decoration << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].decoration = ans;
+                packageList[index].decoration = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7489,7 +7504,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S ENTERTAINMENT","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].entertaintment << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].entertaintment = ans;
+                packageList[index].entertaintment = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7526,7 +7541,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S ACTIVITIES","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].activities << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].activities = ans;
+                packageList[index].activities = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7563,7 +7578,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S PARTY GIFT","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].partyGift << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].partyGift = ans;
+                packageList[index].partyGift = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7600,7 +7615,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S CAKE","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << packageList[index].cake << "> TO <" << ans << "> :)\n"<<endl;
-                packageList[index].cake = ans;
+                packageList[index].cake = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7691,7 +7706,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED CUSTOM ITEM\'S NAME","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << customPackage[index].item << "> TO <" << ans << "> :)\n"<<endl;
-                customPackage[index].item = ans;
+                customPackage[index].item = replaceCommas(ans);
                 saveVectorList(customPackage,"customPackage.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
@@ -7856,7 +7871,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 addOperation(staffIndex,"CHANGED THEME\'S NAME","STAFF OPERATION","STAFF");
                 saveVectorList(operateList,"operation.txt");
                 cout << "FROM <" << themeList[index].themeDescription << "> TO <" << ans << "> :)\n"<<endl;
-                themeList[index].themeDescription = ans;
+                themeList[index].themeDescription = replaceCommas(ans);
                 saveVectorList(themeList,"theme.txt");
                 pressAny();
                 editOptions(name,staffIndex,prefix,index);
