@@ -1831,30 +1831,46 @@ bool nicknameExist(const vector<T>& list, const string& compareItem)
     return false;
 }
 
+string removeTimeSuffix(const string& time)
+{
+    // Removes " AM" or " PM" if present
+    if (time.size() > 3 && time[time.size()-3] == ' ')
+        return time.substr(0, time.size() - 3);
+    return time;
+}
+
+int timeToMinutes(const string& time)
+{
+    int hours = stoi(time.substr(0, 2));
+    int minutes = stoi(time.substr(3, 2));
+    return hours * 60 + minutes;
+}
+
 template <typename T>
-bool dateExist(const vector<T>& list, const string& date, const string& startTimes, const string& endTimes, string prefix)
+bool dateExist(const vector<T>& list, const string& date, const string& startTimes, const string& endTimes)
 {
     for (const auto& item : list)
     {
-        if (prefix == "DATE")
+        if (item.eventDate == date) // same date
         {
-            if (item.eventDate == date)
-                return true;
-        }
-        else if (prefix == "STARTTIME")
-        {
-            // Check BOTH date and time together
-            if (item.eventDate == date && item.startTime == startTimes)
-                return true;
-        }
-        else if (prefix == "ENDTIME")
-        {
-            if (item.eventDate == date && item.endTime == endTimes)
-                return true;
+            // Convert stored start/end times to minutes
+            int existingStart = timeToMinutes(removeTimeSuffix(item.startTime));
+            int existingEnd   = timeToMinutes(removeTimeSuffix(item.endTime));
+
+            // Convert input start/end times to minutes
+            int newStart = timeToMinutes(startTimes);
+            int newEnd   = timeToMinutes(endTimes);
+
+            // Overlap condition
+            if (newStart < existingEnd && newEnd > existingStart)
+            {
+                return true; // time slots overlap
+            }
         }
     }
     return false;
 }
+
 
 
 template <typename T>
@@ -3091,12 +3107,6 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
-        if(dateExist(registerList,r.eventDate,"","","DATE"))
-        {
-            cout << "THE DATE YOU HAVE CHOSE HAVE BEEN BOOKED BY OTHER PERSON :)\n" << endl;
-            continue;
-        }
-
         regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
 
         if(!regex_match(r.eventDate,dateFormat))
@@ -3148,15 +3158,9 @@ void custRegis(string name , int userIndex)
             continue;
         }  
 
-        if (dateExist(registerList, r.eventDate, r.startTime, "", "STARTTIME"))
-        {
-            cout << "THE DATE & TIME HAVE BEEN BOOKED BY ANOTHER PERSON :)\n" << endl;
-            continue;
-        }
-
         endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
 
-        if (dateExist(registerList, r.eventDate, "", endTime, "ENDTIME"))
+        if (dateExist(registerList, r.eventDate, r.startTime, endTime))
         {
             cout << "THE DATE & TIME HAVE BEEN BOOKED BY ANOTHER PERSON :)\n" << endl;
             continue;
