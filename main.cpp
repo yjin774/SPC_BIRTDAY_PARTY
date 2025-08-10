@@ -3051,18 +3051,18 @@ string addHoursToTime(const string& timeStr, int addHours) {
 
 void addReceiptDetails(string receiptType, int index, int customIndex)
 {
-    vector<Registration<string>>registeredList = getVectorList<Registration<string>>("registration.txt");
-    vector<CustomList<string>>customList = getVectorList<CustomList<string>>("customList.txt");
-    vector<Receipt>receiptList = getVectorList<Receipt>("receipt.txt");
-    vector<Package<string>>packageList = getVectorList<Package<string>>("packageList.txt");
-    vector<vector<string>>registerRecord;
+    vector<Registration<string>> registeredList = getVectorList<Registration<string>>("registration.txt");
+    vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
+    vector<Receipt> receiptList = getVectorList<Receipt>("receipt.txt");
+    vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
+    vector<vector<string>> registerRecord;
 
     double amtBeforeTax = 0.0, taxAmt = 0.0, amtAfterTax = 0.0, totalGeneralAddOn = 0.0, depositAmt = 0.0;
-    int packageIndex;
+    int packageIndex = -1;
 
     calculateAmount(amtBeforeTax, taxAmt, amtAfterTax, index, customIndex, totalGeneralAddOn, depositAmt);
 
-    for (int i = 0; i < (int)packageList.size(); ++i)
+    for (int i = 0; i < packageList.size(); i++)
     {
         if (registeredList[index].packageChosen == packageList[i].packageType)
         {
@@ -3073,83 +3073,92 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
 
     string issueDates = getIssueDate();
 
-    // Convert to fixed-point strings
-    auto formatMoney = [](double value) {
-        stringstream ss;
-        ss << fixed << setprecision(2) << value;
-        return ss.str();
-    };
+    stringstream ssTotal, ssTax, ssFinal, ssGeneral, ssDeposit;
+    ssTotal << fixed << setprecision(2) << amtBeforeTax;
+    ssTax << fixed << setprecision(2) << taxAmt;
+    ssFinal << fixed << setprecision(2) << amtAfterTax;
+    ssGeneral << fixed << setprecision(2) << totalGeneralAddOn;
+    ssDeposit << fixed << setprecision(2) << depositAmt;
 
-    string amtBeforeTaxString    = formatMoney(amtBeforeTax);
-    string taxAmtString          = formatMoney(taxAmt);
-    string amtAfterTaxString     = formatMoney(amtAfterTax);
-    string totalGeneralAddOnStr  = formatMoney(totalGeneralAddOn);
-    string depositAmtString      = formatMoney(depositAmt);
+    string amtBeforeTaxString = ssTotal.str();
+    string taxAmtString = ssTax.str();
+    string amtAfterTaxString = ssFinal.str();
+    string totalGeneralAddOnString = ssGeneral.str();
+    string depositAmtString = ssDeposit.str();
 
-    int oriGuest  = stoi(registeredList[index].guestAmount);
+    int oriGuest = stoi(registeredList[index].guestAmount);
     int extraGuest = 0;
 
-    // Calculate extra guests safely
-    auto checkExtraGuest = [&](const string& item, const string& amt) {
-        if (item == "EXTRA GUEST")
-            extraGuest = stoi(amt);
-    };
-    checkExtraGuest(customList[customIndex].item1, customList[customIndex].item1Amt);
-    checkExtraGuest(customList[customIndex].item2, customList[customIndex].item2Amt);
-    checkExtraGuest(customList[customIndex].item3, customList[customIndex].item3Amt);
-    checkExtraGuest(customList[customIndex].item4, customList[customIndex].item4Amt);
+    if (customList[customIndex].item1 == "EXTRA GUEST")
+    {
+        extraGuest = stoi(customList[customIndex].item1Amt);
+    }
+    else if (customList[customIndex].item2 == "EXTRA GUEST")
+    {
+        extraGuest = stoi(customList[customIndex].item2Amt);
+    }
+    else if (customList[customIndex].item3 == "EXTRA GUEST")
+    {
+        extraGuest = stoi(customList[customIndex].item3Amt);
+    }
+    else if (customList[customIndex].item4 == "EXTRA GUEST")
+    {
+        extraGuest = stoi(customList[customIndex].item4Amt);
+    }
 
     string totalGuestString = to_string(oriGuest + extraGuest);
 
-    // === Assign receipt details without overwriting paymentType or modified amtAfterTax ===
-    auto& r = receiptList[index];
-    r.registers.login.nickname       = registeredList[index].login.nickname;
-    r.paymentStatus                   = registeredList[index].bookingStatus;
-    r.amtBeforeTax                     = amtBeforeTaxString;
-    r.taxAmt                           = taxAmtString;
+    // ===================== UPDATED ASSIGNMENT LOGIC =====================
+    // Do NOT overwrite amtAfterTax or paymentType if they already have values
+    receiptList[index].registers.login.nickname = registeredList[index].login.nickname;
+    receiptList[index].paymentStatus = registeredList[index].bookingStatus;
+    receiptList[index].amtBeforeTax = amtBeforeTaxString;
+    receiptList[index].taxAmt = taxAmtString;
 
-    // Only set amtAfterTax if it's empty (avoid overwriting payment changes)
-    if (r.amtAfterTax.empty())
-        r.amtAfterTax = amtAfterTaxString;
+    if (receiptList[index].amtAfterTax.empty())
+    {
+        receiptList[index].amtAfterTax = amtAfterTaxString;
+    }
 
-    r.issueDate                        = issueDates;
-    r.registers.eventDate              = registeredList[index].eventDate;
-    r.registers.startTime              = registeredList[index].startTime;
-    r.registers.endTime                = registeredList[index].endTime;
-    r.registers.birthdayName           = registeredList[index].birthdayName;
-    r.registers.login.contactNum       = registeredList[index].login.contactNum;
-    r.registers.login.email            = registeredList[index].login.email;
-    r.registers.packageChosen          = registeredList[index].packageChosen; 
-    r.package.venue                    = packageList[packageIndex].venue;
-    r.package.catering                 = packageList[packageIndex].catering;
-    r.package.decoration               = packageList[packageIndex].decoration;
-    r.package.entertaintment           = packageList[packageIndex].entertaintment;
-    r.package.partyGift                = packageList[packageIndex].partyGift;
-    r.registers.totalCost              = registeredList[index].totalCost; 
-    r.registers.guestAmount            = registeredList[index].guestAmount;    
-    r.registers.specialRequest         = registeredList[index].specialRequest;  
-    r.registers.customStatus           = registeredList[index].customStatus;
-    r.custom.item1                     = customList[customIndex].item1;  
-    r.custom.item1Price                 = customList[customIndex].item1Price;  
-    r.custom.item1Amt                   = customList[customIndex].item1Amt; 
-    r.custom.item2                     = customList[customIndex].item2;  
-    r.custom.item2Price                 = customList[customIndex].item2Price;  
-    r.custom.item2Amt                   = customList[customIndex].item2Amt; 
-    r.custom.item3                     = customList[customIndex].item3;  
-    r.custom.item3Price                 = customList[customIndex].item3Price;  
-    r.custom.item3Amt                   = customList[customIndex].item3Amt;  
-    r.custom.item4                     = customList[customIndex].item4;  
-    r.custom.item4Price                 = customList[customIndex].item4Price;  
-    r.custom.item4Amt                   = customList[customIndex].item4Amt; 
-    r.totalGeneralAddOn                 = totalGeneralAddOnStr;
-    r.totalGuestAmt                     = totalGuestString;
-    r.custom.themes.themeDescription    = customList[customIndex].themes.themeDescription;
-    r.custom.themes.themePrice          = customList[customIndex].themes.themePrice;
-    r.depositAmt                        = depositAmtString;
+    receiptList[index].issueDate = issueDates;
+    receiptList[index].registers.eventDate = registeredList[index].eventDate;
+    receiptList[index].registers.startTime = registeredList[index].startTime;
+    receiptList[index].registers.endTime = registeredList[index].endTime;
+    receiptList[index].registers.birthdayName = registeredList[index].birthdayName;
+    receiptList[index].registers.login.contactNum = registeredList[index].login.contactNum;
+    receiptList[index].registers.login.email = registeredList[index].login.email;
+    receiptList[index].registers.packageChosen = registeredList[index].packageChosen;
+    receiptList[index].package.venue = packageList[packageIndex].venue;
+    receiptList[index].package.catering = packageList[packageIndex].catering;
+    receiptList[index].package.decoration = packageList[packageIndex].decoration;
+    receiptList[index].package.entertaintment = packageList[packageIndex].entertaintment;
+    receiptList[index].package.partyGift = packageList[packageIndex].partyGift;
+    receiptList[index].registers.totalCost = registeredList[index].totalCost;
+    receiptList[index].registers.guestAmount = registeredList[index].guestAmount;
+    receiptList[index].registers.specialRequest = registeredList[index].specialRequest;
+    receiptList[index].registers.customStatus = registeredList[index].customStatus;
+    receiptList[index].custom.item1 = customList[customIndex].item1;
+    receiptList[index].custom.item1Price = customList[customIndex].item1Price;
+    receiptList[index].custom.item1Amt = customList[customIndex].item1Amt;
+    receiptList[index].custom.item2 = customList[customIndex].item2;
+    receiptList[index].custom.item2Price = customList[customIndex].item2Price;
+    receiptList[index].custom.item2Amt = customList[customIndex].item2Amt;
+    receiptList[index].custom.item3 = customList[customIndex].item3;
+    receiptList[index].custom.item3Price = customList[customIndex].item3Price;
+    receiptList[index].custom.item3Amt = customList[customIndex].item3Amt;
+    receiptList[index].custom.item4 = customList[customIndex].item4;
+    receiptList[index].custom.item4Price = customList[customIndex].item4Price;
+    receiptList[index].custom.item4Amt = customList[customIndex].item4Amt;
+    receiptList[index].totalGeneralAddOn = totalGeneralAddOnString;
+    receiptList[index].totalGuestAmt = totalGuestString;
+    receiptList[index].custom.themes.themeDescription = customList[customIndex].themes.themeDescription;
+    receiptList[index].custom.themes.themePrice = customList[customIndex].themes.themePrice;
+    receiptList[index].depositAmt = depositAmtString;
 
-    // Only set paymentType if it's empty
-    if (r.paymentType.empty())
-        r.paymentType = "UNSPECIFIED";
+    if (receiptList[index].paymentType.empty())
+    {
+        receiptList[index].paymentType = "";
+    }
 
     saveVectorList(receiptList, "receipt.txt");
 
