@@ -2921,7 +2921,7 @@ void staffMainPage(string name,int staffIndex)
 
     for(int i = 0;i < registerList.size();i++)
     {
-        if(registerList[i].setupStatus != "SET UP DONE" && registerList[i].bookingStatus != "PAYMENT DONE")
+        if(registerList[i].setupStatus != "SET UP DONE" && registerList[i].bookingStatus == "PAYMENT DONE")
         {
             bookCounter++;
         }
