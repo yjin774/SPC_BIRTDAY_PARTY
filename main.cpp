@@ -442,6 +442,7 @@ struct Receipt
     string amtBeforeTax;
     string taxAmt;
     string amtAfterTax;
+    string newAmtAfterTax;
     string totalGuestAmt;
     string totalGeneralAddOn;
     string depositAmt;
@@ -452,7 +453,7 @@ struct Receipt
 
         string commaFormat()
     {
-        return receiptID + "," + registers.login.nickname + "," + paymentStatus + "," + issueDate + "," + amtBeforeTax + "," + taxAmt + "," + amtAfterTax + "," + registers.eventDate + "," + 
+        return receiptID + "," + registers.login.nickname + "," + paymentStatus + "," + issueDate + "," + amtBeforeTax + "," + taxAmt + "," + amtAfterTax + "," + newAmtAfterTax + "," + registers.eventDate + "," + 
         registers.startTime + "," + registers.endTime + "," + registers.birthdayName + "," + registers.login.contactNum + "," + 
         registers.login.email + "," + registers.packageChosen + "," + package.venue + "," + package.catering + "," + package.decoration + "," + package.entertaintment + "," + package.partyGift + "," + registers.totalCost
         + "," + registers.guestAmount + "," + registers.specialRequest + "," + registers.customStatus + "," + custom.item1 + "," + custom.item1Price + "," + custom.item1Amt + "," + 
@@ -472,6 +473,7 @@ struct Receipt
             getline(ss, amtBeforeTax, ',');
             getline(ss, taxAmt, ',');
             getline(ss, amtAfterTax, ',');
+            getline(ss, newAmtAfterTax, ',');
             getline(ss, registers.eventDate, ',');
             getline(ss, registers.startTime, ',');
             getline(ss, registers.endTime, ',');
@@ -1012,20 +1014,24 @@ void calculateAmount(double& amtBeforeTax,double& taxAmt, double& amtAfterTax,in
         guestPrice = stod(customList[customIndex].item4Price);
     }
     double item1 = stod(customList[customIndex].item1Price);
+    double item1Amt = stod(customList[customIndex].item1Amt);
     double item2 = stod(customList[customIndex].item2Price);
+    double item2Amt = stod(customList[customIndex].item2Amt);
     double item3 = stod(customList[customIndex].item3Price);
+    double item3Amt = stod(customList[customIndex].item3Amt);
     double item4 = stod(customList[customIndex].item4Price);
+    double item4Amt = stod(customList[customIndex].item4Amt);
     double themePrice = stod(customList[customIndex].themes.themePrice);
 
-    amtBeforeTax = totalCost + guestPrice + item1 + item2 + item3 + item4 + themePrice;
+    totalGeneralAddOn = (item1*item1Amt) + (item2*item2Amt) + (item3*item3Amt) + (item4*item4Amt);
+
+    amtBeforeTax = totalCost + totalGeneralAddOn + themePrice;
 
     taxAmt = amtBeforeTax * registerList[index].TAX;
 
     amtAfterTax = amtBeforeTax + taxAmt;
 
     depositAmt = amtAfterTax * 0.2;
-
-    totalGeneralAddOn = item1 + item2 + item3 + item4;
 }
 
 bool isNumber(const string &s)
@@ -1042,7 +1048,6 @@ double safeStod(const string &s)
 void calculateReport(double &totalRevenue,double &pendingPayment,double &completePayment,double &totalPackageRevenue,double &totalAddOnRevenue,
 double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &themeTotalRevenue,int &packageTime,int &generalTime,int &themeTime,string &startDate,string &endDate) 
 {
-    // Load data
     vector<Receipt> receiptList = getVectorList<Receipt>("receipt.txt");
     vector<Feedback> feedbackList = getVectorList<Feedback>("feedback.txt");
     vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
@@ -1059,15 +1064,21 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
     for (auto &p : packageList) p.packageTimeChosen = "0";
 
     // Main loop: filter receipts within date range
-    for (const auto &r : receiptList) {
+    for (const auto &r : receiptList) 
+    {
         if (!checkDateRange(r.issueDate, startDate, endDate)) continue;
 
         // Total revenue
-        totalRevenue += safeStod(r.amtAfterTax);
+        if(r.paymentStatus != "PAYMENT PENDING")
+        {
+            totalRevenue += safeStod(r.amtAfterTax);
+        }
 
         if (r.paymentStatus == "DEPOSIT DONE") {
-            pendingPayment += safeStod(r.amtAfterTax) - safeStod(r.depositAmt);
+            pendingPayment += safeStod(r.newAmtAfterTax);
         }
+
+        completePayment = totalRevenue - pendingPayment;
 
         totalPackageRevenue += safeStod(r.registers.totalCost);
         totalAddOnRevenue += safeStod(r.custom.item1Price)
@@ -1127,7 +1138,6 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
 
     totalFeedback = ratingCount;
     averageRating = (ratingCount > 0) ? totalRate / ratingCount : 0.0;
-    completePayment = totalRevenue - pendingPayment;
 
     // Calculate generalTime and generalTotalRevenue
     generalTime = 0;
@@ -1545,7 +1555,7 @@ void outputReport(const vector<vector<string>>& list, const vector<vector<string
     {
         cout << "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
         cout << "║  " << left <<setw(15) << "PACKAGE NAME" << "║  " << left <<setw(30) << "VENUE" << "║  " << left << setw(25) << "CATERING" << 
-        "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "PRICE" << "║" << endl;
         cout << "╠══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
         for(int i = 0;i < list.size();i++)
         {
@@ -1555,7 +1565,7 @@ void outputReport(const vector<vector<string>>& list, const vector<vector<string
         cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n" << endl;
 
         cout << "╔═════════════════════════════════════════════════════╗" << endl;
-        cout << "║  " << left <<setw(15) << "GENRAL ADD ON" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        cout << "║  " << left <<setw(15) << "GENRAL ADD ON" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "PRICE" << "║" << endl;
         cout << "╠═════════════════════════════════════════════════════╣" << endl;
         for(int i = 0;i < generalList.size();i++)
         {
@@ -1564,7 +1574,7 @@ void outputReport(const vector<vector<string>>& list, const vector<vector<string
         cout << "╚═════════════════════════════════════════════════════╝\n" << endl;
 
         cout << "╔═══════════════════════════════════════════════════════════════════════════════════╗" << endl;
-        cout << "║  " << left <<setw(45) << "CUSTOM THEME" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "TOTAL REVENUE" << "║" << endl;
+        cout << "║  " << left <<setw(45) << "CUSTOM THEME" << "║  " << left << setw(15) << "TIMES CHOSEN" << "║  " << left << setw(15) << "PRICE" << "║" << endl;
         cout << "╠═══════════════════════════════════════════════════════════════════════════════════╣" << endl;
         for(int i = 0;i < themeRecords.size();i++)
         {
@@ -1882,13 +1892,6 @@ string replaceCommas(const string& s)
     return result;
 }
 
-string restoreCommas(const string& s) 
-{
-    string result = s;
-    replace(result.begin(), result.end(), ';', ',');
-    return result;
-}
-
 void pressAny() {
     cout << "\nPress any key to continue...";
 
@@ -1916,7 +1919,7 @@ void staffPage();
 void custPage();
 void login(string aspect);
 void signUp(string aspect);
-void changePass(string aspect);
+void changePass(string name, int userIndex,string aspect);
 
 void custMainPage(string nickname,int usernameIndex);
 void custRegis(string name ,int userIndex);
@@ -2660,7 +2663,7 @@ void signUp(string aspect)
 }
 
 //Change password function
-void changePass(string aspect)
+void changePass(string name, int userIndex,string aspect)
 {
     bool status = true;
     string username;
@@ -2685,6 +2688,8 @@ void changePass(string aspect)
     }
 
     m.menuTitleTemplate();
+    m.menuTitle = "ENTER YOUR USERNAME";
+    m.menuTitleTemplate();
 
     while(status)
     {
@@ -2695,7 +2700,7 @@ void changePass(string aspect)
         {
             if(aspect == "customer")
             {
-                custPage();
+                custViewProfile(name,userIndex);
                 status = false;
             }
             else
@@ -2715,23 +2720,31 @@ void changePass(string aspect)
 
         if(usernameExist(currentList , username))
         {
-            cout << "YOU HAVE CHOSE <" << currentList[index].nickname << "> TO CHANGE PASSWORD :)"<<endl;
+            cout << "YOU HAVE CHOSE <" << currentList[index].nickname << "> TO CHANGE PASSWORD :)\n"<<endl;
             status = false;
         }
         else
         {
-            cout << "USERNAME DOES\'NT EXIST... PLEASE ENTER A VALID USERNAME :)" << endl;
+            cout << "USERNAME DOES\'NT EXIST... PLEASE ENTER A VALID USERNAME :)\n" << endl;
             continue;
         }
         status = false;
     }
 
     status = true;
+    m.menuTitle = "ENTER YOUR OLD PASSWORD";
+    m.menuTitleTemplate();
 
     while(status)
     {
-        cout << "PLEASE ENTER YOUR OLD PASSWORD : ";
+        cout << "PLEASE ENTER YOUR OLD PASSWORD <0 to exit> : ";
         getline(cin,pass);
+
+        if(pass == "0")
+        {
+            custViewProfile(name,userIndex);
+            status = false;
+        }
 
         if(pass.empty())
         {
@@ -2741,7 +2754,7 @@ void changePass(string aspect)
 
         if(currentList[index].password != pass)
         {
-            cout << "PLEASE ENTER THE CORRECT OLD PASSWORD :)" << endl;
+            cout << "PLEASE ENTER THE CORRECT OLD PASSWORD :)\n" << endl;
             continue;
         }
         else
@@ -2752,11 +2765,21 @@ void changePass(string aspect)
     }
 
     status = true;
+    m.menuTitle = "ENTER YOUR NEW PASSWORD";
+    m.menuTitleTemplate();
+     m.menuTitle = "MAXIMUM 15 CHARACTERS";
+    m.menuTitleTemplate();
 
     while(status)
     {
-        cout << "\nPLEASE ENTER YOUR NEW PASSWORD <maximum 15 characters> : ";
+        cout << "\nPLEASE ENTER YOUR NEW PASSWORD <0 to exit> : ";
         getline(cin,newPass);
+
+        if(newPass == "0")
+        {
+            custViewProfile(name,userIndex);
+            status = false;
+        }
 
         if(newPass.empty())
         {
@@ -3116,8 +3139,6 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
 
     string totalGuestString = to_string(oriGuest + extraGuest);
 
-    // ===================== UPDATED ASSIGNMENT LOGIC =====================
-    // Do NOT overwrite amtAfterTax or paymentType if they already have values
     receiptList[index].registers.login.nickname = registeredList[index].login.nickname;
     receiptList[index].paymentStatus = registeredList[index].bookingStatus;
     receiptList[index].amtBeforeTax = amtBeforeTaxString;
@@ -3126,6 +3147,10 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
     if (receiptList[index].amtAfterTax.empty())
     {
         receiptList[index].amtAfterTax = amtAfterTaxString;
+    }
+    if(receiptList[index].newAmtAfterTax.empty())
+    {
+        receiptList[index].newAmtAfterTax = "";
     }
 
     receiptList[index].issueDate = issueDates;
@@ -3163,9 +3188,10 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
     receiptList[index].custom.themes.themePrice = customList[customIndex].themes.themePrice;
     receiptList[index].depositAmt = depositAmtString;
 
+
     if (receiptList[index].paymentType.empty())
     {
-        receiptList[index].paymentType = "";
+        receiptList[index].paymentType = "UNSPECIFIED";
     }
 
     saveVectorList(receiptList, "receipt.txt");
@@ -3208,7 +3234,7 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
                         //deposit
                         {"AMOUNT NEED TO PAY (RM)",receiptList[index].depositAmt,"",""},//34
                         //full payment
-                        {"AMOUNT NEED TO PAY (RM)",receiptList[index].amtAfterTax,"",""},//35
+                        {"AMOUNT NEED TO PAY (RM)",receiptList[index].newAmtAfterTax,"",""},//35
                         //deduct dposit
                         {"(-) DEPOSIT AMOUNT (RM)",receiptList[index].depositAmt,"",""},//36
                         {"ORIGINAL AMOUNT (RM)",amtAfterTaxString,"",""},//37
@@ -4166,8 +4192,8 @@ void custViewCampaign(string name,int usernameIndex)
         {
             campaignRecord = {
                 {headers[0], campaignList[campaignIndex].campaignId},
-                {headers[1],restoreCommas(campaignList[campaignIndex].contentTitle)},
-                {headers[2],restoreCommas(campaignList[campaignIndex].content)}
+                {headers[1],replaceCommas(campaignList[campaignIndex].contentTitle)},
+                {headers[2],replaceCommas(campaignList[campaignIndex].content)}
             };
 
             outputCampaign(campaignRecord, "VIEW CAMPAIGN", campaignIndex);
@@ -5481,7 +5507,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
         }
         else if(ans ==  "5")
         {
-            changePass("customer");
+            changePass(name,userIndex,"customer");
             status = false;
         }
         else
@@ -5558,7 +5584,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
 
     bool status = true;
     string payType;
-    double newAmount,totalBill,deposit;
+    double newAmount = 0.0,totalBill,deposit;
     int newPackAmt, newGeneralAmt, newThemeAmt;
 
     vector<Registration<string>> registerList = getVectorList <Registration<string>>("registration.txt");
@@ -5567,22 +5593,19 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
     vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
     vector <CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
     vector <Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
- 
 
-    totalBill = stod(receiptList[registerIndex].amtAfterTax);
-    deposit = stod(receiptList[registerIndex].depositAmt);
-    newAmount = totalBill - deposit;
+    newAmount += (stod(receiptList[registerIndex].amtAfterTax) - stod(receiptList[registerIndex].depositAmt));
 
     stringstream ssTotal;
     ssTotal << fixed << setprecision(2) << newAmount;
-
-    string newTotalString = ssTotal.str();
 
     MenuTemplate <string> m;
     m.menuTitle = "PAYMENT SECTION";
     m.menuTitleTemplate();
 
     addReceiptDetails(receiptType,registerIndex,customIndex);
+
+    string newTotalString = ssTotal.str();
 
     cout << "\n";
     m.menuOptions.clear();
@@ -5627,7 +5650,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
             receiptList[registerIndex].paymentType = "TOUCH N GO";
             if(receiptType == "RECEIPT")
             {   
-                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].newAmtAfterTax = newTotalString;
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
@@ -5654,7 +5677,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
             receiptList[registerIndex].paymentType = "CREDIT CARD";
             if(receiptType == "RECEIPT")
             {   
-                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].newAmtAfterTax = newTotalString;
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
@@ -5680,7 +5703,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
             receiptList[registerIndex].paymentType = "E-BANKING";
             if(receiptType == "RECEIPT")
             {   
-                receiptList[registerIndex].amtAfterTax = newTotalString;
+                receiptList[registerIndex].newAmtAfterTax = newTotalString;
                 receiptList[registerIndex].paymentStatus = "DEPOSIT DONE";
                 registerList[registerIndex].bookingStatus = "DEPOSIT DONE";
                 cout << "THANKS FOR YOUR DEPOSIT :)\n"<< endl;
@@ -8536,9 +8559,9 @@ void generateReport(string name, int staffIndex, string prefix)
 
             extraInfo = 
             {
-                { "TOTAL PACKAGE REVENUE", totalPackageRevenueStr },
-                { "TOTAL ADD-ON REVENUE", totalAddOnRevenueStr },
-                { "", "" }
+                { "PACKAGE REVENUE", totalPackageRevenueStr },
+                { "GENERAL ADD-ON REVENUE", totalAddOnRevenueStr },
+                { "THEME REVENUE", themeTotalRevenueStr }
             };
         }
         else if(prefix == "FEEDBACK")
@@ -8664,7 +8687,7 @@ void viewFeedback(string name,int staffIndex,int feedBackIndex)
     {
         {"RECEIPT ID",feedbackList[feedBackIndex].registers.serialNum},
         {"CUSTOMER NAME",feedbackList[feedBackIndex].registers.login.nickname},
-        {"FEED BACK PROVIDED",restoreCommas(feedbackList[feedBackIndex].content)}
+        {"FEED BACK PROVIDED",replaceCommas(feedbackList[feedBackIndex].content)}
     };
 
     outputFeedbackRecords(feedbackRecords);
