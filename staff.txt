@@ -1,3 +1,4 @@
-yj,123,YONG JIN
-kq,123,KIAH QUAN
-yn,123,YING NAN
+yj,1234,YONG JIN,012-3456789,yongjin@gmail.com
+kq,123,KIAH QUAN,012-3456789,kiaquan@gmail.com
+yn,123,YING NAN,012-3456789,yingnan@gmail.com
+zishenggay,123,ZISHENGGAY,013-3333333,zsgay@gmail.com
