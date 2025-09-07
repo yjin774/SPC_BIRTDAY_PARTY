@@ -3251,7 +3251,8 @@ void custRegis(string name , int userIndex)
 
     bool status = true;
     int row = 0,column =0;
-    int packageIndex;
+    int packageIndex = 0;
+
     string confirmPackage;
     string ans;
     string registerId;
@@ -3280,6 +3281,7 @@ void custRegis(string name , int userIndex)
     vector<Receipt> receiptList = getVectorList<Receipt>("receipt.txt");
 
     string receiptId = generateSerialNo("IN", receiptList, [](const Receipt& r) {return r.receiptID;});
+
 
     m.menuTitle = "EVENT DATE";
     m.menuTitleTemplate();
@@ -3353,8 +3355,6 @@ void custRegis(string name , int userIndex)
             cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <HH:MM> :)\n" << endl;
             continue;
         }  
-
-        endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
 
         if (dateExist(registerList, r.eventDate, r.startTime, endTime))
         {
@@ -3621,6 +3621,7 @@ void custRegis(string name , int userIndex)
 
         if(confirmPackage == "Y" || confirmPackage == "y")
         {
+            endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
             r.packageChosen = packageList[packageIndex].packageType;
         }
         else if(confirmPackage == "N" || confirmPackage == "n")
