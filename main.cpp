@@ -1719,30 +1719,48 @@ int timeToMinutes(const string& time)
     return hours * 60 + minutes;
 }
 
-template <typename T>
-bool dateExist(const vector<T>& list, const string& date, const string& startTimes, const string& endTimes)
+// helper: parse duration from package safely
+bool parseIntStrict(const std::string& s, int& out)
 {
+    try {
+        size_t idx = 0;
+        int v = std::stoi(s, &idx);
+        if (idx != s.size()) return false; // extra chars not allowed
+        out = v;
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+
+// returns true if any interval overlaps on that date
+template <typename T>
+bool dateExist(const std::vector<T>& list,
+               const std::string& date,
+               const std::string& newStartHHMM,
+               int durationMinutes) // pass duration explicitly
+{
+    // convert input start and computed end into minutes
+    int newStart = timeToMinutes(newStartHHMM); // must accept "HH:MM"
+    int newEnd   = newStart + durationMinutes;
+
     for (const auto& item : list)
     {
-        if (item.eventDate == date) // same date
+        if (item.eventDate == date)
         {
-            // Convert stored start/end times to minutes
             int existingStart = timeToMinutes(removeTimeSuffix(item.startTime));
             int existingEnd   = timeToMinutes(removeTimeSuffix(item.endTime));
 
-            // Convert input start/end times to minutes
-            int newStart = timeToMinutes(startTimes);
-            int newEnd   = timeToMinutes(endTimes);
-
-            // Overlap condition
             if (newStart < existingEnd && newEnd > existingStart)
             {
-                return true; // time slots overlap
+                return true;
             }
         }
     }
     return false;
 }
+
 
 template <typename T>
 bool packageExist(const vector<T>& list, const string& packageName)
@@ -3247,7 +3265,7 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
 //Customer main menu's registration event function
 void custRegis(string name , int userIndex)
 {
-    clear();;
+    clear();
 
     bool status = true;
     int row = 0,column =0;
@@ -3282,6 +3300,73 @@ void custRegis(string name , int userIndex)
 
     string receiptId = generateSerialNo("IN", receiptList, [](const Receipt& r) {return r.receiptID;});
 
+    m.menuTitle = "PACKAGES";
+
+    for(int i = 0; i < packageList.size();i++)
+    {
+        m.menuOptions.push_back(packageList[i].packageType);
+    }
+
+    while(status)
+    {
+
+        m.menuTemplate();
+
+        cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
+        getline(cin,ans);
+
+        if(ans == "0")
+        {
+            custMainPage(name,userIndex);
+            status = false;
+        }
+
+        if(ans.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        int ansInt = stoi(ans);
+        packageIndex = ansInt-1;
+        
+        if(ansInt <= packageList.size() && ansInt > 0)
+        {
+            addPackageList(packageIndex);
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)\n" << endl;
+            continue;
+        }
+
+        cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
+        
+        getline(cin, confirmPackage);
+
+        if(confirmPackage.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
+        if(confirmPackage == "Y" || confirmPackage == "y")
+        {
+            r.packageChosen = packageList[packageIndex].packageType;
+        }
+        else if(confirmPackage == "N" || confirmPackage == "n")
+        {
+            continue;
+        }
+        else
+        {
+            cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)\n" << endl;
+            continue;
+        }
+        status = false;
+    }   
+
+    status = true;
 
     m.menuTitle = "EVENT DATE";
     m.menuTitleTemplate();
@@ -3356,13 +3441,17 @@ void custRegis(string name , int userIndex)
             continue;
         }  
 
-        if (dateExist(registerList, r.eventDate, r.startTime, endTime))
+        int timeDurationHours = stoi(packageList[packageIndex].timeDuration);
+        int timeDurationMinutes = timeDurationHours * 60;
+
+        if (dateExist(registerList, r.eventDate, r.startTime, timeDurationMinutes))
         {
             cout << "THE DATE & TIME HAVE BEEN BOOKED BY ANOTHER PERSON :)\n" << endl;
             continue;
         }
 
         r.startTime = timePrefix(r.startTime);
+        endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
         status = false;
     }
 
@@ -3567,76 +3656,76 @@ void custRegis(string name , int userIndex)
         status = false;
     }
 
-    status = true;
+    // status = true;
 
-    m.menuTitle = "PACKAGES";
+    // m.menuTitle = "PACKAGES";
 
-    for(int i = 0; i < packageList.size();i++)
-    {
-        m.menuOptions.push_back(packageList[i].packageType);
-    }
+    // for(int i = 0; i < packageList.size();i++)
+    // {
+    //     m.menuOptions.push_back(packageList[i].packageType);
+    // }
 
-    while(status)
-    {
-        clear();;
+    // while(status)
+    // {
+    //     clear();;
 
-        m.menuTemplate();
+    //     m.menuTemplate();
 
-        cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
-        getline(cin,ans);
+    //     cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
+    //     getline(cin,ans);
 
-        if(ans == "0")
-        {
-            custMainPage(name,userIndex);
-            status = false;
-        }
+    //     if(ans == "0")
+    //     {
+    //         custMainPage(name,userIndex);
+    //         status = false;
+    //     }
 
-        if(ans.empty())
-        {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-            continue;
-        }
+    //     if(ans.empty())
+    //     {
+    //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+    //         continue;
+    //     }
 
-        int ansInt = stoi(ans);
-        packageIndex = ansInt-1;
-        if(ansInt <= packageList.size() && ansInt > 0)
-        {
-            addPackageList(packageIndex);
-        }
-        else
-        {
-            cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)\n" << endl;
-            continue;
-        }
+    //     int ansInt = stoi(ans);
+    //     packageIndex = ansInt-1;
+    //     endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
+    //     r.startTime = timePrefix(r.startTime);
+    //     if(ansInt <= packageList.size() && ansInt > 0)
+    //     {
+    //         addPackageList(packageIndex);
+    //     }
+    //     else
+    //     {
+    //         cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)\n" << endl;
+    //         continue;
+    //     }
 
-        cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
+    //     cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
         
-        getline(cin, confirmPackage);
+    //     getline(cin, confirmPackage);
 
-        if(confirmPackage.empty())
-        {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-            continue;
-        }
+    //     if(confirmPackage.empty())
+    //     {
+    //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+    //         continue;
+    //     }
 
-        if(confirmPackage == "Y" || confirmPackage == "y")
-        {
-            endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
-            r.packageChosen = packageList[packageIndex].packageType;
-        }
-        else if(confirmPackage == "N" || confirmPackage == "n")
-        {
-            continue;
-        }
-        else
-        {
-            cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)\n" << endl;
-            continue;
-        }
-        status = false;
-    }   
-
-    clear();;
+    //     if(confirmPackage == "Y" || confirmPackage == "y")
+    //     {
+    //         r.packageChosen = packageList[packageIndex].packageType;
+    //     }
+    //     else if(confirmPackage == "N" || confirmPackage == "n")
+    //     {
+    //         continue;
+    //     }
+    //     else
+    //     {
+    //         cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)\n" << endl;
+    //         continue;
+    //     }
+    //     status = false;
+    // }   
+    clear();
 
     vector<vector<string>> confirmRecord;
 

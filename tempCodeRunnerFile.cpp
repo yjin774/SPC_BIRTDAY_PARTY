@@ -1,1 +1,1 @@
-getIndex
+status = true;
