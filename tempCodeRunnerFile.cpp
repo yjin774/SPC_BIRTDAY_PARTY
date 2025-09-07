@@ -1,1 +1,1 @@
-status = true;
+detectCustomStatus

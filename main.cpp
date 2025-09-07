@@ -3257,8 +3257,6 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
 //Customer main menu's registration event function
 void custRegis(string name , int userIndex)
 {
-    clear();
-
     bool status = true;
     int row = 0,column =0;
     int packageIndex = 0;
@@ -3647,76 +3645,6 @@ void custRegis(string name , int userIndex)
 
         status = false;
     }
-
-    // status = true;
-
-    // m.menuTitle = "PACKAGES";
-
-    // for(int i = 0; i < packageList.size();i++)
-    // {
-    //     m.menuOptions.push_back(packageList[i].packageType);
-    // }
-
-    // while(status)
-    // {
-    //      
-
-    //     m.menuTemplate();
-
-    //     cout << "PLEASE CHOOSE ANY PACKAGE SHOWN ABOVE <0 to exit> : ";
-    //     getline(cin,ans);
-
-    //     if(ans == "0")
-    //     {
-    //         custMainPage(name,userIndex);
-    //         status = false;
-    //     }
-
-    //     if(ans.empty())
-    //     {
-    //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-    //         continue;
-    //     }
-
-    //     int ansInt = stoi(ans);
-    //     packageIndex = ansInt-1;
-    //     endTime = addHoursToTime(r.startTime, stoi(packageList[packageIndex].timeDuration));
-    //     r.startTime = timePrefix(r.startTime);
-    //     if(ansInt <= packageList.size() && ansInt > 0)
-    //     {
-    //         addPackageList(packageIndex);
-    //     }
-    //     else
-    //     {
-    //         cout << "INVALID INPUT... PLEASE NETER VALID OPTION :)\n" << endl;
-    //         continue;
-    //     }
-
-    //     cout << "ARE YOU SURE YOU WANT THIS PACKAGE <y/n> ? : ";
-        
-    //     getline(cin, confirmPackage);
-
-    //     if(confirmPackage.empty())
-    //     {
-    //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-    //         continue;
-    //     }
-
-    //     if(confirmPackage == "Y" || confirmPackage == "y")
-    //     {
-    //         r.packageChosen = packageList[packageIndex].packageType;
-    //     }
-    //     else if(confirmPackage == "N" || confirmPackage == "n")
-    //     {
-    //         continue;
-    //     }
-    //     else
-    //     {
-    //         cout << "INVALID INPUT... PLEASE ENTER <y/n> ONKY :)\n" << endl;
-    //         continue;
-    //     }
-    //     status = false;
-    // }   
 
     vector<vector<string>> confirmRecord;
 
@@ -4612,6 +4540,22 @@ void customPartyCart(string name , int userIndex,string receiptID)
     }
 }
 
+bool detectCustomStatus(int userIndex)
+{
+    bool ans;
+    vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
+    if(customList[userIndex].item1 == "EMPTY" && customList[userIndex].item2 == "EMPTY" && customList[userIndex].item3 == "EMPTY" && customList[userIndex].item4 == "EMPTY" && customList[userIndex].themes.themeDescription == "EMPTY")
+    {
+        ans = true;
+    }
+    else
+    {
+        ans = false;
+    }
+
+    return ans;
+}
+
 void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, string totalAmtString,string amtStatus)
 {
         vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
@@ -4674,56 +4618,82 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
     }
     else if(prefix == "REMOVE")
     {
+        bool value = detectCustomStatus(customIndex);
         if(ansIndex == 1 && customList[customIndex].item1Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item1 <<"> :)" << endl;
+            
             customList[customIndex].item1 = "EMPTY";
             customList[customIndex].item1Price = "0.00";
             customList[customIndex].item1Amt ="0";
             customList[customIndex].item1Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt1Status = "FALSE";
+            if(value)
+            {
+                registerList[customIndex].customStatus = "INACTIVE";
+            }
         }
         else if(ansIndex == 2 && customList[customIndex].item2Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item2 <<"> :)" << endl;
+    
             customList[customIndex].item2 = "EMPTY";
             customList[customIndex].item2Price = "0.00";
             customList[customIndex].item2Amt ="0";
             customList[customIndex].item2Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt2Status = "FALSE";
+            if(value)
+            {
+                registerList[customIndex].customStatus = "INACTIVE";
+            }
         }
         else if(ansIndex == 3 && customList[customIndex].item3Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item3 <<"> :)" << endl;
+            
             customList[customIndex].item3 = "EMPTY";
             customList[customIndex].item3Price = "0.00";
             customList[customIndex].item3Amt ="0";
             customList[customIndex].item3Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt3Status = "FALSE";
+            if(value)
+            {
+                registerList[customIndex].customStatus = "INACTIVE";
+            }
         }
         else if(ansIndex == 4 && customList[customIndex].item4Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item4 <<"> :)" << endl;
+            
             customList[customIndex].item4 = "EMPTY";
             customList[customIndex].item4Price = "0.00";
             customList[customIndex].item4Amt ="0";
             customList[customIndex].item4Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt4Status = "FALSE";
+            if(value)
+            {
+                registerList[customIndex].customStatus = "INACTIVE";
+            }
         }
         else if(customList[customIndex].themes.themeStatus == "TRUE")
         {
+            
             customList[customIndex].themes.themeDescription = "EMPTY";
             customList[customIndex].themes.themePrice = "0.00";
             customList[customIndex].themes.themeStatus = "FALSE";
             themeList[ansIndex].themeStatus = "UNAVAILABLE";
+            if(value)
+            {
+                registerList[customIndex].customStatus = "INACTIVE";
+            }
         }
         else
         {
-            registerList[userIndex].customStatus = "INACTIVE";
+            registerList[customIndex].customStatus = "INACTIVE";
             cout << "YOU GOT NOTHING TO REMOVE ALREADY :)\n" << endl;
         }
         saveVectorList(customList, "customList.txt");
@@ -5402,6 +5372,25 @@ void custProfileEdit(string name,int userIndex,string prefix)
             {
                 cout << "PLEAE ENTER YOU NEW USERNAME : ";
                 getline(cin,l.username);
+
+                if(l.username.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(l.username.length() > 26)
+                {
+                    cout << "THE USERNAME CAN\'T BE MORE THAN 25 CHARACTERS :)\n" << endl;
+                    continue;
+                }
+
+                if(usernameExist(customerList,l.username))
+                {
+                    cout << "THE USERNAME HAVE BEEN USED BY OTHER PROPLE :)\n" << endl;
+                    continue;
+                }
+
                 cout << "\nYOU HAVE ENTERED <" << l.username << "> NEW USERNAME"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT USERNAME <" << customerList[userIndex].username << "> ? <y/n>";
                 getline(cin,confirmAns);
@@ -5409,12 +5398,6 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 if(confirmAns.empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-                    continue;
-                }
-
-                if(usernameExist(customerList,l.username))
-                {
-                    cout << "THE USERNAME HAVE BEEN USED BY OTHER PROPLE :)\n" << endl;
                     continue;
                 }
 
@@ -5452,6 +5435,19 @@ void custProfileEdit(string name,int userIndex,string prefix)
             {
                 cout << "PLEAE ENTER YOU NEW NICKNAME : ";
                 getline(cin,l.nickname);
+
+                if(l.nickname.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                if(l.nickname.length() > 26)
+                {
+                    cout << "THE NICKNAME CAN\'T BE MORE THAN 25 CHARACTERS :)\n" << endl;
+                    continue;
+                }
+
                 cout << "\nYOU HAVE ENTERED <" << l.nickname << "> NEW NICKNAME"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT NICKNAME <" << customerList[userIndex].nickname << "> ? <y/n>";
                 getline(cin,confirmAns);
@@ -5510,6 +5506,16 @@ void custProfileEdit(string name,int userIndex,string prefix)
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
                 }
+
+                regex phoneFormat("^01\\d{1}-\\d{7,8}$");
+
+                if(!regex_match(l.contactNum, phoneFormat))
+                {
+                    cout << "PLEASE ENTER NUMBER ONLY :)\n" << endl;
+                    cout << "PLEASE ENTER A VALID CONTACT NUMBER <01x-xxxxxxxx> :)\n" << endl;
+                    continue;
+                }
+
                 cout << "\nYOU HAVE ENTERED <" << l.contactNum << "> NEW CONTACT NUMBER"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT CONTACT NUMBER <" << customerList[userIndex].contactNum << "> ? <y/n>";
                 getline(cin,confirmAns);
@@ -5554,9 +5560,29 @@ void custProfileEdit(string name,int userIndex,string prefix)
             {
                 cout << "PLEAE ENTER YOU NEW EMAIL : ";
                 getline(cin,l.email);
+
+                if(l.email.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
+
+                regex emailPattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$");
+                if(!regex_match(l.email,emailPattern))
+                {
+                    cout << "INVALID INPUT... PLEASE FOLLOW FORMAT<xxxxxxxxxx@xxxxx.com> :)\n" << endl;
+                    continue;
+                }
+
                 cout << "\nYOU HAVE ENTERED <" << l.email << "> NEW EMAIL"<<endl;
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT EMAIL <" << customerList[userIndex].email << "> ? <y/n>";
                 getline(cin,confirmAns);
+
+                if(confirmAns.empty())
+                {
+                    cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+                    continue;
+                }
 
                 if(confirmAns == "Y" || confirmAns == "y")
                 {
