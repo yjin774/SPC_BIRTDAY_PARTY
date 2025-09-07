@@ -11,6 +11,7 @@
 #include <cctype>
 #include <set>
 #include <chrono>
+#include <functional>
 
 #ifdef _WIN32
     #include <conio.h>  // Windows-specific
@@ -20,15 +21,6 @@
 #endif
 
 using namespace std;
-
-void clear()
-{
-    #ifdef _WIN32
-    system("cls");
-    #else
-    system("clear");
-    #endif
-}
 
 void mainLogo()
 {
@@ -861,7 +853,7 @@ void outputCampaign(const vector<vector<string>>& campaignRecords,string prefix,
         stringstream ss2(campaignRecords[2][1]);
         MenuTemplate <string> m;
 
-        clear();
+         ;
         m.menuTitle = "VIEW CAMPAIGN";
         m.menuTitleTemplate();
         cout << "\n";
@@ -2122,7 +2114,7 @@ int main()
 //Main login page
 void loginScreen()
 {
-    clear();;
+     
     string loginAns;
     bool status = true;    
 
@@ -2155,7 +2147,7 @@ void loginScreen()
         }
         else if(loginAns == "3")
         {
-            clear();;
+             
             tq();
             cout << "\nTHANKS FOR USING OUR SYSTEM :)" << endl;
             exit(0);
@@ -2172,7 +2164,7 @@ void loginScreen()
 //Customer login page
 void custPage()
 {
-    clear();;
+     
     string ans;
     bool status = true;
 
@@ -2222,7 +2214,7 @@ void custPage()
 //Staff login page
 void staffPage()
 {
-    clear();;
+     
     bool status = true;
     string ans;
 
@@ -2667,7 +2659,7 @@ void signUp(string aspect)
         {
             cout << "ACCOUNTE CREATED UNSUCCESSFUL :(" << endl;
             pressAny();
-            clear();;
+             
             if(aspect == "customer") custPage();
             else staffPage();
             status = false;
@@ -2843,7 +2835,7 @@ void changePass(string name, int userIndex,string aspect)
 //Customer main menu page
 void custMainPage(string name,int usernameIndex)
 {
-    clear();;
+     
     bool status = true;
 
     MenuTemplate <string> m;
@@ -2938,7 +2930,7 @@ void custMainPage(string name,int usernameIndex)
 //Staff main menu page
 void staffMainPage(string name,int staffIndex)
 {
-    clear();;
+     
     MenuTemplate <string> m;
     Operation newOperation;
 
@@ -3667,7 +3659,7 @@ void custRegis(string name , int userIndex)
 
     // while(status)
     // {
-    //     clear();;
+    //      
 
     //     m.menuTemplate();
 
@@ -3725,7 +3717,6 @@ void custRegis(string name , int userIndex)
     //     }
     //     status = false;
     // }   
-    clear();
 
     vector<vector<string>> confirmRecord;
 
@@ -3974,7 +3965,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
 
     bool status = true;
     string ans;
-    clear();;
+     
 
     vector <Registration<string>> registerList = getVectorList <Registration<string>> ("registration.txt");
     vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
@@ -4016,7 +4007,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
 
         if(ans == "1")
         {
-            clear();;
+             
             addReceiptDetails("PAYMENT DONE",registerIndex, customIndex);
             cout << "THANKS FOR TRUSTING US :)\n"<<endl;
             addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> RECEIPT","CUSTOMER OPERATION","CUSTOMER");
@@ -4029,7 +4020,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
         {
             if(registerList[registerIndex].setupStatus == "SET UP PENDING")
             {
-                clear();;
+                 
                 cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
                 pressAny();
                 part1();
@@ -4045,7 +4036,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
             }
             else if(registerList[registerIndex].setupStatus == "SET UP HALFWAY")
             {
-                clear();;
+                 
                 cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
                 pressAny();
                 part2();
@@ -4061,7 +4052,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
             }
             else if(registerList[registerIndex].setupStatus == "SET UP DONE")
             {
-                clear();;
+                 
                 cout << "\nTO VIEW SET UP STATUS DETAILS"<<endl;
                 pressAny();
                 part3();
@@ -4093,7 +4084,7 @@ void custViewBooking(string name,int usernameIndex)
     int registerIndex, customIndex;
     string ans,payOrCancel;
 
-    clear();;
+     
 
     MenuTemplate <string> m;
 
@@ -4251,7 +4242,7 @@ void custViewCampaign(string name,int usernameIndex)
     vector<Campaign> campaignList = getVectorList<Campaign>("campaign.txt");
     vector <Operation> operateList = getVectorList<Operation> ("operation.txt");
 
-    clear();;
+     
 
     m.menuTitle = "VIEW CAMPAGIN";
     m.menuTitleTemplate();
@@ -4518,7 +4509,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
     string ans,removeItem,changeAmt;
     MenuTemplate <string> m;
 
-    clear();;
+     
 
     m.menuTitle = "CUSTOMIZE ITEM'S CART";
     m.menuTitleTemplate();
@@ -4778,7 +4769,7 @@ void confirmation(string name, int userIndexs, string receiptID)
 
 void customPartyGeneral(string name, int userIndexs, string receiptID)
 {
-    clear();;
+     
 
     MenuTemplate <string> m;
     CustomList<string> newCustom;
@@ -4963,7 +4954,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
 
 void customPartyTheme(string name , int userIndex,string receiptID)
 {
-    clear();;
+     
 
     MenuTemplate <string> m;
 
@@ -5093,7 +5084,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
 
 void custCustomPartyOption(string name, int userIndex,string receiptId)
 {
-    clear();;
+     
     MenuTemplate <string> m;
 
     m.menuTitle = "CUSTOMIZE SECTION";
@@ -5157,7 +5148,7 @@ void custCustomPartyOption(string name, int userIndex,string receiptId)
 //Customer customize party function
 void custCustomParty(string name , int userIndex)
 {
-    clear();;
+     
 
     bool status = true;
     string ans;
@@ -5347,7 +5338,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
     int num = customerList[userIndex].password.length();
     string passLen = to_string(num);
 
-    clear();;
+     
 
     profileRecord = 
     {
@@ -5616,7 +5607,7 @@ void custViewProfile(string name,int userIndex)
     string ans;
     bool status = true;
 
-    clear();;
+     
 
     m.menuTitle = "MAIN MENU";
     m.menuOptions.push_back("VIEW PROFILE");
@@ -5670,7 +5661,7 @@ void custViewProfile(string name,int userIndex)
 //Customer make payment function
 void custPayment(string receiptType,int registerIndex, int customIndex,string name,int usernameIndex)
 {
-    clear();;
+     
 
     bool status = true;
     string payType;
@@ -5837,7 +5828,7 @@ void feedBackSection(string name, int userIndex,int registerIndex)
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
     vector<Feedback> feedbackList = getVectorList <Feedback> ("feedback.txt");
 
-    clear();;
+     
     m.menuTitle = "FEEDBACK SECTION";
     m.menuTitleTemplate();
 
@@ -5976,7 +5967,7 @@ void custFeedback(string name, int userIndex)
         custMainPage(name,userIndex);
     }
     
-    clear();;
+     
     m.menuTitle = "FEEDBACK SECTION";
     m.menuTitleTemplate();
 
@@ -6163,7 +6154,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
         {"PARTY ITEM",registerList[registerIndex].staffPartyItem}
     };
 
-    clear();;
+     
     m.menuTitle = "MANAGE EVENT SECTION";
     m.menuTitleTemplate();
 
@@ -6270,7 +6261,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
 //Staff monitor event function
 void staffMonitorEvent(string name, int staffIndex)
 {
-    clear();;
+     
     MenuTemplate <string> m;
 
     bool status = true;
@@ -6408,7 +6399,7 @@ void itemList(string option,string prefix)
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
     vector<CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
 
-    clear();;
+     
 
     m.menuTitle = option+" "+ prefix + "\'S ITEM SECTION";
     m.menuTitleTemplate();
@@ -6470,7 +6461,7 @@ void addItem(string name,int staffIndex,string prefix)
     bool status = true, innerStatus = true;
     string title, ans;
 
-    clear();;
+     
     m.menuTitle = "ADD "+prefix+"\'S ITEM SECTION";
     m.menuTitleTemplate();
 
@@ -6856,7 +6847,7 @@ void addItem(string name,int staffIndex,string prefix)
             {"PRICE",newPackagePriceString}
         };
 
-        clear();;
+         
 
         outputConfirm(confirmRecord,"PACKAGE CONFIRMATION");
 
@@ -7072,7 +7063,7 @@ void addItem(string name,int staffIndex,string prefix)
             {"AMOUNT LIMIT",c.itemAmtLimit}
         };
 
-        clear();;
+         
 
         outputConfirm(confirmRecord,"GENERAL ADD ON CONFIRMATION");
 
@@ -7211,7 +7202,7 @@ void addItem(string name,int staffIndex,string prefix)
             {"PRICE",t.themePrice}
         };
 
-        clear();;
+         
 
         outputConfirm(confirmRecord,"THEME CONFIRMATION");
 
@@ -7268,7 +7259,7 @@ void removeItem(string name,int staffIndex,string prefix)
     bool status = true, innerStatus = true;
     string title, ans, confirmAns;
 
-    clear();;
+     
 
     itemList("REMOVE",prefix);
 
@@ -7286,7 +7277,7 @@ void removeItem(string name,int staffIndex,string prefix)
         int packageIndex = stoi(ans) - 1;
         if(prefix == "PACKAGE")
         {
-            clear();;
+             
 
             outputPackageRecord(packageIndex,"OUTPUT");
 
@@ -7329,7 +7320,7 @@ void removeItem(string name,int staffIndex,string prefix)
         }
         else if(prefix == "GENERAL ADD ON")
         {
-            clear();;
+             
             outputCustomMenu("SPECIFIC",packageIndex);
 
                 while(innerStatus)
@@ -7371,7 +7362,7 @@ void removeItem(string name,int staffIndex,string prefix)
         }
         else if(prefix == "CUSTOM THEME")
         {
-            clear();;
+             
             outputTheme("SPECIFIC",packageIndex);
 
                 while(innerStatus)
@@ -8077,7 +8068,7 @@ void editOptions(string name,int staffIndex,string prefix,int index)
     vector<vector<string>> customPackageRecords;
     vector<vector<string>> themeRecords;
 
-    clear();;
+     
 
     if(prefix == "PACKAGE")
     {
@@ -8180,7 +8171,7 @@ void editItem(string name,int staffIndex,string prefix)
     string title, ans, editAns;
     int editIndex;
 
-    clear();;
+     
 
     itemList("EDIT",prefix);
 
@@ -8205,19 +8196,19 @@ void editItem(string name,int staffIndex,string prefix)
 
         if(prefix == "PACKAGE")
         {
-            clear();;
+             
             editOptions(name,staffIndex,prefix,index);
             status = false;
         }
         else if(prefix == "GENERAL ADD ON")
         {
-            clear();;
+             
             editOptions(name,staffIndex,prefix,index);
             status = false;
         }
         else if(prefix == "CUSTOM THEME")
         {
-            clear();;
+             
             editOptions(name,staffIndex,prefix,index);
             status = false;
         }
@@ -8232,7 +8223,7 @@ void editItem(string name,int staffIndex,string prefix)
 
 void previewItem(string name,int staffIndex,string prefix)
 {
-    clear();;
+     
 
     vector<Package<string>> packageList = getVectorList <Package<string>> ("packageList.txt");
     vector<Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
@@ -8267,7 +8258,7 @@ void previewItem(string name,int staffIndex,string prefix)
 
         if(prefix == "PACKAGE")
         {
-            clear();;
+             
 
             outputPackageRecord(index,"OUTPUT");
 
@@ -8280,7 +8271,7 @@ void previewItem(string name,int staffIndex,string prefix)
         }
         else if(prefix == "GENERAL ADD ON")
         {
-            clear();;
+             
             outputCustomMenu("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE GENERAL ADD ON :)\n" << endl;
             addOperation(staffIndex,"PREVIEWED GENERAL ADD ON","STAFF OPERATION","STAFF");
@@ -8292,7 +8283,7 @@ void previewItem(string name,int staffIndex,string prefix)
         }
         else if(prefix == "CUSTOM THEME")
         {
-            clear();;
+             
             outputTheme("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE CUSTOM THEME :)\n" << endl;
             addOperation(staffIndex,"PREVIEWED THEME","STAFF OPERATION","STAFF");
@@ -8317,7 +8308,7 @@ void manageItemOptions(string name,int staffIndex,string prefix)
     bool status = true;
     string title, ans;
 
-    clear();;
+     
 
     m.menuTitle = "MANAGE <"+prefix+"> SECTION";
     m.menuTitleTemplate();
@@ -8397,7 +8388,7 @@ void staffManageItem(string name,int staffIndex)
     bool status = true;
     string ans;
 
-    clear();;
+     
 
     m.menuTitle = "MANAGE ITEM SECTION";
 
@@ -8684,7 +8675,7 @@ void generateReport(string name, int staffIndex, string prefix)
             };
         }
 
-        clear();;
+         
 
         m.menuTitle = "GENERATE REPORT SECTION";
         m.menuTitleTemplate();
@@ -8703,7 +8694,7 @@ void staffGenerateReport(string name, int staffIndex)
     MenuTemplate <string> m;
     string ans;
     bool status = true;
-    clear();;
+     
 
     m.menuTitle = "GENERATE REPORT SECTION";
     m.menuTitleTemplate();
@@ -8762,7 +8753,7 @@ void viewFeedback(string name,int staffIndex,int feedBackIndex)
     Operation newOperation;
     m.menuTitle = "VIEW FEEDBACK SECTION";
 
-    clear();;
+     
 
     m.menuTitleTemplate();
 
@@ -8808,7 +8799,7 @@ void staffViewFeedBack(string name, int staffIndex)
     vector<Feedback> feedbackList = getVectorList<Feedback>("feedback.txt");
     vector<Registration<string>> registeredList = getVectorList <Registration<string>>("registration.txt");
 
-    clear();;
+     
 
     m.menuTitle = "VIEW FEEDBACK SECTION";
     m.menuTitleTemplate();
@@ -8884,7 +8875,7 @@ void staffCreateCampaign(string name, int staffIndex)
     vector <LoginDetails> staffList = getVectorList <LoginDetails> ("staff.txt");
 
 
-    clear();;
+     
 
     m.menuTitle = "CREATE CAMPAIGN SECTION";
     m.menuTitleTemplate();
@@ -9061,7 +9052,7 @@ void manageOperation(string name, int staffIndex, string prefix)
     vector <LoginDetails> staffList = getVectorList <LoginDetails> ("staff.txt");
     vector<vector<string>> operationRecords;
 
-    clear();;
+     
 
     if(operateList.size()==0)
     {
@@ -9144,7 +9135,7 @@ void staffManageOperation(string name, int staffIndex)
     vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
     vector <LoginDetails> staffList = getVectorList <LoginDetails> ("staff.txt");
 
-    clear();;
+     
 
     cout << "\n";
 
