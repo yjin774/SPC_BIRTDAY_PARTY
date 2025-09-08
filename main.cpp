@@ -6535,9 +6535,10 @@ void addItem(string name,int staffIndex,string prefix)
                 cout << "THE NAME HAVE BEEN USED BY OTHER PACKAGE :)\n" << endl;
                 continue;
             }
+            status = false;
         }
 
-            status = false;
+            status = true;
 
         m.menuTitle = "PACKAGE\'S VENUE";
         m.menuTitleTemplate();
@@ -6784,8 +6785,6 @@ void addItem(string name,int staffIndex,string prefix)
         m.menuTitle = "ENTER LESS THAN 52 CHARACTERS";
         m.menuTitleTemplate();
 
-        status = true;
-
         while(status)
         {
             cout << "PLEASE ENTER YOU NEW PACKAGE\'S CAKE <0 to exit> : ";
@@ -6818,8 +6817,6 @@ void addItem(string name,int staffIndex,string prefix)
         m.menuTitleTemplate();
         m.menuTitle = "ENTER INTEGER NUMBER ONLY";
         m.menuTitleTemplate();
-
-        status = true;
 
         while(status)
         {
