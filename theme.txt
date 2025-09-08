@@ -1,5 +1,5 @@
-Frozen theme with icy blue decorations,300.00,AVAILABLE,FALSE,0
-Superhero theme with comic-style backdrop,420.00,AVAILABLE,FALSE,0
-Galaxy theme with stars and lights,390.00,AVAILABLE,FALSE,0
-Underwater adventure with sea creatures,280.00,AVAILABLE,FALSE,0
-Princess pink and royal castle setup,230.00,AVAILABLE,FALSE,0
+Frozen theme with icy blue decorations,300.00,AVAILABLE,FALSE,3
+Superhero theme with comic-style backdrop,420.00,AVAILABLE,FALSE,3
+Galaxy theme with stars and lights,390.00,AVAILABLE,FALSE,3
+Underwater adventure with sea creatures,280.00,AVAILABLE,FALSE,3
+Princess pink and royal castle setup,230.00,AVAILABLE,FALSE,3

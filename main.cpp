@@ -1032,6 +1032,22 @@ bool isNumber(const string &s)
     return regex_match(s, numPattern);
 }
 
+int safeStoi(const string &s)
+{
+    if (isNumber(s))
+    {
+        try
+        {
+            return stoi(s);
+        }
+        catch (...)
+        {
+            return 0;
+        }
+    }
+    return 0;
+}
+
 double safeStod(const string &s)
 {
     return isNumber(s) ? stod(s) : 0.0;
@@ -1080,44 +1096,33 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
 
         // Update package time chosen
         for (auto &pkg : packageList) {
-            if (r.registers.packageChosen == pkg.packageType)
-            {
-                int count = stoi(pkg.packageTimeChosen);
-                pkg.packageTimeChosen = to_string(count + 1);
-                break;
-            }
-        }
+        int count = safeStoi(pkg.packageTimeChosen);
+        pkg.packageTimeChosen = to_string(count + 1);
+    }
 
         // Update general add-ons
         vector<pair<string, string>> items = {
-            {r.custom.item1, r.custom.item1Price},
-            {r.custom.item2, r.custom.item2Price},
-            {r.custom.item3, r.custom.item3Price},
-            {r.custom.item4, r.custom.item4Price}
-        };
+        {r.custom.item1, r.custom.item1Price},
+        {r.custom.item2, r.custom.item2Price},
+        {r.custom.item3, r.custom.item3Price},
+        {r.custom.item4, r.custom.item4Price} };
 
-        for (const auto &itemPair : items) 
-        {
-            const string &itemName = itemPair.first;
-            const string &price = itemPair.second;
-            for (auto &cp : customPackage) 
-            {
-                if (itemName == cp.item) {
-                    int count = stoi(cp.customTimeChosen);
-                    cp.customTimeChosen = to_string(count + 1);
-                    break;
-                }
-            }
-        }
-
-        // Update theme count
-        for (auto &theme : themeList) {
-            if (r.custom.themes.themeDescription == theme.themeDescription) {
-                int count = stoi(theme.themeTimeChosen);
-                theme.themeTimeChosen = to_string(count + 1);
+    for (const auto &itemPair : items) {
+        const string &itemName = itemPair.first;
+        for (auto &cp : customPackage) {
+            if (itemName == cp.item) {
+                int count = safeStoi(cp.customTimeChosen);
+                cp.customTimeChosen = to_string(count + 1);
                 break;
             }
         }
+    }
+
+        // Update theme count
+        for (auto &theme : themeList) {
+        int count = safeStoi(theme.themeTimeChosen);
+        theme.themeTimeChosen = to_string(count + 1);
+    }
     }
 
     // Feedback processing
@@ -1131,11 +1136,17 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
     totalFeedback = ratingCount;
     averageRating = (ratingCount > 0) ? totalRate / ratingCount : 0.0;
 
+    for (auto &theme : themeList) {
+        int count = safeStoi(theme.themeTimeChosen);
+        theme.themeTimeChosen = to_string(count + 1);
+    }
+
+
     // Calculate generalTime and generalTotalRevenue
     generalTime = 0;
     generalTotalRevenue = 0.0;
     for (const auto &cp : customPackage) {
-        int count = stoi(cp.customTimeChosen);
+        int count = safeStoi(cp.customTimeChosen);
         generalTime += count;
         generalTotalRevenue += count * safeStod(cp.itemPrice);
     }
@@ -1144,7 +1155,7 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
     themeTime = 0;
     themeTotalRevenue = 0.0;
     for (const auto &theme : themeList) {
-        int count = stoi(theme.themeTimeChosen);
+        int count = safeStoi(theme.themeTimeChosen);
         themeTime += count;
         themeTotalRevenue += count * safeStod(theme.themePrice);
     }
@@ -1152,7 +1163,7 @@ double &totalFeedback,double &averageRating,double &generalTotalRevenue,double &
     // Calculate total package times (summed for reporting if needed)
     packageTime = 0;
     for (const auto &pkg : packageList) {
-        packageTime += stoi(pkg.packageTimeChosen);
+        packageTime += safeStoi(pkg.packageTimeChosen);
     }
 
     // Save updated data back to file
@@ -8469,24 +8480,23 @@ void staffManageItem(string name,int staffIndex)
 
 void generateReport(string name, int staffIndex, string prefix)
 {
-    MenuTemplate <string> m;
-
-    vector <Receipt> receiptList = getVectorList <Receipt> ("receipt.txt");
-    vector <Feedback> feedbackList = getVectorList <Feedback> ("feedback.txt");
-    vector <Operation> operateList = getVectorList <Operation> ("operation.txt");
-    vector <CustomPackage<string>> customPackage = getVectorList <CustomPackage<string>> ("customPackage.txt");
-    vector <Theme<string>> themeList = getVectorList <Theme<string>> ("theme.txt");
+    MenuTemplate<string> m;
+    vector<Receipt> receiptList = getVectorList<Receipt>("receipt.txt");
+    vector<Feedback> feedbackList = getVectorList<Feedback>("feedback.txt");
+    vector<Operation> operateList = getVectorList<Operation>("operation.txt");
+    vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
+    vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
     vector<Package<string>> packageList = getVectorList<Package<string>>("packageList.txt");
     vector<vector<string>> reportRecords;
     vector<vector<string>> generalRecords;
     vector<vector<string>> themeRecords;
     vector<vector<string>> extraInfo;
-    string startDate,endDate;
+    string startDate, endDate;
 
     bool status = true;
     double totalRevenue = 0.0, pendingPayment = 0.0, completePayment = 0.0, totalPackageRevenue = 0.0,
-    totalAddOnRevenue = 0.0,totalFeedback = 0.0,averageRating = 0.0,generalTotalRevenue = 0.0,themeTotalRevenue = 0.0;
-    int packageTime,generalTime,themeTime;
+           totalAddOnRevenue = 0.0, totalFeedback = 0.0, averageRating = 0.0, generalTotalRevenue = 0.0, themeTotalRevenue = 0.0;
+    int packageTime = 0, generalTime = 0, themeTime = 0;
     
     cout << "\n";
     m.menuTitle = "START DATE";
@@ -8494,224 +8504,395 @@ void generateReport(string name, int staffIndex, string prefix)
     m.menuTitle = "PLEASE ENTER IN <YYYY-MM-DD>";
     m.menuTitleTemplate();
 
-        while(status)
+    while(status)
+    {
+        cout << "PLEASE ENTER THE START DATE <0 to exit> : ";
+        getline(cin, startDate);
+        if (startDate == "0")
         {
-            cout << "PLEASE ENTER THE START DATE <0 to exit> : ";
-            getline(cin,startDate);
-
-            if(startDate == "0")
-            {
-                staffGenerateReport(name,staffIndex);
-                status = false;
-            }
-
-            if(startDate.empty())
-            {
-                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-                continue;
-            }
-
-            regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
-
-            if(!regex_match(startDate,dateFormat))
-            {
-                cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
-                continue;
-            }
-
-            status = false;
+            staffGenerateReport(name, staffIndex);
+            return;  
         }
+        if (startDate.empty())
+        {
+            cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+        regex dateFormat(R"(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$)");
+        if (!regex_match(startDate, dateFormat))
+        {
+            cout << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" << endl;
+            continue;
+        }
+        status = false;
+    }
 
         status = true;
-
         m.menuTitle = "END DATE";
         m.menuTitleTemplate();
         m.menuTitle = "PLEASE ENTER IN <YYYY-MM-DD>";
         m.menuTitleTemplate();
 
-        while(status)
+    while(status)
+    {
+        cout << "PLEASE ENTER THE END DATE <0 to exit> : ";
+        getline(cin, endDate);
+        if (endDate == "0")
         {
-            cout << "PLEASE ENTER THE END DATE <0 to exit> : ";
-            getline(cin,endDate);
-
-            if(endDate == "0")
-            {
-                staffGenerateReport(name,staffIndex);
-                status = false;
-            }
-
-            if (startDate > endDate)
-            {
-                cout << "START DATE MUST BE EARLIER THAN OR SAME AS END DATE :)\n" << endl;
-                pressAny();
-                staffGenerateReport(name, staffIndex);
-                status = false;
-            }
-
-
-            if(endDate.empty())
-            {
-                cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-                continue;
-            }
-
-            regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
-
-            if(!regex_match(endDate,dateFormat))
-            {
-                cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
-                continue;
-            }
-            status = false;
-
-            calculateReport(totalRevenue, pendingPayment, completePayment, totalPackageRevenue,totalAddOnRevenue,totalFeedback,averageRating,generalTotalRevenue,themeTotalRevenue,packageTime,generalTime,themeTime,startDate,endDate);
-
-            stringstream ssTotalRevenue,ssPendingPayment, ssCompletePayment, ssTotalPackageRevenue,ssTotalAddOnRevenue,ssTotalFeedback,ssAverageRating,ssGeneralTotalRevenue,ssThemeTotalRevenue;
-
-            ssTotalRevenue << fixed << setprecision(2) << totalRevenue;
-            ssPendingPayment << fixed << setprecision(2) << pendingPayment;
-            ssCompletePayment << fixed << setprecision(2) << completePayment;
-            ssTotalPackageRevenue << fixed << setprecision(2) << totalPackageRevenue;
-            ssTotalAddOnRevenue << fixed << setprecision(2) << totalAddOnRevenue;
-            ssTotalFeedback << fixed << setprecision(2) << totalFeedback;
-            ssAverageRating << fixed << setprecision(2) << averageRating;
-            ssGeneralTotalRevenue << fixed << setprecision(2) << generalTotalRevenue;
-            ssThemeTotalRevenue << fixed << setprecision(2) << themeTotalRevenue;
-
-            string totalRevenueStr = ssTotalRevenue.str();
-            string totalPendingPayemntStr = ssPendingPayment.str();
-            string totalCompletePaymentStr = ssCompletePayment.str();
-            string totalPackageRevenueStr  = ssTotalPackageRevenue.str();
-            string totalAddOnRevenueStr = ssTotalAddOnRevenue.str();
-            string totalFeedbackStr = ssTotalFeedback.str();
-            string averageRatingStr = ssAverageRating.str();
-            string generalTotalRevenueStr = ssGeneralTotalRevenue.str();
-            string themeTotalRevenueStr = ssThemeTotalRevenue.str();
-            string packageTimeStr = to_string(packageTime);
-            string generalTimeStr = to_string(generalTime);
-            string themeTimeStr = to_string(themeTime);
-
-        if(prefix == "REVENUE")
-        {   
-            for(int i = 0; i < receiptList.size();i++)
-            {
-                string receiptID = receiptList[i].receiptID;
-                string custName = receiptList[i].registers.login.nickname;
-                string issueDate = (receiptList[i].issueDate).substr(0,10);
-                string amtAfterTax = receiptList[i].amtAfterTax;
-                string paymentStatus = receiptList[i].paymentStatus;
-                string paymentType = receiptList[i].paymentType;
-                if(checkDateRange(receiptList[i].issueDate,startDate,endDate))
-                {
-                    reportRecords.push_back
-                    (
-                        {receiptID,custName,issueDate,amtAfterTax,paymentStatus,paymentType}
-                    );
-                }
-                else
-                {
-                    cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
-                    pressAny();
-                    staffGenerateReport(name,staffIndex);
-                }
-
-            }
-
-            extraInfo = 
-            {
-                {"TOTAL REVENUE",totalRevenueStr},
-                {"PENDING PAYMENT",totalPendingPayemntStr},
-                {"COMPLETED PAYMENT",totalCompletePaymentStr}
-            };
+            staffGenerateReport(name, staffIndex);
+            return;  // Exit this function after redirecting
         }
-        else if (prefix == "ITEM PERFORMANCE")
+        if (endDate.empty())
         {
-            for (const auto& p : packageList)
-            {
-                if (stoi(p.packageTimeChosen) > 0)
-                {
-                    reportRecords.push_back
-                    (
-                        { p.packageType, p.venue, p.catering, p.packageTimeChosen, p.price }
-                    );
-                }
-            }
-
-            for (const auto& cp : customPackage)
-            {
-                if (stoi(cp.customTimeChosen) > 0)
-                {
-                    double itemTotalRevenue = safeStod(cp.itemPrice) * stoi(cp.customTimeChosen);
-                    stringstream ss;
-                    ss << fixed << setprecision(2) << itemTotalRevenue;
-                    generalRecords.push_back(
-                        { cp.item, cp.customTimeChosen, ss.str(), "", "", "" }
-                    );
-                }
-            }
-
-            for (const auto& t : themeList)
-            {
-                if (stoi(t.themeTimeChosen) > 0)
-                {
-                    double themeRevenue = safeStod(t.themePrice) * stoi(t.themeTimeChosen);
-                    stringstream ss;
-                    ss << fixed << setprecision(2) << themeRevenue;
-                    themeRecords.push_back
-                    (
-                        { t.themeDescription, t.themeTimeChosen, ss.str(), "", "", "" }
-                    );
-                }
-            }
-
-            extraInfo = 
-            {
-                { "PACKAGE REVENUE", totalPackageRevenueStr },
-                { "GENERAL ADD-ON REVENUE", totalAddOnRevenueStr },
-                { "THEME REVENUE", themeTotalRevenueStr }
-            };
+            cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
         }
-        else if(prefix == "FEEDBACK")
+        regex dateFormat(R"(^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$)");
+        if (!regex_match(endDate, dateFormat))
         {
-            for(int i = 0; i < feedbackList.size();i++)
+            cout << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" << endl;
+            continue;
+        }
+        if (startDate > endDate)
+        {
+            cout << "START DATE MUST BE EARLIER THAN OR SAME AS END DATE :)\n" << endl;
+            pressAny();
+            staffGenerateReport(name, staffIndex);
+            return;  // Exit after showing error and redirecting
+        }
+        status = false;
+    }
+
+
+    calculateReport(totalRevenue, pendingPayment, completePayment, totalPackageRevenue, totalAddOnRevenue, totalFeedback, averageRating, generalTotalRevenue, themeTotalRevenue, packageTime, generalTime, themeTime, startDate, endDate);
+
+    auto doubleToStr = [](double val) {
+        stringstream ss;
+        ss << fixed << setprecision(2) << val;
+        return ss.str();
+    };
+
+    string totalRevenueStr = doubleToStr(totalRevenue);
+    string totalPendingPaymentStr = doubleToStr(pendingPayment);
+    string totalCompletePaymentStr = doubleToStr(completePayment);
+    string totalPackageRevenueStr = doubleToStr(totalPackageRevenue);
+    string totalAddOnRevenueStr = doubleToStr(totalAddOnRevenue);
+    string totalFeedbackStr = doubleToStr(totalFeedback);
+    string averageRatingStr = doubleToStr(averageRating);
+    string generalTotalRevenueStr = doubleToStr(generalTotalRevenue);
+    string themeTotalRevenueStr = doubleToStr(themeTotalRevenue);
+    string packageTimeStr = to_string(packageTime);
+    string generalTimeStr = to_string(generalTime);
+    string themeTimeStr = to_string(themeTime);
+
+    if (prefix == "REVENUE")
+    {
+        bool foundData = false;
+        for (const auto& receipt : receiptList)
+        {
+            if (checkDateRange(receipt.issueDate, startDate, endDate))
             {
-                if(checkDateRange(feedbackList[i].feedBackDate,startDate,endDate))
-                {
-                    string custName = feedbackList[i].registers.login.nickname;
-                    string rating = feedbackList[i].rate;
-                    string ratingDate = (feedbackList[i].feedBackDate).substr(0,10);
-                    reportRecords.push_back
-                    (
-                        {custName,rating,ratingDate,"","",""}
-                    );
-                }
-                else
-                {
-                    cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
-                    pressAny();
-                    staffGenerateReport(name,staffIndex);
-                }
+                foundData = true;
+                reportRecords.push_back({ receipt.receiptID, receipt.registers.login.nickname, receipt.issueDate.substr(0, 10), receipt.amtAfterTax, receipt.paymentStatus, receipt.paymentType });
+            }
+        }
+        if (!foundData)
+        {
+            cout << "THERE'S NO DATA WITHIN THE DATE RANGE YOU HAVE SET :)\n" << endl;
+            pressAny();
+            staffGenerateReport(name, staffIndex);
+            return;
+        }
+
+        extraInfo = {
+            {"TOTAL REVENUE", totalRevenueStr},
+            {"PENDING PAYMENT", totalPendingPaymentStr},
+            {"COMPLETED PAYMENT", totalCompletePaymentStr}
+        };
+    }
+    else if (prefix == "ITEM PERFORMANCE")
+    {
+        for (const auto& p : packageList)
+        {
+            int chosenCount = 0;
+            try
+            {
+                chosenCount = stoi(p.packageTimeChosen);
+            }
+            catch (...)
+            {
+                chosenCount = 0;
+            }
+            if (chosenCount > 0)
+            {
+                reportRecords.push_back({ p.packageType, p.venue, p.catering, p.packageTimeChosen, p.price });
+            }
+        }
+
+        for (const auto& cp : customPackage)
+        {
+            int chosenCount = 0;
+            try
+            {
+                chosenCount = stoi(cp.customTimeChosen);
+            }
+            catch (...)
+            {
+                chosenCount = 0;
             }
 
-            extraInfo = 
+            if (chosenCount > 0)
             {
-                {"TOTAL FEEDBACK",to_string(feedbackList.size())},
-                {"AVERAGE RATING",averageRatingStr},
-                {"",""}
-            };
+                double itemTotalRevenue = safeStod(cp.itemPrice) * chosenCount;
+                stringstream ss;
+                ss << fixed << setprecision(2) << itemTotalRevenue;
+                generalRecords.push_back({ cp.item, cp.customTimeChosen, ss.str(), "", "", "" });
+            }
         }
+
+        for (const auto& t : themeList)
+        {
+            int chosenCount = 0;
+            try
+            {
+                chosenCount = stoi(t.themeTimeChosen);
+            }
+            catch (...)
+            {
+                chosenCount = 0;
+            }
+
+            if (chosenCount > 0)
+            {
+                double themeRevenue = safeStod(t.themePrice) * chosenCount;
+                stringstream ss;
+                ss << fixed << setprecision(2) << themeRevenue;
+                themeRecords.push_back({ t.themeDescription, t.themeTimeChosen, ss.str(), "", "", "" });
+            }
+        }
+
+        extraInfo = {
+            {"PACKAGE REVENUE", totalPackageRevenueStr},
+            {"GENERAL ADD-ON REVENUE", totalAddOnRevenueStr},
+            {"THEME REVENUE", themeTotalRevenueStr}
+        };
+    }
+    else if (prefix == "FEEDBACK")
+    {
+        bool foundData = false;
+        for (const auto& fb : feedbackList)
+        {
+            if (checkDateRange(fb.feedBackDate, startDate, endDate))
+            {
+                foundData = true;
+                reportRecords.push_back({ fb.registers.login.nickname, fb.rate, fb.feedBackDate.substr(0, 10), "", "", "" });
+            }
+        }
+        if (!foundData)
+        {
+            cout << "THERE'S NO DATA WITHIN THE DATE RANGE YOU HAVE SET :)\n" << endl;
+            pressAny();
+            staffGenerateReport(name, staffIndex);
+            return;
+        }
+
+        extraInfo = {
+            {"TOTAL FEEDBACK", to_string(feedbackList.size())},
+            {"AVERAGE RATING", averageRatingStr},
+            {"", ""}
+        };
+    }
+
+    m.menuTitle = "GENERATE REPORT SECTION";
+    m.menuTitleTemplate();
+    outputReport(reportRecords, generalRecords, themeRecords, extraInfo, prefix);
+    cout << "\nTHIS IS THE " << prefix << " REPORT :)\n" << endl;
+    pressAny();
+    staffGenerateReport(name, staffIndex);
+
+        // while(status)
+        // {
+        //     cout << "PLEASE ENTER THE END DATE <0 to exit> : ";
+        //     getline(cin,endDate);
+
+        //     if(endDate == "0")
+        //     {
+        //         staffGenerateReport(name,staffIndex);
+        //         status = false;
+        //     }
+
+        //     if (startDate > endDate)
+        //     {
+        //         cout << "START DATE MUST BE EARLIER THAN OR SAME AS END DATE :)\n" << endl;
+        //         pressAny();
+        //         staffGenerateReport(name, staffIndex);
+        //         status = false;
+        //     }
+
+
+        //     if(endDate.empty())
+        //     {
+        //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+        //         continue;
+        //     }
+
+        //     regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
+
+        //     if(!regex_match(endDate,dateFormat))
+        //     {
+        //         cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
+        //         continue;
+        //     }
+        //     status = false;
+
+        //     calculateReport(totalRevenue, pendingPayment, completePayment, totalPackageRevenue,totalAddOnRevenue,totalFeedback,averageRating,generalTotalRevenue,themeTotalRevenue,packageTime,generalTime,themeTime,startDate,endDate);
+
+        //     stringstream ssTotalRevenue,ssPendingPayment, ssCompletePayment, ssTotalPackageRevenue,ssTotalAddOnRevenue,ssTotalFeedback,ssAverageRating,ssGeneralTotalRevenue,ssThemeTotalRevenue;
+
+        //     ssTotalRevenue << fixed << setprecision(2) << totalRevenue;
+        //     ssPendingPayment << fixed << setprecision(2) << pendingPayment;
+        //     ssCompletePayment << fixed << setprecision(2) << completePayment;
+        //     ssTotalPackageRevenue << fixed << setprecision(2) << totalPackageRevenue;
+        //     ssTotalAddOnRevenue << fixed << setprecision(2) << totalAddOnRevenue;
+        //     ssTotalFeedback << fixed << setprecision(2) << totalFeedback;
+        //     ssAverageRating << fixed << setprecision(2) << averageRating;
+        //     ssGeneralTotalRevenue << fixed << setprecision(2) << generalTotalRevenue;
+        //     ssThemeTotalRevenue << fixed << setprecision(2) << themeTotalRevenue;
+
+        //     string totalRevenueStr = ssTotalRevenue.str();
+        //     string totalPendingPayemntStr = ssPendingPayment.str();
+        //     string totalCompletePaymentStr = ssCompletePayment.str();
+        //     string totalPackageRevenueStr  = ssTotalPackageRevenue.str();
+        //     string totalAddOnRevenueStr = ssTotalAddOnRevenue.str();
+        //     string totalFeedbackStr = ssTotalFeedback.str();
+        //     string averageRatingStr = ssAverageRating.str();
+        //     string generalTotalRevenueStr = ssGeneralTotalRevenue.str();
+        //     string themeTotalRevenueStr = ssThemeTotalRevenue.str();
+        //     string packageTimeStr = to_string(packageTime);
+        //     string generalTimeStr = to_string(generalTime);
+        //     string themeTimeStr = to_string(themeTime);
+
+        // if(prefix == "REVENUE")
+        // {   
+        //     for(int i = 0; i < receiptList.size();i++)
+        //     {
+        //         string receiptID = receiptList[i].receiptID;
+        //         string custName = receiptList[i].registers.login.nickname;
+        //         string issueDate = (receiptList[i].issueDate).substr(0,10);
+        //         string amtAfterTax = receiptList[i].amtAfterTax;
+        //         string paymentStatus = receiptList[i].paymentStatus;
+        //         string paymentType = receiptList[i].paymentType;
+        //         if(checkDateRange(receiptList[i].issueDate,startDate,endDate))
+        //         {
+        //             reportRecords.push_back
+        //             (
+        //                 {receiptID,custName,issueDate,amtAfterTax,paymentStatus,paymentType}
+        //             );
+        //         }
+        //         else
+        //         {
+        //             cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
+        //             pressAny();
+        //             staffGenerateReport(name,staffIndex);
+        //         }
+
+        //     }
+
+        //     extraInfo = 
+        //     {
+        //         {"TOTAL REVENUE",totalRevenueStr},
+        //         {"PENDING PAYMENT",totalPendingPayemntStr},
+        //         {"COMPLETED PAYMENT",totalCompletePaymentStr}
+        //     };
+        // }
+        // else if (prefix == "ITEM PERFORMANCE")
+        // {
+        //     for (const auto& p : packageList)
+        //     {
+        //         if (stoi(p.packageTimeChosen) > 0)
+        //         {
+        //             reportRecords.push_back
+        //             (
+        //                 { p.packageType, p.venue, p.catering, p.packageTimeChosen, p.price }
+        //             );
+        //         }
+        //     }
+
+        //     for (const auto& cp : customPackage)
+        //     {
+        //         if (stoi(cp.customTimeChosen) > 0)
+        //         {
+        //             double itemTotalRevenue = safeStod(cp.itemPrice) * stoi(cp.customTimeChosen);
+        //             stringstream ss;
+        //             ss << fixed << setprecision(2) << itemTotalRevenue;
+        //             generalRecords.push_back(
+        //                 { cp.item, cp.customTimeChosen, ss.str(), "", "", "" }
+        //             );
+        //         }
+        //     }
+
+        //     for (const auto& t : themeList)
+        //     {
+        //         if (stoi(t.themeTimeChosen) > 0)
+        //         {
+        //             double themeRevenue = safeStod(t.themePrice) * stoi(t.themeTimeChosen);
+        //             stringstream ss;
+        //             ss << fixed << setprecision(2) << themeRevenue;
+        //             themeRecords.push_back
+        //             (
+        //                 { t.themeDescription, t.themeTimeChosen, ss.str(), "", "", "" }
+        //             );
+        //         }
+        //     }
+
+        //     extraInfo = 
+        //     {
+        //         { "PACKAGE REVENUE", totalPackageRevenueStr },
+        //         { "GENERAL ADD-ON REVENUE", totalAddOnRevenueStr },
+        //         { "THEME REVENUE", themeTotalRevenueStr }
+        //     };
+        // }
+        // else if(prefix == "FEEDBACK")
+        // {
+        //     for(int i = 0; i < feedbackList.size();i++)
+        //     {
+        //         if(checkDateRange(feedbackList[i].feedBackDate,startDate,endDate))
+        //         {
+        //             string custName = feedbackList[i].registers.login.nickname;
+        //             string rating = feedbackList[i].rate;
+        //             string ratingDate = (feedbackList[i].feedBackDate).substr(0,10);
+        //             reportRecords.push_back
+        //             (
+        //                 {custName,rating,ratingDate,"","",""}
+        //             );
+        //         }
+        //         else
+        //         {
+        //             cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
+        //             pressAny();
+        //             staffGenerateReport(name,staffIndex);
+        //         }
+        //     }
+
+        //     extraInfo = 
+        //     {
+        //         {"TOTAL FEEDBACK",to_string(feedbackList.size())},
+        //         {"AVERAGE RATING",averageRatingStr},
+        //         {"",""}
+        //     };
+        // }
 
          
 
-        m.menuTitle = "GENERATE REPORT SECTION";
-        m.menuTitleTemplate();
+        // m.menuTitle = "GENERATE REPORT SECTION";
+        // m.menuTitleTemplate();
 
 
-        outputReport(reportRecords,generalRecords,themeRecords,extraInfo,prefix);
-        cout << "\nTHIS IS THE "+ prefix +" REPORT :)\n" << endl;
-        pressAny();
-        staffGenerateReport(name,staffIndex);
-        }
+        // outputReport(reportRecords,generalRecords,themeRecords,extraInfo,prefix);
+        // cout << "\nTHIS IS THE "+ prefix +" REPORT :)\n" << endl;
+        // pressAny();
+        // staffGenerateReport(name,staffIndex);
+        // }
 }
 
 //Staff view report function
@@ -8726,50 +8907,47 @@ void staffGenerateReport(string name, int staffIndex)
     m.menuTitleTemplate();
 
     m.menuTitle = "REPORT OPTIONS";
+    m.menuOptions.clear();
     m.menuOptions.push_back("REVENUE REPORT");
     m.menuOptions.push_back("ITEM PERFORMANCE REPORT");
     m.menuOptions.push_back("FEEDBACK REPORT");
 
     m.menuTemplate();
 
-    while(status)
+    while (status)
     {
-        cout << "PLASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
-        getline(cin,ans);
+        cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE <0 to exit> : ";
+        getline(cin, ans);
 
-        if(ans == "0")
+        if (ans == "0")
         {
-            staffMainPage(name,staffIndex);
+            staffMainPage(name, staffIndex);
+            return;  // exit this function after call
+        }
+        if (ans.empty())
+        {
+            cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
             continue;
         }
-
-        if(ans.empty())
+        if (ans == "1")
         {
-            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-            continue;
+            generateReport(name, staffIndex, "REVENUE");
+            return;
         }
-
-        if(ans == "1")
+        else if (ans == "2")
         {
-            generateReport(name,staffIndex,"REVENUE");
-            status = false;
+            generateReport(name, staffIndex, "ITEM PERFORMANCE");
+            return;
         }
-        else if(ans == "2")
+        else if (ans == "3")
         {
-            generateReport(name,staffIndex,"ITEM PERFORMANCE");
-            status = false;
-        }
-        else if(ans == "3")
-        {
-            generateReport(name,staffIndex,"FEEDBACK");
-            status = false;
+            generateReport(name, staffIndex, "FEEDBACK");
+            return;
         }
         else
         {
             cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
-            continue;
         }
-        status = false;
     }
 }
 
