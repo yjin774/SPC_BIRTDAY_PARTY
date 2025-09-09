@@ -3265,6 +3265,26 @@ void addReceiptDetails(string receiptType, int index, int customIndex)
     printReceipt(registerRecord,index,receiptType);
 }
 
+bool isLeapYear(int year) {
+    return (year%4==0 && year%100!=0) || (year%400==0);
+}
+
+bool isValidDate(const std::string& date) {
+    // Only single backslashes needed for \d. Use a raw string literal.
+    std::regex dateFormat(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$)");
+    std::smatch match;
+    if(!std::regex_match(date, match, dateFormat)) return false;
+    int year, month, day;
+    if (sscanf(date.c_str(), "%4d-%2d-%2d", &year, &month, &day) != 3) return false;
+    int daysInMonth[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+    if(month == 2) {
+        if(isLeapYear(year)) return day <= 29;
+        else return day <= 28;
+    }
+    return day <= daysInMonth[month];
+}
+
+
 //Customer main menu's registration event function
 void custRegis(string name , int userIndex)
 {
@@ -3391,13 +3411,11 @@ void custRegis(string name , int userIndex)
             continue;
         }
 
-        regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
-
-        if(!regex_match(r.eventDate,dateFormat))
+        if(!isValidDate(r.eventDate))
         {
-            cout << "INVALID INPUT... PLEASE FOLLOW FORMAT <YYYY-MM-DD> :)\n" << endl;
+            cout << "PLEASE ENTER THE VALID DATE :)\n"<<endl;
             continue;
-        }  
+        }
 
         string today = getTodayDate();
         if (r.eventDate < today)
