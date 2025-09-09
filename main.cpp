@@ -4622,8 +4622,6 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
             }
         }
 
-                // Mark the package item as used
-        registerList[userIndex].customStatus = "ACTIVE";
         saveVectorList(customList, "customList.txt");
         saveVectorList(registerList, "registration.txt");
     }
