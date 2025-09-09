@@ -4583,6 +4583,7 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
             customList[customIndex].item1Price = customPackage[ansIndex].itemPrice;
             customList[customIndex].item1Amt = totalAmtString;
             customList[customIndex].item1Status = "TRUE";
+            registerList[userIndex].customStatus = "ACTIVE";
             if(amtStatus == "TRUE")
             {
                 customList[customIndex].amt1Status = "TRUE";
@@ -4594,6 +4595,7 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
             customList[customIndex].item2Price = customPackage[ansIndex].itemPrice;
             customList[customIndex].item2Amt = totalAmtString;
             customList[customIndex].item2Status = "TRUE";
+            registerList[userIndex].customStatus = "ACTIVE";
             if(amtStatus == "TRUE")
             {
                 customList[customIndex].amt2Status = "TRUE";
@@ -4605,6 +4607,7 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
             customList[customIndex].item3Price = customPackage[ansIndex].itemPrice;
             customList[customIndex].item3Amt = totalAmtString;
             customList[customIndex].item3Status = "TRUE";
+            registerList[userIndex].customStatus = "ACTIVE";
             if(amtStatus == "TRUE")
             {
                 customList[customIndex].amt3Status = "TRUE";
@@ -4616,6 +4619,7 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
             customList[customIndex].item4Price = customPackage[ansIndex].itemPrice;
             customList[customIndex].item4Amt = totalAmtString;
             customList[customIndex].item4Status = "TRUE";
+            registerList[userIndex].customStatus = "ACTIVE";
             if(amtStatus == "TRUE")
             {
                 customList[customIndex].amt4Status = "TRUE";
