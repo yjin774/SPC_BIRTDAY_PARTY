@@ -15,3 +15,4 @@ nightowl,night123,NIGHTOWL,015-4545454,nightowl@gmail.com
 morningdew,dew1234,MORNINGDEW,016-7777888,morning_dew@gmail.com
 starrysky,sky1234,STARRYSKY,017-2323232,starrysky@cosmos.com
 wavecrash,wave1234,WAVECRASH,018-1414141,wavecrash@gmail.com
+testAcc,1234,NEWTEST,016-3504827,yongjin@yahoo.com

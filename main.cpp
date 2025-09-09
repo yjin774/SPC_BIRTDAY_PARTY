@@ -22,6 +22,16 @@
 
 using namespace std;
 
+string trim(const string& s) {
+    auto start = s.begin();
+    while (start != s.end() && std::isspace(*start)) ++start;
+    auto end = s.end();
+    do {
+        --end;
+    } while (distance(start, end) > 0 && std::isspace(*end));
+    return string(start, end+1);
+}
+
 void mainLogo()
 {
     cout << "                          (             )                            " << endl;
@@ -2146,6 +2156,14 @@ void loginScreen()
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
         getline(cin,loginAns);
 
+        string trimmed = trim(loginAns);
+
+        if(trimmed.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
+
         if(loginAns == "1")
         {
             custPage();
@@ -2191,6 +2209,14 @@ void custPage()
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
         getline(cin,ans);
+
+        string trimmed = trim(ans);
+
+        if(trimmed.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
 
         if(ans == "4")
         {
@@ -2241,6 +2267,14 @@ void staffPage()
     {
         cout << "PLEASE CHOOSE ANY OPTIONS SHOWN ABOVE : ";
         getline(cin,ans);
+
+        string trimmed = trim(ans);
+
+        if(trimmed.empty())
+        {
+            cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
+            continue;
+        }
 
         if(ans == "1")
         {
@@ -2327,7 +2361,7 @@ void login(string aspect)
             }
         }
 
-        if(l.username.empty())
+        if(trim(l.username).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2350,7 +2384,7 @@ void login(string aspect)
             }
         }
 
-        if(l.password.empty())
+        if(trim(l.password).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2432,7 +2466,7 @@ void signUp(string aspect)
             return;
         }
 
-        if(l.username.empty())
+        if(trim(l.username).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2473,7 +2507,7 @@ void signUp(string aspect)
             return;
         }
 
-        if(l.contactNum.empty())
+        if(trim(l.contactNum).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2508,7 +2542,7 @@ void signUp(string aspect)
             return;
         }
 
-        if(l.email.empty())
+        if(trim(l.email).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
             continue;
@@ -2547,7 +2581,7 @@ void signUp(string aspect)
             return;
         }
 
-        if(l.password.empty())
+        if(trim(l.password).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2565,7 +2599,7 @@ void signUp(string aspect)
         cout << "PLEASE CONFIRM YOUR PASSWORD : ";
         getline(cin,confirmPass);
 
-        if(confirmPass.empty())
+        if(trim(confirmPass).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2597,7 +2631,7 @@ void signUp(string aspect)
             return;
         }
 
-        if(l.nickname.empty())
+        if(trim(l.nickname).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :) \n" << endl;
             continue;
@@ -2731,7 +2765,7 @@ void changePass(string name, int userIndex,string aspect)
             }
         }
 
-        if(username.empty())
+        if(trim(username).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2767,7 +2801,7 @@ void changePass(string name, int userIndex,string aspect)
             status = false;
         }
 
-        if(pass.empty())
+        if(trim(pass).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -2802,7 +2836,7 @@ void changePass(string name, int userIndex,string aspect)
             status = false;
         }
 
-        if(newPass.empty())
+        if(trim(newPass).empty())
         {
             cout << "PELASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3342,7 +3376,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3365,7 +3399,7 @@ void custRegis(string name , int userIndex)
         
         getline(cin, confirmPackage);
 
-        if(confirmPackage.empty())
+        if(trim(confirmPackage).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3405,7 +3439,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.eventDate.empty())
+        if(trim(r.eventDate).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n"<<endl;
             continue;
@@ -3446,7 +3480,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.startTime.empty())
+        if(trim(r.startTime).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY ;)\n" << endl;
             continue;
@@ -3493,7 +3527,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.birthdayName.empty())
+        if(trim(r.birthdayName).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3527,7 +3561,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.login.contactNum.empty())
+        if(trim(r.login.contactNum).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3568,7 +3602,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.login.email.empty())
+        if(trim(r.login.email).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3612,7 +3646,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.guestAmount.empty())
+        if(trim(r.guestAmount).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3659,7 +3693,7 @@ void custRegis(string name , int userIndex)
             status = false;
         }
 
-        if(r.specialRequest.empty())
+        if(trim(r.specialRequest).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3704,7 +3738,7 @@ void custRegis(string name , int userIndex)
         cout << "ARE YOU SURE ALL THE DETAILS SHOWN ABOVE ARE CORRECT ? <y/n> : ";
         getline(cin , confirmation);
 
-        if(confirmation.empty())
+        if(trim(confirmation).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3878,7 +3912,7 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
         cout << "ARE UYOU SURE YOU WANT TO CANCEL YOU BOOKING ? <y/n>" ;
         getline(cin,ans);
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3900,7 +3934,6 @@ void cancelAlert(string name, int registerIndex,int usernameIndex)
             customList.erase(customList.begin()+registerIndex),
             registeredList.erase(registeredList.begin()+registerIndex);
             receiptList.erase(receiptList.begin()+registerIndex);
-            saveVectorList(operateList,"operation.txt");
             saveVectorList(customList,"customList.txt");
             saveVectorList(registeredList,"registration.txt");
             saveVectorList(receiptList,"receipt.txt");
@@ -3956,7 +3989,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -3968,7 +4001,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
             addReceiptDetails("PAYMENT DONE",registerIndex, customIndex);
             cout << "THANKS FOR TRUSTING US :)\n"<<endl;
             addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> RECEIPT","CUSTOMER OPERATION","CUSTOMER");
-            saveVectorList(operateList,"operation.txt");
+             
             pressAny();
             viewSetUp(name, usernameIndex, registerIndex, customIndex);
             status = false;
@@ -3986,7 +4019,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 cout << "\nWE HAVE START PREPARING YOUR BIRTDAY EVENT ALREADY"<<endl;
                 cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
                 addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -4002,7 +4035,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 cout << "\nYOUR BIRTYDAY PARTY DONE 50 PERCENTS ALREADY :)"<<endl;
                 cout << "WE\'LL BE DONE AS SOON AS POSSIBLE :)"<<endl;
                 addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -4017,7 +4050,7 @@ void viewSetUp(string name,int usernameIndex, int registerIndex, int customIndex
                 outputSetupDetails(setupRecords,"VIEW");
                 cout << "ALL DONE !!! HOPE YOU HAVE A GREAT BIRTHDAY PARTY :)"<<endl;
                 addOperation(usernameIndex,"VIEWED <"+registerList[registerIndex].serialNum +"> SET UP","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 viewSetUp(name, usernameIndex, registerIndex, customIndex);
                 status = false;
@@ -4127,7 +4160,7 @@ void custViewBooking(string name,int usernameIndex)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -4138,7 +4171,7 @@ void custViewBooking(string name,int usernameIndex)
             if(registeredList[registerIndex].bookingStatus == "PAYMENT PENDING")
             {
                 addOperation(usernameIndex,"VIEWED <"+registeredList[registerIndex].serialNum +"> BOOKING","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 addReceiptDetails("RECEIPT",registerIndex,customIndex);
                 custPayment("RECEIPT",registerIndex,customIndex,name,usernameIndex);
                 status = false;
@@ -4217,7 +4250,7 @@ void custViewCampaign(string name,int usernameIndex)
             status = false;
         }
 
-        if(ans.empty() || !regex_match(ans, regex("^[0-9]+$")))
+        if(trim(ans).empty() || !regex_match(ans, regex("^[0-9]+$")))
         {
             cout << "PLEASE ENTER A VALID NUMBER ONLY :)\n" << endl;
             continue;
@@ -4236,7 +4269,7 @@ void custViewCampaign(string name,int usernameIndex)
 
             outputCampaign(campaignRecord, "VIEW CAMPAIGN", campaignIndex);
             addOperation(usernameIndex,"VIEWED <"+campaignList[campaignIndex].campaignId +"> CAMPAIGN","CUSTOMER OPERATION","CUSTOMER");
-            saveVectorList(operateList,"operation.txt");
+             
             pressAny();
             custViewCampaign(name, usernameIndex);
             status = false;
@@ -4275,7 +4308,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     customPartyCart(name,userIndex,receiptID);
                     status = false;
                 }
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -4328,7 +4361,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     status = false;
                 }
 
-                if(chosenItem.empty())
+                if(trim(chosenItem).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -4339,7 +4372,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     addRemoveItem("REMOVE",userIndex,ansIndex,customIndex,"0","FALSE");
                     cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[userIndex].themes.themeDescription <<"> :)\n" <<endl;
                     addOperation(userIndex,"REMOVED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     pressAny();
                     custCustomPartyOption(name,userIndex,receiptID);
                     status = false;
@@ -4374,7 +4407,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     status = false;
                 }
 
-                if(ans1.empty())
+                if(trim(ans1).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -4389,7 +4422,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
                         addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         customList[customIndex].item1Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -4406,7 +4439,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
                         addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         customList[customIndex].item2Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -4423,7 +4456,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
                         addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         customList[customIndex].item3Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -4440,7 +4473,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
 
                         cout << "YOU HAVE CHANGED THE AMOUNT SUCCESSFULLY... :)\n"<<endl;
                         addOperation(userIndex,"CHANGED CUSTOM ITEM\'S AMOUNT","CUSTOMER OPERATION","CUSTOMER");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         customList[customIndex].item4Amt = newAmt;
                         saveVectorList(customList,"customList.txt");
                         pressAny();
@@ -4512,7 +4545,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -4525,7 +4558,7 @@ void customPartyCart(string name , int userIndex,string receiptID)
                 cout << "PLEASE CHOOSE THE CATEGORY <g = GENERAL ADD ON / t = CUSTOMIZE THEME> : ";
                 getline(cin,removeItem);
 
-                if(removeItem.empty())
+                if(trim(removeItem).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -4764,7 +4797,7 @@ void confirmation(string name, int userIndexs, string receiptID)
         cout << "WOULD YOU LIKE TO ADD ON ANYTHING ? <y/n> : ";
         getline(cin,ans);
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl; 
             continue;
@@ -4874,7 +4907,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
             continue;
         }
 
-        if (ans.empty()) 
+        if (trim(ans).empty()) 
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -4895,7 +4928,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
         {
             cout << "YOU HAVE CHOSE <"<< customPackage[ansIndex].item << "> TO ADD ON." << endl;
             addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-            saveVectorList(operateList,"operation.txt");
+             
             customPackage[ansIndex].tempStatus = "TRUE";
             saveVectorList(customPackage,"customPackage.txt");
             status = true;
@@ -4914,7 +4947,7 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
 
                 addRemoveItem("ADD",userIndex,ansIndex,customIndex,totalAmtString,"TRUE");
                 addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "YOU HAVE ADDED <" << customPackage[ansIndex].item << "> SUCESSFULLY... :)"<<endl;
                 status = false;
             }
@@ -4930,28 +4963,28 @@ void customPartyGeneral(string name, int userIndexs, string receiptID)
             if(customList[customIndex].item1=="EMPTY")
             {
                 addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item2=="EMPTY")
             {
                 addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 addRemoveItem("ADD",userIndex,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item3=="EMPTY")
             {
                 addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
             else if(customList[customIndex].item4=="EMPTY")
             {
                 addOperation(userIndex,"ADDED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
-                saveVectorList(operateList,"operation.txt");
+                 
                 addRemoveItem("ADD",userIndexs,ansIndex,customIndex,"1","FALSE");
                 status = false;
             }
@@ -5030,7 +5063,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -5079,7 +5112,7 @@ void customPartyTheme(string name , int userIndex,string receiptID)
                         themeList[i].themeTemp = "FALSE";
                     }
                     addOperation(userIndex,"ADDED CUSTOM THEME","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     registerList[userIndex].customStatus = "ACTIVE";
                     saveVectorList(registerList,"registration.txt");
                     saveVectorList(themeList,"theme.txt");
@@ -5136,7 +5169,7 @@ void custCustomPartyOption(string name, int userIndex,string receiptId)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -5237,7 +5270,7 @@ void custCustomParty(string name , int userIndex)
             status = false;
         }
 
-        if(receiptId.empty())
+        if(trim(receiptId).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
             continue;
@@ -5291,7 +5324,7 @@ void custDeleteAccountAlert(string name,int userIndex)
         cout << "ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT ? <y/n>" ;
         getline(cin,ans);
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n"<< endl;
             continue;
@@ -5373,7 +5406,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
         m.menuTitle = "VIEW PROFILE";
         m.menuTitleTemplate();
         addOperation(userIndex,"VIEWED USER PROFILE","CUSTOMER OPERATION","CUSTOMER");
-        saveVectorList(operateList,"operation.txt");
+         
         outputProfile(profileRecord,userIndex);
         pressAny();
         custViewProfile(name,userIndex);
@@ -5408,7 +5441,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -5422,7 +5455,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "PLEAE ENTER YOU NEW USERNAME : ";
                 getline(cin,l.username);
 
-                if(l.username.empty())
+                if(trim(l.username).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5444,7 +5477,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT USERNAME <" << customerList[userIndex].username << "> ? <y/n>";
                 getline(cin,confirmAns);
 
-                if(confirmAns.empty())
+                if(trim(confirmAns).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5454,7 +5487,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 {
                     cout << "YOU HAVE CHANGED YOUR USERNAME SUCCESSFUL :)"<<endl;
                     addOperation(userIndex,"CHANGED USERNAME","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     customerList[userIndex].username = l.username;
                     addOperation(userIndex,"CUSTOMER CHANGE USERNAME","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -5485,7 +5518,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "PLEAE ENTER YOU NEW NICKNAME : ";
                 getline(cin,l.nickname);
 
-                if(l.nickname.empty())
+                if(trim(l.nickname).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5501,7 +5534,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT NICKNAME <" << customerList[userIndex].nickname << "> ? <y/n>";
                 getline(cin,confirmAns);
 
-                if(confirmAns.empty())
+                if(trim(confirmAns).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5511,7 +5544,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 {
                     cout << "YOU HAVE CHANGED YOUR NICKNAME SUCCESSFUL :)"<<endl;
                     addOperation(userIndex,"CHANGED NICKNAME","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     transform(l.nickname.begin(),l.nickname.end(),l.nickname.begin(),::toupper);
                     customerList[userIndex].nickname = l.nickname;
                     for(int i = 0 ; i < registerList.size();i++)
@@ -5550,7 +5583,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
             {
                 cout << "PLEAE ENTER YOU NEW CONTACT NUMBER : ";
                 getline(cin,l.contactNum);
-                if(l.contactNum.empty())
+                if(trim(l.contactNum).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5569,7 +5602,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT CONTACT NUMBER <" << customerList[userIndex].contactNum << "> ? <y/n>";
                 getline(cin,confirmAns);
 
-                if(confirmAns.empty())
+                if(trim(confirmAns).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5579,7 +5612,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 {
                     cout << "YOU HAVE CHANGED YOUR CONTACT NUMBER SUCCESSFUL :)"<<endl;
                     addOperation(userIndex,"CHANGED CONTACT NUMBER","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     customerList[userIndex].contactNum = l.contactNum;
                     addOperation(userIndex,"CUSTOMER CHANGE CONTACT NUM","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -5610,7 +5643,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "PLEAE ENTER YOU NEW EMAIL : ";
                 getline(cin,l.email);
 
-                if(l.email.empty())
+                if(trim(l.email).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5627,7 +5660,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 cout << "ARE YOU SURE YOU WANT TO CHANGE YOU CURRENT EMAIL <" << customerList[userIndex].email << "> ? <y/n>";
                 getline(cin,confirmAns);
 
-                if(confirmAns.empty())
+                if(trim(confirmAns).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -5637,7 +5670,7 @@ void custProfileEdit(string name,int userIndex,string prefix)
                 {
                     cout << "YOU HAVE CHANGED YOUR EMAIL SUCCESSFUL :)"<<endl;
                     addOperation(userIndex,"CHANGED EMAIL","CUSTOMER OPERATION","CUSTOMER");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     customerList[userIndex].email = l.email;
                     addOperation(userIndex,"CUSTOMER CHANGE EMAIL","CUSTOMER OPERATION","customer");
                     saveVectorList(customerList,"customer.txt");
@@ -5795,7 +5828,7 @@ void custPayment(string receiptType,int registerIndex, int customIndex,string na
             status = false;
         }
 
-        if(payType.empty())
+        if(trim(payType).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" <<endl;
             continue;
@@ -5920,7 +5953,7 @@ void feedBackSection(string name, int userIndex,int registerIndex)
             status = false;
         }
 
-        if(f.rate.empty())
+        if(trim(f.rate).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -5959,7 +5992,7 @@ void feedBackSection(string name, int userIndex,int registerIndex)
             status = false;
         }
 
-        if(f.content.empty())
+        if(trim(f.content).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -6074,7 +6107,7 @@ void custFeedback(string name, int userIndex)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -6113,7 +6146,7 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
         cout << "ARE YOU SURE THE <" << prefix << "> IS DONE ? <y/n> : ";
         getline(cin,ans);
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -6141,7 +6174,7 @@ void eventApproval(string name,int staffIndex, int registerIndex,string prefix)
                 addOperation(staffIndex,"APPROVED " + prefix + "\'S STATUS","STAFF OPERATION","STAFF");
                 registerList[registerIndex].staffPartyItem = "PARTY ITEM DONE";
             }
-            saveVectorList(operateList,"operation.txt");
+             
 
             int counter = stoi(registerList[registerIndex].doneCount);
             counter +=1;
@@ -6266,7 +6299,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -6316,7 +6349,7 @@ void manageEvent(string name,int staffIndex, int registerIndex)
         {
             registerList[registerIndex].orderStatus = "DONE";
             addOperation(staffIndex,"COMPLETE BOOKING","STAFF OPERATION","STAFF");
-            saveVectorList(operateList,"operation.txt");
+             
             saveVectorList(registerList,"registration.txt");
             cout << "<" << registerList[registerIndex].serialNum << "> HAS DONE SUCCESSFULLY :)\n" << endl;
             pressAny();
@@ -6558,7 +6591,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.packageType.empty())
+            if(trim(p.packageType).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6596,7 +6629,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.venue.empty())
+            if(trim(p.venue).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6630,7 +6663,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.timeDuration.empty())
+            if(trim(p.timeDuration).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6665,7 +6698,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.catering.empty())
+            if(trim(p.catering).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6698,7 +6731,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.decoration.empty())
+            if(trim(p.decoration).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6731,7 +6764,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.entertaintment.empty())
+            if(trim(p.entertaintment).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6766,7 +6799,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.activities.empty())
+            if(trim(p.activities).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6801,7 +6834,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.partyGift.empty())
+            if(trim(p.partyGift).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6834,7 +6867,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.cake.empty())
+            if(trim(p.cake).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6867,7 +6900,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(p.price.empty())
+            if(trim(p.price).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6931,7 +6964,7 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE CHECK BEFORE PUBLISH THE NEW PACKAGE <y/n> : ";
             getline(cin,confirmPackage);
 
-            if(confirmPackage.empty())
+            if(trim(confirmPackage).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -6941,7 +6974,7 @@ void addItem(string name,int staffIndex,string prefix)
             {
                 packageList.push_back(newPackage);
                 addOperation(staffIndex,"ADDED NEW PACKAGE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 saveVectorList(packageList,"packageList.txt");
                 cout << "NEW PACKAGE PUBLISH SUCCESSFUL....\n"<<endl;
                 pressAny();
@@ -6981,7 +7014,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(c.item.empty())
+            if(trim(c.item).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7017,7 +7050,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(c.itemPrice.empty())
+            if(trim(c.itemPrice).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7058,7 +7091,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(amtStatus.empty())
+            if(trim(amtStatus).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7084,7 +7117,7 @@ void addItem(string name,int staffIndex,string prefix)
                         innerStatus = false;
                     }
 
-                    if(c.itemAmtLimit.empty())
+                    if(trim(c.itemAmtLimit).empty())
                     {
                         cout << "PLEASE DON\'T LEAVE IT EMPTY :) \n" << endl;
                         continue;
@@ -7147,7 +7180,7 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE CHECK BEFORE PUBLISH THE NEW GENERAL ADD ON <y/n> : ";
             getline(cin,confirmAddon);
 
-            if(confirmAddon.empty())
+            if(trim(confirmAddon).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7159,7 +7192,7 @@ void addItem(string name,int staffIndex,string prefix)
                 saveVectorList(customPackage,"customPackage.txt");
                 cout << "NEW GENERAL ADD ON PUBLISH SUCCESSFUL....\n"<<endl;
                 addOperation(staffIndex,"ADDED NEW GENERAL ADD ON","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
@@ -7193,7 +7226,7 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE ENTER THE NEW THEME\'S NAME <0 to exit> : ";
             getline(cin,t.themeDescription);
 
-            if(t.themeDescription.empty())
+            if(trim(t.themeDescription).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7235,7 +7268,7 @@ void addItem(string name,int staffIndex,string prefix)
                 status = false;
             }
 
-            if(t.themePrice.empty())
+            if(trim(t.themePrice).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7255,7 +7288,7 @@ void addItem(string name,int staffIndex,string prefix)
                 continue;
             }
 
-            double newThemePrice = stod(ans);
+            double newThemePrice = stod(t.themePrice);
             stringstream ssThemePrice;
             ssThemePrice << fixed << setprecision(2) << newThemePrice;
             newThemePriceString = ssThemePrice.str();
@@ -7286,7 +7319,7 @@ void addItem(string name,int staffIndex,string prefix)
             cout << "PLEASE CHECK BEFORE PUBLISH THE NEW THEME <y/n> : ";
             getline(cin,confirmTheme);
 
-            if(confirmTheme.empty())
+            if(trim(confirmTheme).empty())
             {
                 cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                 continue;
@@ -7298,7 +7331,7 @@ void addItem(string name,int staffIndex,string prefix)
                 saveVectorList(themeList,"theme.txt");
                 cout << "NEW THEME PUBLISH SUCCESSFUL....\n"<<endl;
                 addOperation(staffIndex,"ADDED NEW THEME","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 manageItemOptions(name,staffIndex,prefix);
                 status = false;
@@ -7358,7 +7391,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
 
-                    if(confirmAns.empty())
+                    if(trim(confirmAns).empty())
                     {
                         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                         continue;
@@ -7368,7 +7401,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << packageList[packageIndex].packageType << "> SUCCESSFUL...\n"<<endl;
                         addOperation(staffIndex,"REMOVED PACKAGE","STAFF OPERATION","STAFF");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         packageList.erase(packageList.begin()+packageIndex);
                         saveVectorList(packageList,"packageList.txt");
                         pressAny();
@@ -7400,7 +7433,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
 
-                    if(confirmAns.empty())
+                    if(trim(confirmAns).empty())
                     {
                         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                         continue;
@@ -7410,7 +7443,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << customPackage[packageIndex].item << "> SUCCESSFUL...\n"<<endl;
                         addOperation(staffIndex,"REMOVED GENERAL ADD ON","STAFF OPERATION","STAFF");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         customPackage.erase(customPackage.begin()+packageIndex);
                         saveVectorList(customPackage,"customPackage.txt");
                         pressAny();
@@ -7442,7 +7475,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     cout << "ARE YOU SURE YOU WANT TO REMOVE THIS ITEM ? <y/n> : ";
                     getline(cin,confirmAns);
 
-                    if(confirmAns.empty())
+                    if(trim(confirmAns).empty())
                     {
                         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                         continue;
@@ -7452,7 +7485,7 @@ void removeItem(string name,int staffIndex,string prefix)
                     {
                         cout << "YOU HAVE BEEN REMOVED <" << themeList[packageIndex].themeDescription << "> SUCCESSFUL...\n"<<endl;
                         addOperation(staffIndex,"REMOVED THEME","STAFF OPERATION","STAFF");
-                        saveVectorList(operateList,"operation.txt");
+                         
                         themeList.erase(themeList.begin()+packageIndex);
                         saveVectorList(themeList,"theme.txt");
                         pressAny();
@@ -7505,7 +7538,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7519,7 +7552,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S NAME","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].packageType << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].packageType = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7542,7 +7575,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7556,7 +7589,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE VENUE SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACKAGE\'S VENUE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].venue << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].venue = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7579,7 +7612,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7595,7 +7628,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE TIME DURATION SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S TIME DURATION","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].timeDuration << " HOURS> TO <" << ans << " HOURS> :)\n"<<endl;
                 packageList[index].timeDuration = ans;
                 saveVectorList(packageList,"packageList.txt");
@@ -7618,7 +7651,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7632,7 +7665,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE CATERING SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S CATERING","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].catering << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].catering = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7655,7 +7688,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7669,7 +7702,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE DECORATION SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S DECORATION","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].decoration << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].decoration = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7692,7 +7725,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7706,7 +7739,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE ENTERTAINMENT SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S ENTERTAINMENT","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].entertaintment << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].entertaintment = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7729,7 +7762,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7743,7 +7776,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE ACTIVITIES SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S ACTIVITIES","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].activities << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].activities = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7766,7 +7799,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7780,7 +7813,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE PARTY GIFT SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S PARTY GIFT","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].partyGift << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].partyGift = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7803,7 +7836,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7817,7 +7850,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE CAKE SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S CAKE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << packageList[index].cake << "> TO <" << ans << "> :)\n"<<endl;
                 packageList[index].cake = replaceCommas(ans);
                 saveVectorList(packageList,"packageList.txt");
@@ -7841,7 +7874,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7867,7 +7900,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED PACAKAGE\'S PRICE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <RM" << packageList[index].price << "> TO <RM" << newPackagePriceString << "> :)\n"<<endl;
                 packageList[index].price = newPackagePriceString;
                 saveVectorList(packageList,"packageList.txt");
@@ -7893,7 +7926,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY ;)\n" << endl;
                     continue;
@@ -7908,7 +7941,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED CUSTOM ITEM\'S NAME","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << customPackage[index].item << "> TO <" << ans << "> :)\n"<<endl;
                 customPackage[index].item = replaceCommas(ans);
                 saveVectorList(customPackage,"customPackage.txt");
@@ -7925,7 +7958,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
                 getline(cin,ans);
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -7951,7 +7984,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED CUSTOM ITEM\'S PRICE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <RM" << customPackage[index].itemPrice << "> TO <RM" << newCustomPackagePriceString << "> :)\n"<<endl;
                 customPackage[index].itemPrice = newCustomPackagePriceString;
                 saveVectorList(customPackage,"customPackage.txt");
@@ -7974,7 +8007,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :\n" << endl;
                     continue;
@@ -7994,7 +8027,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     newAmtStatus = "FALSE";
                     cout << "YOU HAVE CHANGED THE AMOUNT STATUS SUCCESSFUL..."<<endl;
                     addOperation(staffIndex,"CHANGED AMOUNT STATUS","STAFF OPERATION","STAFF");
-                    saveVectorList(operateList,"operation.txt");
+                     
                     cout << "FROM <" << customPackage[index].itemAmountStatus << "> TO <" << newAmtStatus << "> :)\n"<<endl;
                     customPackage[index].itemAmountStatus = newAmtStatus;
                     status = false;
@@ -8025,7 +8058,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -8033,7 +8066,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE AMOUNT LIMIT SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED AMOUNT LIMIT","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << customPackage[index].itemAmtLimit << "> TO <" << ans << "> :)\n"<<endl;
                 customPackage[index].itemAmtLimit = ans;
                 saveVectorList(customPackage,"customPackage.txt");
@@ -8059,7 +8092,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                     status = false;
                 }
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout << "PLEAS E DON\'T LEAVE IT EMPTY :)\n " << endl;
                     continue;
@@ -8073,7 +8106,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE NAME SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED THEME\'S NAME","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <" << themeList[index].themeDescription << "> TO <" << ans << "> :)\n"<<endl;
                 themeList[index].themeDescription = replaceCommas(ans);
                 saveVectorList(themeList,"theme.txt");
@@ -8090,7 +8123,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
                 cout << "PLEASE ENTER THE NEW PRICE <0 to exit> : ";
                 getline(cin,ans);
 
-                if(ans.empty())
+                if(trim(ans).empty())
                 {
                     cout<< "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
                     continue;
@@ -8115,7 +8148,7 @@ void editSection(string name,int staffIndex,string prefix,int index,string optio
 
                 cout << "YOU HAVE CHANGED THE PRICE SUCCESSFUL..."<<endl;
                 addOperation(staffIndex,"CHANGED THEME\'S PRICE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 cout << "FROM <RM" << themeList[index].themePrice << "> TO <RM" << newThemePriceString << "> :)\n"<<endl;
                 themeList[index].themePrice = newThemePriceString;
                 saveVectorList(themeList,"theme.txt");
@@ -8195,7 +8228,7 @@ void editOptions(string name,int staffIndex,string prefix,int index)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -8258,7 +8291,7 @@ void editItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -8319,7 +8352,7 @@ void previewItem(string name,int staffIndex,string prefix)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -8336,7 +8369,7 @@ void previewItem(string name,int staffIndex,string prefix)
 
                 cout << "HERE\'S THE PREVIEW FOR THE PACKAGE :)\n" << endl;
                 addOperation(staffIndex,"PREVIEWED PACKAGE","STAFF OPERATION","STAFF");
-                saveVectorList(operateList,"operation.txt");
+                 
                 pressAny();
                 previewItem(name,staffIndex,prefix);
                 status = false;
@@ -8347,7 +8380,7 @@ void previewItem(string name,int staffIndex,string prefix)
             outputCustomMenu("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE GENERAL ADD ON :)\n" << endl;
             addOperation(staffIndex,"PREVIEWED GENERAL ADD ON","STAFF OPERATION","STAFF");
-            saveVectorList(operateList,"operation.txt");
+             
             pressAny();
             previewItem(name,staffIndex,prefix);
             status = false;
@@ -8359,7 +8392,7 @@ void previewItem(string name,int staffIndex,string prefix)
             outputTheme("SPECIFIC",index);
             cout << "HERE\'S THE PREVIEW FOR THE CUSTOM THEME :)\n" << endl;
             addOperation(staffIndex,"PREVIEWED THEME","STAFF OPERATION","STAFF");
-            saveVectorList(operateList,"operation.txt");
+             
             pressAny();
             previewItem(name,staffIndex,prefix);
             status = false;
@@ -8548,7 +8581,7 @@ void generateReport(string name, int staffIndex, string prefix)
             staffGenerateReport(name, staffIndex);
             return;  
         }
-        if (startDate.empty())
+        if (trim(startDate).empty())
         {
             cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -8577,7 +8610,7 @@ void generateReport(string name, int staffIndex, string prefix)
             staffGenerateReport(name, staffIndex);
             return;  // Exit this function after redirecting
         }
-        if (endDate.empty())
+        if (trim(endDate).empty())
         {
             cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -8744,190 +8777,6 @@ void generateReport(string name, int staffIndex, string prefix)
     cout << "\nTHIS IS THE " << prefix << " REPORT :)\n" << endl;
     pressAny();
     staffGenerateReport(name, staffIndex);
-
-        // while(status)
-        // {
-        //     cout << "PLEASE ENTER THE END DATE <0 to exit> : ";
-        //     getline(cin,endDate);
-
-        //     if(endDate == "0")
-        //     {
-        //         staffGenerateReport(name,staffIndex);
-        //         status = false;
-        //     }
-
-        //     if (startDate > endDate)
-        //     {
-        //         cout << "START DATE MUST BE EARLIER THAN OR SAME AS END DATE :)\n" << endl;
-        //         pressAny();
-        //         staffGenerateReport(name, staffIndex);
-        //         status = false;
-        //     }
-
-
-        //     if(endDate.empty())
-        //     {
-        //         cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
-        //         continue;
-        //     }
-
-        //     regex dateFormat("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$");
-
-        //     if(!regex_match(endDate,dateFormat))
-        //     {
-        //         cout  << "INVALID INPUT... PLEASE ENTER IN <YYYY-MM-DD> FORMAT :)\n" <<endl;
-        //         continue;
-        //     }
-        //     status = false;
-
-        //     calculateReport(totalRevenue, pendingPayment, completePayment, totalPackageRevenue,totalAddOnRevenue,totalFeedback,averageRating,generalTotalRevenue,themeTotalRevenue,packageTime,generalTime,themeTime,startDate,endDate);
-
-        //     stringstream ssTotalRevenue,ssPendingPayment, ssCompletePayment, ssTotalPackageRevenue,ssTotalAddOnRevenue,ssTotalFeedback,ssAverageRating,ssGeneralTotalRevenue,ssThemeTotalRevenue;
-
-        //     ssTotalRevenue << fixed << setprecision(2) << totalRevenue;
-        //     ssPendingPayment << fixed << setprecision(2) << pendingPayment;
-        //     ssCompletePayment << fixed << setprecision(2) << completePayment;
-        //     ssTotalPackageRevenue << fixed << setprecision(2) << totalPackageRevenue;
-        //     ssTotalAddOnRevenue << fixed << setprecision(2) << totalAddOnRevenue;
-        //     ssTotalFeedback << fixed << setprecision(2) << totalFeedback;
-        //     ssAverageRating << fixed << setprecision(2) << averageRating;
-        //     ssGeneralTotalRevenue << fixed << setprecision(2) << generalTotalRevenue;
-        //     ssThemeTotalRevenue << fixed << setprecision(2) << themeTotalRevenue;
-
-        //     string totalRevenueStr = ssTotalRevenue.str();
-        //     string totalPendingPayemntStr = ssPendingPayment.str();
-        //     string totalCompletePaymentStr = ssCompletePayment.str();
-        //     string totalPackageRevenueStr  = ssTotalPackageRevenue.str();
-        //     string totalAddOnRevenueStr = ssTotalAddOnRevenue.str();
-        //     string totalFeedbackStr = ssTotalFeedback.str();
-        //     string averageRatingStr = ssAverageRating.str();
-        //     string generalTotalRevenueStr = ssGeneralTotalRevenue.str();
-        //     string themeTotalRevenueStr = ssThemeTotalRevenue.str();
-        //     string packageTimeStr = to_string(packageTime);
-        //     string generalTimeStr = to_string(generalTime);
-        //     string themeTimeStr = to_string(themeTime);
-
-        // if(prefix == "REVENUE")
-        // {   
-        //     for(int i = 0; i < receiptList.size();i++)
-        //     {
-        //         string receiptID = receiptList[i].receiptID;
-        //         string custName = receiptList[i].registers.login.nickname;
-        //         string issueDate = (receiptList[i].issueDate).substr(0,10);
-        //         string amtAfterTax = receiptList[i].amtAfterTax;
-        //         string paymentStatus = receiptList[i].paymentStatus;
-        //         string paymentType = receiptList[i].paymentType;
-        //         if(checkDateRange(receiptList[i].issueDate,startDate,endDate))
-        //         {
-        //             reportRecords.push_back
-        //             (
-        //                 {receiptID,custName,issueDate,amtAfterTax,paymentStatus,paymentType}
-        //             );
-        //         }
-        //         else
-        //         {
-        //             cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
-        //             pressAny();
-        //             staffGenerateReport(name,staffIndex);
-        //         }
-
-        //     }
-
-        //     extraInfo = 
-        //     {
-        //         {"TOTAL REVENUE",totalRevenueStr},
-        //         {"PENDING PAYMENT",totalPendingPayemntStr},
-        //         {"COMPLETED PAYMENT",totalCompletePaymentStr}
-        //     };
-        // }
-        // else if (prefix == "ITEM PERFORMANCE")
-        // {
-        //     for (const auto& p : packageList)
-        //     {
-        //         if (stoi(p.packageTimeChosen) > 0)
-        //         {
-        //             reportRecords.push_back
-        //             (
-        //                 { p.packageType, p.venue, p.catering, p.packageTimeChosen, p.price }
-        //             );
-        //         }
-        //     }
-
-        //     for (const auto& cp : customPackage)
-        //     {
-        //         if (stoi(cp.customTimeChosen) > 0)
-        //         {
-        //             double itemTotalRevenue = safeStod(cp.itemPrice) * stoi(cp.customTimeChosen);
-        //             stringstream ss;
-        //             ss << fixed << setprecision(2) << itemTotalRevenue;
-        //             generalRecords.push_back(
-        //                 { cp.item, cp.customTimeChosen, ss.str(), "", "", "" }
-        //             );
-        //         }
-        //     }
-
-        //     for (const auto& t : themeList)
-        //     {
-        //         if (stoi(t.themeTimeChosen) > 0)
-        //         {
-        //             double themeRevenue = safeStod(t.themePrice) * stoi(t.themeTimeChosen);
-        //             stringstream ss;
-        //             ss << fixed << setprecision(2) << themeRevenue;
-        //             themeRecords.push_back
-        //             (
-        //                 { t.themeDescription, t.themeTimeChosen, ss.str(), "", "", "" }
-        //             );
-        //         }
-        //     }
-
-        //     extraInfo = 
-        //     {
-        //         { "PACKAGE REVENUE", totalPackageRevenueStr },
-        //         { "GENERAL ADD-ON REVENUE", totalAddOnRevenueStr },
-        //         { "THEME REVENUE", themeTotalRevenueStr }
-        //     };
-        // }
-        // else if(prefix == "FEEDBACK")
-        // {
-        //     for(int i = 0; i < feedbackList.size();i++)
-        //     {
-        //         if(checkDateRange(feedbackList[i].feedBackDate,startDate,endDate))
-        //         {
-        //             string custName = feedbackList[i].registers.login.nickname;
-        //             string rating = feedbackList[i].rate;
-        //             string ratingDate = (feedbackList[i].feedBackDate).substr(0,10);
-        //             reportRecords.push_back
-        //             (
-        //                 {custName,rating,ratingDate,"","",""}
-        //             );
-        //         }
-        //         else
-        //         {
-        //             cout << "TEHRE\'S NO DATA THAT WITHIN THE DATE\'S RANGE YOU HAVE SETTED :)\n"<<endl;
-        //             pressAny();
-        //             staffGenerateReport(name,staffIndex);
-        //         }
-        //     }
-
-        //     extraInfo = 
-        //     {
-        //         {"TOTAL FEEDBACK",to_string(feedbackList.size())},
-        //         {"AVERAGE RATING",averageRatingStr},
-        //         {"",""}
-        //     };
-        // }
-
-         
-
-        // m.menuTitle = "GENERATE REPORT SECTION";
-        // m.menuTitleTemplate();
-
-
-        // outputReport(reportRecords,generalRecords,themeRecords,extraInfo,prefix);
-        // cout << "\nTHIS IS THE "+ prefix +" REPORT :)\n" << endl;
-        // pressAny();
-        // staffGenerateReport(name,staffIndex);
-        // }
 }
 
 //Staff view report function
@@ -8959,7 +8808,7 @@ void staffGenerateReport(string name, int staffIndex)
             staffMainPage(name, staffIndex);
             return;  // exit this function after call
         }
-        if (ans.empty())
+        if (trim(ans).empty())
         {
             cout << "PLEASE DON'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -9021,6 +8870,7 @@ void viewFeedback(string name,int staffIndex,int feedBackIndex)
     }
 
     feedbackList[feedBackIndex].viewStatus = "VIEWED";
+     
     saveVectorList(feedbackList,"feedback.txt");
     pressAny();
     staffViewFeedBack(name,staffIndex);
@@ -9140,7 +8990,7 @@ void staffCreateCampaign(string name, int staffIndex)
             status = false;
         }
 
-        if(c.contentTitle.empty())
+        if(trim(c.contentTitle).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -9180,7 +9030,7 @@ void staffCreateCampaign(string name, int staffIndex)
             status = false;
         }
 
-        if(c.content.empty())
+        if(trim(c.content).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -9211,7 +9061,7 @@ void staffCreateCampaign(string name, int staffIndex)
         cout << "PLEASE MAKE SURE THE ALL THE CONTENT IS CORRECT BEFORE PUBLISH <y/n> : ";
         getline(cin,confirmCam);
 
-        if(confirmCam.empty())
+        if(trim(confirmCam).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -9229,7 +9079,7 @@ void staffCreateCampaign(string name, int staffIndex)
             campaignList.push_back(newCampaign);
 
             addOperation(staffIndex,"CREATED CAMPAIGN","STAFF OPERATION","staff");
-
+             
             saveVectorList(campaignList,"campaign.txt");
             pressAny();
             staffMainPage(name,staffIndex);
@@ -9334,7 +9184,7 @@ void manageOperation(string name, int staffIndex, string prefix)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
@@ -9396,7 +9246,7 @@ void staffManageOperation(string name, int staffIndex)
             status = false;
         }
 
-        if(ans.empty())
+        if(trim(ans).empty())
         {
             cout << "PLEASE DON\'T LEAVE IT EMPTY :)\n" << endl;
             continue;
