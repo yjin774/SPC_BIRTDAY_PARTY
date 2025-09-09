@@ -1438,7 +1438,7 @@ void outputOperations(const vector<vector<string>>& list,string prefix)
     if(prefix == "STAFF")
     {
         cout << "╔══════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
-        cout << "║  " << left << setw(20)  << "STAFF NAME"  << "  ║  " << left << setw(30)  << "OPERATIONS                    " << "║  " << left << setw(20)  << "DATE TIME" <<  "║" << endl;
+        cout << "║  " << left << setw(20)  << "STAFF NAME"  << "  ║  " << left << setw(40)  << "OPERATIONS                    " << "║  " << left << setw(20)  << "DATE TIME" <<  "║" << endl;
         cout << "╠══════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
 
         for(int i  = 0 ; i < list.size() ; i++)
@@ -1456,7 +1456,7 @@ void outputOperations(const vector<vector<string>>& list,string prefix)
     else if(prefix == "CUSTOMER")
     {
         cout << "╔══════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
-        cout << "║  " << left << setw(20)  << "CUSTOMER NAME"  << "  ║  " << left << setw(27)  << "OPERATIONS                    " << "║  " << left << setw(20)  << "DATE TIME" <<  "║" << endl;
+        cout << "║  " << left << setw(20)  << "CUSTOMER NAME"  << "  ║  " << left << setw(40)  << "OPERATIONS                    " << "║  " << left << setw(20)  << "DATE TIME" <<  "║" << endl;
         cout << "╠══════════════════════════════════════════════════════════════════════════════════════════╣" << endl;
 
         for(int i  = 0 ; i < list.size() ; i++)
