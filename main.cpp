@@ -4263,7 +4263,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                     continue;
                 }
 
-                ansIndex = stoi(ans);
+                ansIndex = stoi(ans)-1;
 
                 if(ans == "1" && customList[customIndex].item1Status == "FALSE")
                 {
@@ -4287,7 +4287,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                 }
                 else
                 {
-                    addRemoveItem("REMOVE",userIndex,ansIndex,customIndex,"0","FALSE");
+                    addRemoveItem("REMOVE",userIndex,stoi(ans),customIndex,"0","FALSE");
                     pressAny();
                     custCustomPartyOption(name,userIndex,receiptID);
                     status = false;
@@ -4319,7 +4319,7 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                 if(chosenItem == "Y" || chosenItem == "y")
                 {
                     addRemoveItem("REMOVE",userIndex,ansIndex,customIndex,"0","FALSE");
-                    cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  category <<"> :)\n" <<endl;
+                    cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[userIndex].themes.themeDescription <<"> :)\n" <<endl;
                     addOperation(userIndex,"REMOVED CUSTOM ITEM","CUSTOMER OPERATION","CUSTOMER");
                     saveVectorList(operateList,"operation.txt");
                     pressAny();
@@ -4330,6 +4330,11 @@ void manageCart(string name,string category,int userIndex,int customIndex,string
                 {
                     customPartyCart(name,userIndex,receiptID);
                     status = false;
+                }
+                else
+                {
+                    cout << "INVALID INPUT... PLEASE ENTER AGAIN :)\n";
+                    continue;
                 }
             }
             status = false;
@@ -4551,32 +4556,30 @@ void customPartyCart(string name , int userIndex,string receiptID)
     }
 }
 
-bool detectCustomStatus(int userIndex)
+void detectCustomStatus(int userIndex)
 {
-    bool ans;
     vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
-    if(customList[userIndex].item1 == "EMPTY" && customList[userIndex].item2 == "EMPTY" && customList[userIndex].item3 == "EMPTY" && customList[userIndex].item4 == "EMPTY" && customList[userIndex].themes.themeDescription == "EMPTY")
+    vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    if(customList[userIndex].item1 == "EMPTY" &&
+       customList[userIndex].item2 == "EMPTY" &&
+       customList[userIndex].item3 == "EMPTY" &&
+       customList[userIndex].item4 == "EMPTY" &&
+       customList[userIndex].themes.themeDescription == "EMPTY")
     {
-        ans = true;
+        registerList[userIndex].customStatus = "INACTIVE";
     }
-    else
-    {
-        ans = false;
-    }
-
-    return ans;
 }
 
 void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, string totalAmtString,string amtStatus)
 {
-        vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
-        vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
-        vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
-        vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
-        
+    vector<CustomPackage<string>> customPackage = getVectorList<CustomPackage<string>>("customPackage.txt");
+    vector<CustomList<string>> customList = getVectorList<CustomList<string>>("customList.txt");
+    vector<Registration<string>> registerList = getVectorList<Registration<string>>("registration.txt");
+    vector<Theme<string>> themeList = getVectorList<Theme<string>>("theme.txt");
+
     if(prefix == "ADD")
     {
-        // Find the first empty slot and fill it
+
         if(customList[customIndex].item1 == "EMPTY")
         {
             customList[customIndex].item1 = customPackage[ansIndex].item;
@@ -4625,93 +4628,111 @@ void addRemoveItem(string prefix,int userIndex,int ansIndex,int customIndex, str
                 customList[customIndex].amt4Status = "TRUE";
             }
         }
-
-        saveVectorList(customList, "customList.txt");
         saveVectorList(registerList, "registration.txt");
+        saveVectorList(customList, "customList.txt");
+        saveVectorList(customPackage, "customPackage.txt");
     }
     else if(prefix == "REMOVE")
     {
-        bool value = detectCustomStatus(customIndex);
         if(ansIndex == 1 && customList[customIndex].item1Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item1 <<"> :)" << endl;
-            
             customList[customIndex].item1 = "EMPTY";
             customList[customIndex].item1Price = "0.00";
             customList[customIndex].item1Amt ="0";
             customList[customIndex].item1Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt1Status = "FALSE";
-            if(value)
+            if(customList[userIndex].item1 == "EMPTY" &&
+            customList[userIndex].item2 == "EMPTY" &&
+            customList[userIndex].item3 == "EMPTY" &&
+            customList[userIndex].item4 == "EMPTY" &&
+            customList[userIndex].themes.themeDescription == "EMPTY")
             {
-                registerList[customIndex].customStatus = "INACTIVE";
+                registerList[userIndex].customStatus = "INACTIVE";
             }
+
         }
         else if(ansIndex == 2 && customList[customIndex].item2Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item2 <<"> :)" << endl;
-    
             customList[customIndex].item2 = "EMPTY";
             customList[customIndex].item2Price = "0.00";
             customList[customIndex].item2Amt ="0";
             customList[customIndex].item2Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt2Status = "FALSE";
-            if(value)
+            if(customList[userIndex].item1 == "EMPTY" &&
+            customList[userIndex].item2 == "EMPTY" &&
+            customList[userIndex].item3 == "EMPTY" &&
+            customList[userIndex].item4 == "EMPTY" &&
+            customList[userIndex].themes.themeDescription == "EMPTY")
             {
-                registerList[customIndex].customStatus = "INACTIVE";
+                registerList[userIndex].customStatus = "INACTIVE";
             }
+
         }
         else if(ansIndex == 3 && customList[customIndex].item3Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item3 <<"> :)" << endl;
-            
             customList[customIndex].item3 = "EMPTY";
             customList[customIndex].item3Price = "0.00";
             customList[customIndex].item3Amt ="0";
             customList[customIndex].item3Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt3Status = "FALSE";
-            if(value)
+            if(customList[userIndex].item1 == "EMPTY" &&
+            customList[userIndex].item2 == "EMPTY" &&
+            customList[userIndex].item3 == "EMPTY" &&
+            customList[userIndex].item4 == "EMPTY" &&
+            customList[userIndex].themes.themeDescription == "EMPTY")
             {
-                registerList[customIndex].customStatus = "INACTIVE";
+                registerList[userIndex].customStatus = "INACTIVE";
             }
+
         }
         else if(ansIndex == 4 && customList[customIndex].item4Status == "TRUE")
         {
             cout << "YOU HAVE SUCCESSFULLY REMOVED <" <<  customList[customIndex].item4 <<"> :)" << endl;
-            
             customList[customIndex].item4 = "EMPTY";
             customList[customIndex].item4Price = "0.00";
             customList[customIndex].item4Amt ="0";
             customList[customIndex].item4Status = "FALSE";
             customPackage[ansIndex].itemStatus = "AVAILABLE";
             customList[customIndex].amt4Status = "FALSE";
-            if(value)
+            if(customList[userIndex].item1 == "EMPTY" &&
+            customList[userIndex].item2 == "EMPTY" &&
+            customList[userIndex].item3 == "EMPTY" &&
+            customList[userIndex].item4 == "EMPTY" &&
+            customList[userIndex].themes.themeDescription == "EMPTY")
             {
-                registerList[customIndex].customStatus = "INACTIVE";
+                registerList[userIndex].customStatus = "INACTIVE";
             }
+
         }
         else if(customList[customIndex].themes.themeStatus == "TRUE")
         {
-            
             customList[customIndex].themes.themeDescription = "EMPTY";
             customList[customIndex].themes.themePrice = "0.00";
             customList[customIndex].themes.themeStatus = "FALSE";
             themeList[ansIndex].themeStatus = "UNAVAILABLE";
-            if(value)
+            if(customList[userIndex].item1 == "EMPTY" &&
+            customList[userIndex].item2 == "EMPTY" &&
+            customList[userIndex].item3 == "EMPTY" &&
+            customList[userIndex].item4 == "EMPTY" &&
+            customList[userIndex].themes.themeDescription == "EMPTY")
             {
-                registerList[customIndex].customStatus = "INACTIVE";
+                registerList[userIndex].customStatus = "INACTIVE";
             }
         }
         else
         {
-            registerList[customIndex].customStatus = "INACTIVE";
             cout << "YOU GOT NOTHING TO REMOVE ALREADY :)\n" << endl;
         }
+
+        saveVectorList(registerList, "registration.txt");
         saveVectorList(customList, "customList.txt");
         saveVectorList(customPackage, "customPackage.txt");
-        saveVectorList(registerList, "registration.txt");
     }
 }
 
@@ -5131,8 +5152,7 @@ void custCustomPartyOption(string name, int userIndex,string receiptId)
 //Customer customize party function
 void custCustomParty(string name , int userIndex)
 {
-     
-
+    
     bool status = true;
     string ans;
     int registerIndex;
@@ -5218,7 +5238,7 @@ void custCustomParty(string name , int userIndex)
 
         if (registerIndex != -1 && registeredList[registerIndex].login.nickname == name) 
         {
-            custCustomPartyOption(name,userIndex,receiptId);
+            custCustomPartyOption(name,registerIndex,receiptId);
             status = false;
         }
         else
@@ -5226,6 +5246,7 @@ void custCustomParty(string name , int userIndex)
             cout << "PLEASE ENTER A VALID RECIPT ID TO PROCEED :)\n"<<endl;
             continue;
         }
+        pressAny();
         status = false;
     }
 }
@@ -5268,9 +5289,6 @@ void custDeleteAccountAlert(string name,int userIndex)
         else if(ans == "Y" || ans == "y")
         {
             cout << "YOU HAVE DELETE YOUR ACCOUNT SUCCESSFULLY....."<<endl;
-            cout << "USER INDEX : " <<  userIndex<< endl;
-            cout << "RECEIPT INDEX : " <<  receiptIndex<< endl;
-            cout << "REGISTER INDEX : " <<  registerIndex<< endl;
             pressAny();
 
             if(receiptList.size() == 0)
@@ -8946,6 +8964,7 @@ void staffGenerateReport(string name, int staffIndex)
         else
         {
             cout << "INVALID INPUT... PLEASE ENTER A VALID OPTION :)\n" << endl;
+            continue;
         }
     }
 }

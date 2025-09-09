@@ -1,4 +1,3 @@
-damn,goddamnson,DAMNSON,018-8888888,wtf@gmail.com
 you1,1234,YOUFEELMES,012-0987654,wth@gmail.com
 feel1,1234,YOUFEELME,012-0987654,damnnnn@gmail.com
 whassup,1234,WHASSUP,017-6481234,whassup@gmail.com
